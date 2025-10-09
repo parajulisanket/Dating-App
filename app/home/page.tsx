@@ -1,5 +1,6 @@
 import TopBar from "@/components/layout/TopBar";
 import FooterNav from "@/components/layout/FooterBar";
+import Hero from "@/components/discover/Hero";
 
 export default function HomePage() {
   return (
@@ -7,7 +8,7 @@ export default function HomePage() {
       <TopBar />
 
       <main className="flex-1"></main>
-
+      <Hero />
       <FooterNav />
     </div>
   );

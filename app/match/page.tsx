@@ -1,5 +1,6 @@
 import FooterNav from "@/components/layout/FooterBar";
 import MatchTopBar from "@/components/layout/MatchTopBar";
+import MatchListings from "@/components/match/MatchListings";
 
 export default function HomePage() {
   return (
@@ -7,7 +8,7 @@ export default function HomePage() {
       <MatchTopBar />
 
       <main className="flex-1"></main>
-
+      <MatchListings />
       <FooterNav />
     </div>
   );

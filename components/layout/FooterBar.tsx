@@ -54,11 +54,11 @@ export default function FooterBar({
   const isProfile = pathname?.startsWith("/profile");
 
   return (
-    <footer className={cn("footer-shell footer-safe", className)}>
+    <footer className={cn("footer-shell footer-safe shadow-[0px_-2px_8px_0px_#0000001A]", className)}>
       <div className="mx-auto w-full max-w-[480px] ">
         <ul className="grid grid-cols-4 items-center">
           {/* home */}
-          <li className="flex justify-center">
+          <li className="flex justify-center min-w-[93px]">
             {isDiscover ? (
               <Link
                 href="/home"
@@ -96,7 +96,7 @@ export default function FooterBar({
           </li>
 
           {/* match */}
-          <li className="flex justify-center">
+          <li className="flex justify-center min-w-[93px]">
             {isLikes ? (
               <Link
                 href="/match"
@@ -141,7 +141,7 @@ export default function FooterBar({
           </li>
 
           {/* chat */}
-          <li className="flex justify-center">
+          <li className="flex justify-center min-w-[93px]">
             {isChat ? (
               <Link
                 href="/messages"
@@ -186,7 +186,7 @@ export default function FooterBar({
           </li>
 
           {/* profile */}
-          <li className="flex justify-center">
+          <li className="flex justify-center min-[86px]">
             {isProfile ? (
               <Link
                 href="/profile"

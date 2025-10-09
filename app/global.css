@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+@theme inline {
+  /* Primary Colors */
+  --color-primary-100: var(--colors-primary-100);
+  --color-primary-200: var(--colors-primary-200);
+  --color-primary-300: var(--colors-primary-300);
+  --color-primary-400: var(--colors-primary-400);
+  --color-primary-500: var(--colors-primary-500);
+  --color-primary-600: var(--colors-primary-600);
+  --color-primary-700: var(--colors-primary-700);
+  --color-primary-800: var(--colors-primary-800);
+  --color-primary-900: var(--colors-primary-900);
+  --color-primary-1000: var(--colors-primary-1000);
+  --color-secondary-100: var(--colors-secondary-100);
+  --color-secondary-200: var(--colors-secondary-200);
+  --color-secondary-300: var(--colors-secondary-300);
+  --color-secondary-400: var(--colors-secondary-400);
+  --color-secondary-500: var(--colors-secondary-500);
+  --color-secondary-600: var(--colors-secondary-600);
+  --color-secondary-700: var(--colors-secondary-700);
+  --color-secondary-800: var(--colors-secondary-800);
+  --color-secondary-900: var(--colors-secondary-900);
+  --color-secondary-1000: var(--colors-secondary-1000);
+  --color-neutral-100: var(--colors-neutral-100);
+  --color-neutral-200: var(--colors-neutral-200);
+  --color-neutral-300: var(--colors-neutral-300);
+  --color-neutral-400: var(--colors-neutral-400);
+  --color-neutral-500: var(--colors-neutral-500);
+  --color-neutral-600: var(--colors-neutral-600);
+  --color-neutral-700: var(--colors-neutral-700);
+  --color-neutral-800: var(--colors-neutral-800);
+  --color-neutral-900: var(--colors-neutral-900);
+  --color-neutral-1000: var(--colors-neutral-1000);
+}
+:root {
+  --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  /* Base Primary Colors */
+  --colors-primary-100: #fee9f5;
+  --colors-primary-200: #fdb6de;
+  --colors-primary-300: #fb78c3;
+  --colors-primary-400: #fa45ac;
+  --colors-primary-500: #f92fa2;
+  --colors-primary-600: #f9209b;
+  --colors-primary-700: #ec0789;
+  --colors-primary-800: #b8056b;
+  --colors-primary-900: #80044b;
+  --colors-primary-1000: #4d022d;
+  --colors-secondary-100: #f7e0ff;
+  --colors-secondary-200: #e69cff;
+  --colors-secondary-300: #d557ff;
+  --colors-secondary-400: #cd38ff;
+  --colors-secondary-500: #ca2cff;
+  --colors-secondary-600: #c20bff;
+  --colors-secondary-700: #a500dd;
+  --colors-secondary-800: #7e00a8;
+  --colors-secondary-900: #570074;
+  --colors-secondary-1000: #340046;
+  --colors-secondary-100: #ffffff;
+  --colors-secondary-200: #e8e8e8;
+  --colors-secondary-300: #d2d2d2;
+  --colors-secondary-400: #bbbbbb;
+  --colors-secondary-500: #a4a4a4;
+  --colors-secondary-600: #a4a4a4;
+  --colors-secondary-700: #777777;
+  --colors-secondary-800: #606060;
+  --colors-secondary-900: #4a4a4a;
+  --colors-secondary-1000: #333333;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* You can override colors for dark mode here if needed */
+    --colors-neutral-100: #1a1a1a;
+    --colors-neutral-1000: #ffffff;
+  }
+}
+html,
+body {
+  height: 100%;
+  color: #333333;
+  font-family: var(--font-geist-sans);
+  /* background: linear-gradient(
+    45deg,
+    rgba(249, 47, 162, 0.4) 0%,
+    rgba(202, 44, 255, 0.2) 100%
+  ); */
+  background: #e9aecf;
+}
+* {
+  scroll-behavior: smooth;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+.bbb {
+  border: 2px solid black;
+}
+.edit-title {
+  @apply text-[16px] font-bold mb-3;
+}
+.btn {
+  @apply inline-flex w-full h-12 items-center justify-center rounded-full text-base font-semibold duration-200 active:scale-95 select-none;
+}
+.btn:focus-visible {
+  @apply outline-none ring-2 ring-pink-500/40;
+}
+.btn:disabled {
+  @apply opacity-50 pointer-events-none;
+}
+.btn-signup {
+  @apply bg-[#F92FA2] font-medium text-white;
+}
+.btn-login {
+  @apply bg-[#6D4AFF] font-medium text-white;
+}
+.btn-sm {
+  @apply h-10 text-sm;
+}
+.btn-lg {
+  @apply h-14 text-lg;
+}
+.landing-title {
+  @apply text-3xl text-[#F92FA2] font-semibold;
+}
+.title {
+  @apply text-3xl text-[#F92FA2] font-semibold;
+}
+.footer-icon {
+  @apply bg-gradient-to-r from-[#F92FA2] to-[#CA2CFF];
+}
+.btn-userprofile {
+  @apply text-[16px] bg-[#F92FA2] text-white font-bold py-4 rounded-full;
+}
+/* Respect reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
+@layer components {
+  .footer-safe {
+    padding-left: calc(env(safe-area-inset-left) + 12px);
+    padding-right: calc(env(safe-area-inset-right) + 12px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+  }
+  .footer-shell {
+    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6 pt-2;
+  }
+  .pill {
+    @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;
+  }
+  .pill--active {
+    @apply bg-gradient-to-tr from-[#F92FA2] to-[#CA2CFF] text-white border-2 border-[#FDD1EC];
+  }
+  .pill--inactive {
+    @apply bg-white text-[#F72FA2] ring-1 ring-[#FFD2EB] hover:bg-pink-50;
+  }
+  .tab-icon {
+    @apply object-contain transition;
+  }
+  .badge {
+    @apply absolute -top-2 -right-3 min-w-[18px] rounded-full border border-white bg-[#F72FA2] px-1 text-[10px] leading-4 text-white text-center font-semibold;
+  }
+}
+.btn-logout {
+  background: linear-gradient(308.64deg, #f92fa2 0%, #ca2cff 120.26%);
+}

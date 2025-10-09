@@ -19,7 +19,7 @@ body {
     rgba(249, 47, 162, 0.4) 0%,
     rgba(202, 44, 255, 0.2) 100%
   ); */
-  background: #e580b9;
+  background: #e9aecf;
 }
 
 * {
@@ -35,7 +35,7 @@ body {
   }
 }
 
-.bb {
+.bbb {
   border: 2px solid black;
 }
 
@@ -100,8 +100,9 @@ body {
   }
 
   .footer-shell {
-    @apply sticky bottom-0 z-40 flex items-center justify-between bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-3 pb-6 pt-2;
+    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6 pt-2;
   }
+
 
   .pill {
     @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;

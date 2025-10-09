@@ -5,9 +5,11 @@ import { MyInfo } from "@/components/MyProfile/MyInfo";
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <div className="fixed bg-white w-[393px] z-50">
+        <Header />
+      </div>
 
-      <main className="flex-1 pb-20  ">
+      <main className="flex-1 pb-20 pt-[50px]  ">
         <MyInfo />
       </main>
 

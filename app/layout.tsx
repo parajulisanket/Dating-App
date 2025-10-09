@@ -37,6 +37,7 @@ export default function RootLayout({
             className="
               w-full max-w-[393px]
               bg-white min-h-dvh
+              relative overflow-hidden  
             "
           >
             {/* Inner scroller so the “phone” scrolls, not the page */}

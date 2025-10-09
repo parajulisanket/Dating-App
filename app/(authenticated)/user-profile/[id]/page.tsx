@@ -13,9 +13,12 @@ export default function UserPage({ params }: UserPageProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div className="min-h-screen flex flex-col">
-            <Header onMenuClick={() => setIsMenuOpen(true)} />
 
-            <main className="flex-1 pb-20  ">
+            <div className="fixed bg-white w-[393px] z-50">
+                <Header onMenuClick={() => setIsMenuOpen(true)} />
+            </div>
+
+            <main className="flex-1 pb-20  pt-[50px]">
                 <UserInfo id={id} />
             </main>
             <BottomSheetMenu

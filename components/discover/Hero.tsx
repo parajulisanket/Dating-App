@@ -2,7 +2,6 @@
 
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-// import { Zap, BadgeCheck, MapPin } from "lucide-react";
 import SwipeButtons from "@/components/discover/SwipeButtons";
 
 type Person = {
@@ -70,7 +69,7 @@ export default function Hero() {
   const resetStyle = (el: HTMLElement | null) => {
     if (!el) return;
     el.style.transition = "transform 220ms ease";
-    el.style.transform = `translate3d(0,0,0) rotate(0deg)`;
+    el.style.transform = "translate3d(0,0,0) rotate(0deg)";
     setTimeout(() => (el.style.transition = ""), 220);
   };
 
@@ -103,8 +102,8 @@ export default function Hero() {
   };
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!dragging.current || !topCard) return;
-    const dx = e.clientX - startX.current,
-      dy = e.clientY - startY.current;
+    const dx = e.clientX - startX.current;
+    const dy = e.clientY - startY.current;
     posX.current = dx;
     posY.current = dy;
     setStyle(cardRef.current, dx, dy);
@@ -117,7 +116,6 @@ export default function Hero() {
       : ((posX.current = 0), (posY.current = 0), resetStyle(cardRef.current));
   };
 
-  // button actions
   const onUndo = useCallback(() => {
     if (gone.length === 0 || animating.current) return;
     const last = gone.at(-1)!;
@@ -130,6 +128,7 @@ export default function Hero() {
   const onNope = () => fling("left");
   const onLike = () => fling("right");
 
+  // IMPORTANT: keep '(' on the same line as 'return'
   return (
     <section className="w-full flex justify-center px-6 pb-6">
       <div className="relative w-full max-w-md rounded-[28px] overflow-hidden">
@@ -162,15 +161,17 @@ export default function Hero() {
                   alt={p.name}
                   fill
                   className="object-cover"
+                  priority
                 />
-                <div className="absolute inset-0  bg-gradient-to-t from-[#340046] via-transparent  to-transparent " />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#340046] via-transparent to-transparent" />
+
                 <div className="absolute top-4 left-6 right-6 flex items-center gap-2">
                   <div className="h-1 w-7 rounded-full bg-white/85" />
                   <div className="h-1 w-7 rounded-full bg-white/45" />
                   <div className="h-1 w-7 rounded-full bg-white/45" />
                 </div>
 
-                <div className="absolute top-4 right-4 bg-[#F92FA2] text-white font-medium text-sm px-2 py-1 rounded-full flex items-center gap-1 ">
+                <div className="absolute top-4 right-4 bg-[#F92FA2] text-white font-medium text-sm px-2 py-1 rounded-full flex items-center gap-1">
                   <img src={"/icons/Sparkle.svg"} alt="" className="w-4 h-4" />
                   <span>67%</span>
                 </div>
@@ -190,7 +191,6 @@ export default function Hero() {
           })}
         </div>
 
-        {/* Buttons stay fixed and visible for every card */}
         <SwipeButtons onUndo={onUndo} onLike={onLike} onNope={onNope} />
       </div>
     </section>

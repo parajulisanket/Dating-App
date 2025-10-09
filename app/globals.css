@@ -5,23 +5,29 @@
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+
+  --vh: 100vh;
+}
+@supports (height: 100svh) {
+  :root {
+    --vh: 100svh;
+  }
 }
 
+/*  Base  */
 html,
 body {
   height: 100%;
   font-family: var(--font-geist-sans);
-  /* background: linear-gradient(
-    45deg,
-    rgba(249, 47, 162, 0.4) 0%,
-    rgba(202, 44, 255, 0.2) 100%
-  ); */
   background: #e9aecf;
 }
 
 * {
   scroll-behavior: smooth;
+}
 
+@layer utilities {
+  /* Hide scrollbars but keep scroll functionality */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -31,6 +37,7 @@ body {
   }
 }
 
+/*  Buttons */
 .btn {
   @apply inline-flex w-full h-12 items-center justify-center
   rounded-full text-base font-semibold
@@ -76,6 +83,7 @@ body {
   }
 }
 
+/*  Components */
 @layer components {
   .footer-safe {
     padding-left: calc(env(safe-area-inset-left) + 12px);
@@ -91,8 +99,7 @@ body {
   }
 
   .pill {
-    @apply inline-flex items-center gap-0.5 rounded-full p-2
-    ring-1 ring-white/40;
+    @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;
   }
   .pill--active {
     @apply bg-gradient-to-tr from-[#F92FA2] to-[#CA2CFF] text-white border-2 border-[#fdd1ec];

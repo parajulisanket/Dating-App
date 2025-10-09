@@ -8,7 +8,7 @@ export default function HomePage() {
 
       <main className="flex-1"></main>
 
-      <FooterNav />
+
     </div>
   );
 }

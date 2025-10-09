@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
 :root {
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
@@ -21,17 +24,31 @@ body {
 
 * {
   scroll-behavior: smooth;
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
-.btn {
-  @apply inline-flex w-full h-12 items-center justify-center
-  rounded-full text-base font-semibold
-  transition-[transform,filter,background-position] duration-200
-  active:scale-95 select-none;
+.bb {
+  border: 2px solid black;
 }
+
+
+
+.btn {
+  @apply inline-flex w-full h-12 items-center justify-center rounded-full text-base font-semibold duration-200 active:scale-95 select-none;
+}
+
 .btn:focus-visible {
   @apply outline-none ring-2 ring-pink-500/40;
 }
+
 .btn:disabled {
   @apply opacity-50 pointer-events-none;
 }
@@ -39,6 +56,7 @@ body {
 .btn-signup {
   @apply bg-[#F92FA2] font-medium text-white;
 }
+
 .btn-login {
   @apply bg-[#6D4AFF] font-medium text-white;
 }
@@ -46,6 +64,7 @@ body {
 .btn-sm {
   @apply h-10 text-sm;
 }
+
 .btn-lg {
   @apply h-14 text-lg;
 }
@@ -53,12 +72,17 @@ body {
 .landing-title {
   @apply text-3xl text-[#F92FA2] font-semibold;
 }
+
 .title {
   @apply text-3xl text-[#F92FA2] font-semibold;
 }
 
 .footer-icon {
   @apply bg-gradient-to-r from-[#F92FA2] to-[#CA2CFF];
+}
+
+.btn-userprofile {
+  @apply text-[16px] bg-[#F92FA2] text-white font-bold py-4 rounded-full;
 }
 
 /* Respect reduced motion users */
@@ -74,21 +98,19 @@ body {
     padding-right: calc(env(safe-area-inset-right) + 12px);
     padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
   }
+
   .footer-shell {
-    @apply sticky bottom-0 z-40
-    flex items-center justify-between
-    bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60
-    px-3 pb-6 pt-2
-    shadow-[0_-2px_8px_rgba(0,0,0,0.10)];
+    @apply sticky bottom-0 z-40 flex items-center justify-between bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-3 pb-6 pt-2;
   }
 
   .pill {
-    @apply inline-flex items-center gap-0.5 rounded-full p-2
-    ring-1 ring-white/40;
+    @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;
   }
+
   .pill--active {
     @apply bg-gradient-to-tr from-[#F92FA2] to-[#CA2CFF] text-white border-2 border-[#fdd1ec];
   }
+
   .pill--inactive {
     @apply bg-white text-[#f72fa2] ring-1 ring-[#ffd2eb] hover:bg-pink-50;
   }
@@ -98,8 +120,6 @@ body {
   }
 
   .badge {
-    @apply absolute -top-2 -right-3 min-w-[18px]
-    rounded-full border border-white
-    bg-[#F72FA2] px-1 text-[10px] leading-4 text-white text-center font-semibold;
+    @apply absolute -top-2 -right-3 min-w-[18px] rounded-full border border-white bg-[#F72FA2] px-1 text-[10px] leading-4 text-white text-center font-semibold;
   }
 }

@@ -1,6 +1,8 @@
+
+// import { GeneralProvider } from './context/GeneralContext'
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
-import "./globals.css";
+import "./global.css";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -27,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.variable} antialiased  `}>
+        {/* <GeneralProvider> */}
         {/* Desktop centering frame */}
         <div className="min-h-dvh w-full flex justify-center">
           {/* Phone-sized canvas */}
@@ -40,6 +43,8 @@ export default function RootLayout({
             <div className="min-h-dvh overflow-y-auto">{children}</div>
           </div>
         </div>
+        {/* </GeneralProvider> */}
+
       </body>
     </html>
   );

@@ -4,15 +4,97 @@
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
 
+@theme inline {
+  /* Primary Colors */
+  --color-primary-100: var(--colors-primary-100);
+  --color-primary-200: var(--colors-primary-200);
+  --color-primary-300: var(--colors-primary-300);
+  --color-primary-400: var(--colors-primary-400);
+  --color-primary-500: var(--colors-primary-500);
+  --color-primary-600: var(--colors-primary-600);
+  --color-primary-700: var(--colors-primary-700);
+  --color-primary-800: var(--colors-primary-800);
+  --color-primary-900: var(--colors-primary-900);
+  --color-primary-1000: var(--colors-primary-1000);
+
+  --color-secondary-100: var(--colors-secondary-100);
+  --color-secondary-200: var(--colors-secondary-200);
+  --color-secondary-300: var(--colors-secondary-300);
+  --color-secondary-400: var(--colors-secondary-400);
+  --color-secondary-500: var(--colors-secondary-500);
+  --color-secondary-600: var(--colors-secondary-600);
+  --color-secondary-700: var(--colors-secondary-700);
+  --color-secondary-800: var(--colors-secondary-800);
+  --color-secondary-900: var(--colors-secondary-900);
+  --color-secondary-1000: var(--colors-secondary-1000);
+
+  --color-neutral-100: var(--colors-neutral-100);
+  --color-neutral-200: var(--colors-neutral-200);
+  --color-neutral-300: var(--colors-neutral-300);
+  --color-neutral-400: var(--colors-neutral-400);
+  --color-neutral-500: var(--colors-neutral-500);
+  --color-neutral-600: var(--colors-neutral-600);
+  --color-neutral-700: var(--colors-neutral-700);
+  --color-neutral-800: var(--colors-neutral-800);
+  --color-neutral-900: var(--colors-neutral-900);
+  --color-neutral-1000: var(--colors-neutral-1000);
+
+
+}
+
 :root {
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+  /* Base Primary Colors */
+  --colors-primary-100: #FEE9F5;
+  --colors-primary-200: #FDB6DE;
+  --colors-primary-300: #FB78C3;
+  --colors-primary-400: #FA45AC;
+  --colors-primary-500: #F92FA2;
+  --colors-primary-600: #F9209B;
+  --colors-primary-700: #EC0789;
+  --colors-primary-800: #B8056B;
+  --colors-primary-900: #80044B;
+  --colors-primary-1000: #4D022D;
+
+  --colors-secondary-100: #F7E0FF;
+  --colors-secondary-200: #E69CFF;
+  --colors-secondary-300: #D557FF;
+  --colors-secondary-400: #CD38FF;
+  --colors-secondary-500: #CA2CFF;
+  --colors-secondary-600: #C20BFF;
+  --colors-secondary-700: #A500DD;
+  --colors-secondary-800: #7E00A8;
+  --colors-secondary-900: #570074;
+  --colors-secondary-1000: #340046;
+
+  --colors-secondary-100: #FFFFFF;
+  --colors-secondary-200: #E8E8E8;
+  --colors-secondary-300: #D2D2D2;
+  --colors-secondary-400: #BBBBBB;
+  --colors-secondary-500: #A4A4A4;
+  --colors-secondary-600: #A4A4A4;
+  --colors-secondary-700: #777777;
+  --colors-secondary-800: #606060;
+  --colors-secondary-900: #4A4A4A;
+  --colors-secondary-1000: #333333;
+
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* You can override colors for dark mode here if needed */
+    --colors-neutral-100: #1a1a1a;
+    --colors-neutral-1000: #ffffff;
+  }
 }
 
 html,
 body {
   height: 100%;
+  color: #333333;
   font-family: var(--font-geist-sans);
   /* background: linear-gradient(
     45deg,
@@ -39,6 +121,9 @@ body {
   border: 2px solid black;
 }
 
+.edit-title {
+  @apply text-[16px] font-bold mb-3
+}
 
 
 .btn {
@@ -123,4 +208,16 @@ body {
   .badge {
     @apply absolute -top-2 -right-3 min-w-[18px] rounded-full border border-white bg-[#F72FA2] px-1 text-[10px] leading-4 text-white text-center font-semibold;
   }
+}
+
+.btn-logout {
+  background: linear-gradient(308.64deg, #F92FA2 0%, #CA2CFF 120.26%);
+}
+
+.btn-edit {
+  @apply text-primary-500 font-bold text-[16px] pr-2 cursor-pointer;
+}
+
+.btn-close {
+  background: linear-gradient(308.64deg, #F92FA2 0%, #CA2CFF 120.26%);
 }

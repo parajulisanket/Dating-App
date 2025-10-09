@@ -87,7 +87,7 @@ export const Settings = () => {
     };
 
     return (
-        <main className="min-h-screen relative text-[#333333]">
+        <main className="min-h-screen relative">
             {/* Header */}
             <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2]">
 
@@ -157,13 +157,15 @@ export const Settings = () => {
                     <div className="pt-8 pb-6 flex justify-center ">
                         <button
                             onClick={handleLogout}
-                            className="bg-gradient-to-r from-[#f9209b] to-[#ff6b9d] text-white px-8 py-3 rounded-full text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
+                            className="btn-logout text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
                         >
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M7 17H4C3.46957 17 2.96086 16.7893 2.58579 16.4142C2.21071 16.0391 2 15.5304 2 15V5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M13 13L17 9L13 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M17 9H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            <Image
+                                src='/icons/logout.svg'
+                                height={48}
+                                width={48}
+                                alt="logout"
+                                className="h-6 w-6"
+                            />
                             Log Out
                         </button>
                     </div>

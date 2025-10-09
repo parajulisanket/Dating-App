@@ -151,7 +151,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
             <div className="px-4 py-6 space-y-6">
                 {/* Profile Picture Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold leading-[22px] mb-2">My Profile Picture</h2>
+                    <h2 className="edit-title">My Profile Picture</h2>
                     <div className="flex items-center gap-4">
                         <Image
                             src={formData.profilePicture.url}
@@ -171,7 +171,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                 {/* My Pictures Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">My Pictures</h2>
+                    <h2 className="edit-title">My Pictures</h2>
                     <div className="grid grid-cols-3 gap-3">
                         {formData.images.map((image) => (
                             <div key={image.id} className="relative aspect-[3/4]">
@@ -183,7 +183,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                                 />
                                 <button
                                     onClick={() => handleImageDelete(image.id)}
-                                    className="absolute top-2 right-2 bg-[#f9209b] rounded-full w-6 h-6 flex items-center justify-center"
+                                    className="absolute top-2 right-2 btn-close rounded-full w-6 h-6 flex items-center justify-center"
                                 >
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                         <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="white" strokeWidth="2" strokeLinecap="round" />
@@ -196,18 +196,36 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                 {/* Bio Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">My Bio</h2>
+                    <div className="flex justify-between">
+
+                        <h2 className="edit-title">My Bio</h2>
+                        <Link href=''>
+                            <button className="btn-edit">
+                                Edit
+                            </button>
+                        </Link>
+                    </div>
                     <textarea
                         value={formData.bio}
+                        readOnly
                         onChange={handleBioChange}
-                        className="w-full border border-gray-300 rounded-lg p-3 text-[14px] min-h-[80px] focus:outline-none focus:border-[#f9209b]"
+                        className="w-full border border-gray-300 rounded-lg p-3 text-[14px] min-h-[80px] "
                         placeholder="Write something about yourself..."
                     />
                 </div>
 
                 {/* Interested In Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">I'm interested in</h2>
+
+                    <div className="flex justify-between">
+
+                        <h2 className="edit-title">I'm interested in</h2>
+                        <Link href=''>
+                            <button className="btn-edit">
+                                Edit
+                            </button>
+                        </Link>
+                    </div>
                     <select
                         value={formData.interestedIn}
                         onChange={handleInterestedInChange}
@@ -228,7 +246,14 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                 {/* Sexual Orientation Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">My Sexual Orientation is</h2>
+                    <div className="flex justify-between">
+                        <h2 className="edit-title">My Sexual Orientation is</h2>
+                        <Link href=''>
+                            <button className="btn-edit">
+                                Edit
+                            </button>
+                        </Link>
+                    </div>
                     <select
                         value={formData.sexualOrientation}
                         onChange={handleOrientationChange}
@@ -249,7 +274,14 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                 {/* Hobbies Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">My Hobbies are</h2>
+                    <div className="flex justify-between">
+                        <h2 className="edit-title">My Hobbies are</h2>
+                        <Link href=''>
+                            <button className="btn-edit">
+                                Edit
+                            </button>
+                        </Link>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                         {HOBBIES_OPTIONS.map(hobby => {
                             const isSelected = formData.hobbies.includes(hobby.key);
@@ -272,7 +304,14 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                 {/* Social Links Section */}
                 <div>
-                    <h2 className="text-[12px] font-bold mb-3">My Social Links</h2>
+                    <div className="flex justify-between">
+                        <h2 className="edit-title">My Social Links</h2>
+                        <Link href=''>
+                            <button className="btn-edit">
+                                Edit
+                            </button>
+                        </Link>
+                    </div>
                     <div className="space-y-3">
                         {formData.socialLinks.map(link => (
                             <div key={link.id} className="flex items-center gap-3 bg-white border border-gray-300 rounded-lg p-3">

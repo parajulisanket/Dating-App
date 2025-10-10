@@ -98,7 +98,7 @@ export default function MatchListings() {
             <div className="pointer-events-none absolute inset-x-0 bottom-0">
               <div className="absolute inset-0  bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
               {/* content */}
-              <div className="relative z-10 p-2 text-white">
+              <div className="relative  p-2 text-white">
                 <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
                   <span className="truncate">
                     {m.name}, {m.age}

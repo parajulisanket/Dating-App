@@ -8,6 +8,8 @@ export default function HomePage() {
       <SearchTop />
       <ActiveMessage />
       <main className="flex-1"></main>
+
+
     </div>
   );
 }

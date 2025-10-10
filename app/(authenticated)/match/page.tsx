@@ -1,4 +1,3 @@
-import FooterNav from "@/components/layout/FooterBar";
 import MatchTopBar from "@/components/layout/MatchTopBar";
 import MatchListings from "@/components/match/MatchListings";
 

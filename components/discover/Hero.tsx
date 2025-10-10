@@ -61,9 +61,8 @@ export default function Hero() {
     rotate?: number
   ) => {
     if (!el) return;
-    el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${
-      rotate ?? x / 15
-    }deg)`;
+    el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotate ?? x / 15
+      }deg)`;
   };
 
   const resetStyle = (el: HTMLElement | null) => {
@@ -80,9 +79,8 @@ export default function Hero() {
     const x = direction === "right" ? OUT_DISTANCE : -OUT_DISTANCE;
     if (el) {
       el.style.transition = "transform 240ms ease-out";
-      el.style.transform = `translate3d(${x}px, ${posY.current}px, 0) rotate(${
-        x / 15
-      }deg)`;
+      el.style.transform = `translate3d(${x}px, ${posY.current}px, 0) rotate(${x / 15
+        }deg)`;
     }
     setTimeout(() => {
       setGone((g) => [...g, { id: topCard.id, direction }]);
@@ -130,9 +128,9 @@ export default function Hero() {
 
   // IMPORTANT: keep '(' on the same line as 'return'
   return (
-    <section className="w-full flex justify-center px-6 pb-6">
-      <div className="relative w-full max-w-md rounded-[28px] overflow-hidden">
-        <div className="relative w-full h-[80vh] rounded-[28px] overflow-hidden">
+    <section className="w-full flex justify-center px-6 pb-6 items-center">
+      <div className="relative w-full max-w-md rounded-[28px] overflow-hidden ">
+        <div className="relative w-full h-[72vh] rounded-[28px] overflow-hidden ">
           {stack.map((p, i) => {
             const isTop = i === stack.length - 1;
             const depth = i - (stack.length - 2);
@@ -140,15 +138,13 @@ export default function Hero() {
               <div
                 key={p.id}
                 ref={isTop ? cardRef : null}
-                className={`absolute inset-0 rounded-[28px] overflow-hidden shadow-xl ${
-                  isTop ? "touch-none select-none" : ""
-                }`}
+                className={`absolute inset-0 rounded-[28px] overflow-hidden shadow-xl ${isTop ? "touch-none select-none" : ""
+                  }`}
                 style={{
                   transform: isTop
                     ? undefined
-                    : `scale(${0.985 + depth * 0.01}) translateY(${
-                        Math.abs(depth) * 12
-                      }px)`,
+                    : `scale(${0.985 + depth * 0.01}) translateY(${Math.abs(depth) * 12
+                    }px)`,
                   opacity: isTop ? 1 : 0.9,
                   zIndex: i,
                 }}

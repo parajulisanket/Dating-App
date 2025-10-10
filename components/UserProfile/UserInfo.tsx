@@ -224,7 +224,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
     return (
         <main className="flex flex-col gap-[24px]">
             {/* Profile Info Section */}
-            <div className="p-4 border-b border-gray-300">
+            <div className="p-4 border-y border-gray-200">
                 <div className="w-full h-full flex flex-col">
                     {/* Profile Header */}
                     <div className="flex h-[80px] gap-4">

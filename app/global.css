@@ -155,6 +155,8 @@ body {
   .footer-shell {
     @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6 pt-2;
   }
+
+
   .pill {
     @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;
   }

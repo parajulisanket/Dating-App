@@ -18,7 +18,7 @@ export default function UserPage({ params }: UserPageProps) {
                 <Header onMenuClick={() => setIsMenuOpen(true)} />
             </div>
 
-            <main className="flex-1 pb-20  pt-[50px]">
+            <main className="flex-1  pt-[50px]">
                 <UserInfo id={id} />
             </main>
             <BottomSheetMenu

@@ -5,6 +5,7 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+
     return (
         <>
             {children}
@@ -15,6 +16,4 @@ export default function RootLayout({
     );
 }
 
-// shadow-none sm:shadow-xl
-// sm:rounded-[32px] sm:my-5 sm:overflow-hidden
-// border-2 border-transparent sm:border-black
+

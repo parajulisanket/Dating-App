@@ -69,16 +69,16 @@
   --colors-secondary-900: #570074;
   --colors-secondary-1000: #340046;
 
-  --colors-secondary-100: #FFFFFF;
-  --colors-secondary-200: #E8E8E8;
-  --colors-secondary-300: #D2D2D2;
-  --colors-secondary-400: #BBBBBB;
-  --colors-secondary-500: #A4A4A4;
-  --colors-secondary-600: #A4A4A4;
-  --colors-secondary-700: #777777;
-  --colors-secondary-800: #606060;
-  --colors-secondary-900: #4A4A4A;
-  --colors-secondary-1000: #333333;
+  --colors-neutral-100: #FFFFFF;
+  --colors-neutral-200: #E8E8E8;
+  --colors-neutral-300: #D2D2D2;
+  --colors-neutral-400: #BBBBBB;
+  --colors-neutral-500: #A4A4A4;
+  --colors-neutral-600: #A4A4A4;
+  --colors-neutral-700: #777777;
+  --colors-neutral-800: #606060;
+  --colors-neutral-900: #4A4A4A;
+  --colors-neutral-1000: #333333;
 
 
 }
@@ -220,4 +220,13 @@ body {
 
 .btn-close {
   background: linear-gradient(308.64deg, #F92FA2 0%, #CA2CFF 120.26%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

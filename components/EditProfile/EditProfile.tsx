@@ -139,7 +139,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
     return (
         <main className="min-h-screen ">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2]">
+            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-gray-200">
 
                 <Link href={backHref} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
@@ -148,7 +148,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 <h1 className="text-[24px] font-bold leading-[36px]">Edit Profile</h1>
             </div>
 
-            <div className="px-4 py-6 space-y-6">
+            <div className="px-4 py-4 space-y-6">
                 {/* Profile Picture Section */}
                 <div>
                     <h2 className="edit-title">My Profile Picture</h2>
@@ -199,19 +199,18 @@ export const EditProfile = ({ backHref = "/home" }) => {
                     <div className="flex justify-between">
 
                         <h2 className="edit-title">My Bio</h2>
-                        <Link href=''>
+                        <Link href='/edit-profile/bio'>
                             <button className="btn-edit">
                                 Edit
                             </button>
                         </Link>
                     </div>
-                    <textarea
-                        value={formData.bio}
-                        readOnly
-                        onChange={handleBioChange}
-                        className="w-full border border-gray-300 rounded-lg p-3 text-[14px] min-h-[80px] "
-                        placeholder="Write something about yourself..."
-                    />
+
+                    <div
+                        className="w-full border border-gray-300  rounded-lg p-3 text-[14px] focus:outline-none"
+                    >
+                        {formData.bio || ""}
+                    </div>
                 </div>
 
                 {/* Interested In Section */}
@@ -220,28 +219,21 @@ export const EditProfile = ({ backHref = "/home" }) => {
                     <div className="flex justify-between">
 
                         <h2 className="edit-title">I'm interested in</h2>
-                        <Link href=''>
+                        <Link href='edit-profile/interested'>
                             <button className="btn-edit">
                                 Edit
                             </button>
                         </Link>
                     </div>
-                    <select
-                        value={formData.interestedIn}
-                        onChange={handleInterestedInChange}
-                        className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none focus:border-[#f9209b] appearance-none bg-white cursor-pointer"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'right 12px center'
-                        }}
+                    <div
+                        className="w-full border border-gray-300 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
                     >
-                        {GENDER_OPTIONS.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                        <span className="py-[14px] px-4 rounded-[200px] border h-[32px] border-[#33333333] inline-flex justify-center items-center">
+                            {formData.interestedIn || ""}
+                        </span>
+
+                    </div>
+
                 </div>
 
                 {/* Sexual Orientation Section */}
@@ -254,22 +246,14 @@ export const EditProfile = ({ backHref = "/home" }) => {
                             </button>
                         </Link>
                     </div>
-                    <select
-                        value={formData.sexualOrientation}
-                        onChange={handleOrientationChange}
-                        className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none focus:border-[#f9209b] appearance-none bg-white cursor-pointer"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'right 12px center'
-                        }}
+                    <div
+                        className="w-full border border-gray-300 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
                     >
-                        {ORIENTATION_OPTIONS.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                        <span className="py-[14px] px-4 rounded-[200px] border h-[32px] border-[#33333333] inline-flex justify-center items-center">
+                            {formData.sexualOrientation || ""}
+                        </span>
+
+                    </div>
                 </div>
 
                 {/* Hobbies Section */}
@@ -282,24 +266,27 @@ export const EditProfile = ({ backHref = "/home" }) => {
                             </button>
                         </Link>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                        {HOBBIES_OPTIONS.map(hobby => {
-                            const isSelected = formData.hobbies.includes(hobby.key);
-                            return (
-                                <button
-                                    key={hobby.key}
-                                    onClick={() => handleHobbyToggle(hobby.key)}
-                                    className={`px-4 py-2 rounded-full text-[14px] flex items-center gap-2 border transition-all ${isSelected
-                                        ? 'bg-[#f9209b] text-white border-[#f9209b]'
-                                        : 'bg-white text-gray-700 border-gray-300'
-                                        }`}
-                                >
-                                    <span>{hobby.emoji}</span>
-                                    <span>{hobby.label}</span>
-                                </button>
-                            );
-                        })}
+                    <div className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none">
+                        <div className="flex gap-2 overflow-x-auto whitespace-nowrap no-scrollbar">
+                            {formData.hobbies.length > 0 ? (
+                                formData.hobbies.map(hobbyKey => {
+                                    const hobby = HOBBIES_OPTIONS.find(h => h.key === hobbyKey);
+                                    return (
+                                        <span
+                                            key={hobbyKey}
+                                            className="px-4 py-[6px] rounded-full border border-[#33333333] inline-flex items-center gap-2"
+                                        >
+                                            <span>{hobby?.emoji}</span>
+                                            <span>{hobby?.label}</span>
+                                        </span>
+                                    );
+                                })
+                            ) : (
+                                <span className="text-gray-400">No hobbies selected</span>
+                            )}
+                        </div>
                     </div>
+
                 </div>
 
                 {/* Social Links Section */}
@@ -349,7 +336,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
 
                         <button
                             onClick={handleAddSocialLink}
-                            className="w-full border-2 border-dashed border-gray-300 rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors"
+                            className="w-full p-4 bg-neutral-200 h-[52px]  rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer"
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M10 5V15M5 10H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -360,15 +347,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 </div>
             </div>
 
-            {/* Save Button - Fixed at bottom */}
-            {/* <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
-                <button
-                    onClick={handleSave}
-                    className="w-full bg-gradient-to-r from-[#f9209b] to-[#ff6b9d] text-white py-3 rounded-full text-[16px] font-semibold"
-                >
-                    Save Changes
-                </button>
-            </div> */}
+
         </main>
     );
 };

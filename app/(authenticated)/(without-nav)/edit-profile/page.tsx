@@ -6,7 +6,7 @@ export default function HomePage() {
         <div className="min-h-screen flex flex-col">
 
 
-            <main className="flex-1 pb-20 ">
+            <main className="flex-1  ">
                 <EditProfile />
             </main>
 

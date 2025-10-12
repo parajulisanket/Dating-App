@@ -63,7 +63,7 @@ export const BottomSheetMenu = ({
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 h-[306px] w-[393px] mx-auto "
+                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 h-[306px] w-[425px] mx-auto "
                     >
                         {/* User Info Header */}
                         <div className="bg-[#fee9f5] rounded-3xl border border-[#F92FA233] p-4 mx-4 mt-4 flex items-center gap-3 ">

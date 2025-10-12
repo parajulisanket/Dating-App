@@ -240,7 +240,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 <div>
                     <div className="flex justify-between">
                         <h2 className="edit-title">My Sexual Orientation is</h2>
-                        <Link href=''>
+                        <Link href='/edit-profile/sexual-orientation'>
                             <button className="btn-edit">
                                 Edit
                             </button>
@@ -260,7 +260,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 <div>
                     <div className="flex justify-between">
                         <h2 className="edit-title">My Hobbies are</h2>
-                        <Link href=''>
+                        <Link href='/edit-profile/hobbies'>
                             <button className="btn-edit">
                                 Edit
                             </button>
@@ -293,7 +293,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 <div>
                     <div className="flex justify-between">
                         <h2 className="edit-title">My Social Links</h2>
-                        <Link href=''>
+                        <Link href='/edit-profile/social-accounts'>
                             <button className="btn-edit">
                                 Edit
                             </button>
@@ -333,16 +333,17 @@ export const EditProfile = ({ backHref = "/home" }) => {
                                 </button>
                             </div>
                         ))}
+                        <Link href='/edit-profile/social-accounts'>
+                            <button
+                                className="w-full p-4 bg-neutral-200 h-[52px]  rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 5V15M5 10H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                </svg>
+                                Add social link
+                            </button>
+                        </Link>
 
-                        <button
-                            onClick={handleAddSocialLink}
-                            className="w-full p-4 bg-neutral-200 h-[52px]  rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M10 5V15M5 10H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                            </svg>
-                            Add social link
-                        </button>
                     </div>
                 </div>
             </div>

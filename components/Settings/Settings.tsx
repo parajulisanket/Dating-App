@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
+import icons from "@/assets/icons/icons";
 // Types for backend integration
 interface UserProfile {
     name: string;
@@ -40,6 +40,13 @@ export const Settings = () => {
             route: "/settings/account"
         },
         {
+            id: "subscription",
+            title: "Subscription",
+            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            icon: icons.subscription,
+            route: "/settings/subscription"
+        },
+        {
             id: "activity-log",
             title: "Activity Log",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -71,7 +78,7 @@ export const Settings = () => {
 
     const handleMenuItemClick = (route: string) => {
         console.log("Navigate to:", route);
-        // router.push(route);
+        router.push(route);
     };
 
     const handleLogout = () => {
@@ -89,18 +96,22 @@ export const Settings = () => {
     return (
         <main className="min-h-screen relative">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2]">
+            <div className="border-b border-neutral-200">
+                <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
-                <Link href='/profile' aria-label="Back" className="rounded-full">
-                    <ChevronLeft className="" size={24} strokeWidth={1.5} />
-                </Link>
+                    <Link href='/profile' aria-label="Back" className="rounded-full">
+                        <ChevronLeft className="" size={24} strokeWidth={1.5} />
+                    </Link>
 
-                <h1 className="text-[24px] font-bold leading-[36px]">Settings</h1>
+                    <h1 className="text-[24px] font-bold leading-[36px]">Settings</h1>
+                </div>
             </div>
 
-            <div className="px-4 space-y-4">
+
+
+            <div className="">
                 {/* User Profile Card */}
-                <div className="bg-[#fee9f5] rounded-2xl p-4 flex items-center gap-3 border-[1px] border-[#F92FA233]">
+                <div className="px-4 pb-4"><div className="bg-[#fee9f5] rounded-2xl p-4 flex items-center gap-3 border-[1px] border-[#F92FA233]">
                     <Image
                         src={userProfile.profileImage}
                         alt={userProfile.name}
@@ -120,15 +131,39 @@ export const Settings = () => {
                             />
                         )}
                     </div>
-                </div>
+                </div></div>
+
 
                 {/* Settings Menu Items */}
-                <div className=" pt-2 ">
+                <div className="px-4 border-y border-neutral-200">
+                    <div className="size-[52px] w-full  flex items-center    ">
+                        <div className="flex justify-between items-center w-full cursor-pointer">
+                            <div className="flex items-center gap-3">
+                                <Image
+                                    src={icons.darkmode}
+                                    alt="Dark mode icon"
+                                    width={20}
+                                    height={20}
+                                    className="w-5 h-5"
+                                />
+                                <h3 className="text-[16px] font-bold text-gray-900 leading-tight">
+                                    Dark Mode
+                                </h3>
+                            </div>
+                            <div className="h-6 w-[42px] border border-primary-500 bg-primary-500/10 rounded-full p-1">
+                                <div className="w-4 h-4 bg-primary-500 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className=" px-4  ">
                     {menuItems.map((item) => (
                         <button
                             key={item.id}
                             onClick={() => handleMenuItemClick(item.route)}
-                            className="w-full flex items-start gap-4 py-4  rounded-xl hover:bg-gray-50 transition-colors text-left"
+                            className="w-full flex items-start gap-4 py-4  rounded-xl  hover:bg-gray-50 transition-colors text-left cursor-pointer"
                         >
                             <div className="pt-1">
                                 <Image
@@ -153,7 +188,7 @@ export const Settings = () => {
                 </div>
 
                 {/* Logout Button */}
-                <div className="absolute bottom-4 w-[361px] ">
+                <div className=" bottom-4 ">
                     <div className="pt-8 pb-6 flex justify-center ">
                         <button
                             onClick={handleLogout}

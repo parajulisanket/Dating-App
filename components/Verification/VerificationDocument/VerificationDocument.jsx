@@ -1,0 +1,67 @@
+'use client'
+import React, { useState } from 'react';
+import { X, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+export function VerificationDocument() {
+    const [selectedDocument, setSelectedDocument] = useState('');
+
+    const documents = [
+        { id: 'national-id', label: 'National ID Card' },
+        { id: 'citizenship', label: 'Citizenship' },
+        { id: 'driving-license', label: 'Driving License' }
+    ];
+
+    return (
+        <main className="min-h-screen flex flex-col justify-between bg-white">
+            <div>
+                <div className="px-4 py-4 flex items-center justify-end">
+
+                    <button aria-label="Close" className="text-[#F92FA2]">
+                        <X size={24} strokeWidth={2} />
+                    </button>
+                </div>
+                <div className="px-4 mt-2">
+                    <h1 className="text-[24px] font-bold leading-[36px] text-[#F92FA2]">
+                        Select your verification<br />document
+                    </h1>
+                </div>
+
+                <div className="px-4 mt-6 space-y-3">
+                    {documents.map((doc) => (
+                        <button
+                            key={doc.id}
+                            onClick={() => setSelectedDocument(doc.id)}
+                            className={`w-full h-[52px] px-5 rounded-full border flex items-center justify-between transition-all ${selectedDocument === doc.id
+                                ? 'border-[#F92FA2] bg-primary-500/10'
+                                : 'border-gray-200 bg-white hover:border-neutral-300'
+                                }`}
+                        >
+                            <span className="text-[16px] font-semibold    ">
+                                {doc.label}
+                            </span>
+                            {selectedDocument === doc.id && (
+                                <ChevronRight size={20} className="text-[#F92FA2]" />
+                            )}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className=" pb-8">
+                <div className="max-w-[425px] mx-auto px-4 py-3 ">
+                    <Link href='/verification/'>
+                        <button
+                            className="w-full cursor-pointer bg-primary-500 h-[52px] text-white font-semibold text-[16px] py-3.5 rounded-full
+                                      hover:bg-primary-700 active:bg-[#D01080] transition-colors
+                                      disabled:bg-gray-300 disabled:cursor-not-allowed"
+
+                        >
+                            Continue
+                        </button>
+                    </Link>
+
+                </div>
+            </div>
+        </main>
+    );
+}

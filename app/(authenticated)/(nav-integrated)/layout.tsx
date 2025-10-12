@@ -9,7 +9,7 @@ export default function RootLayout({
     return (
         <>
             {children}
-            <div className="fixed bottom-0 max-w-[393px]">
+            <div className="fixed bottom-0 max-w-[425px] w-dvw">
                 <FooterBar />
             </div>
         </>

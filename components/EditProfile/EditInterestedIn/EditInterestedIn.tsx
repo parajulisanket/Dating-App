@@ -73,10 +73,10 @@ export const EditInterestedIn = ({ backHref = "/home" }) => {
 
             {/* Fixed Button Container */}
             <div
-                className="fixed bottom-0 left-0 right-0  max-w-[393px] mx-auto  "
+                className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto  "
 
             >
-                <div className="max-w-[393px] mx-auto px-4 py-3 ">
+                <div className="max-w-[425px] mx-auto px-4 py-3 ">
                     <button
                         className="w-full bg-primary-500 h-[52px] text-white font-semibold text-[16px] py-3.5 rounded-full
                             hover:bg-primary-700 active:bg-[#D01080] transition-colors

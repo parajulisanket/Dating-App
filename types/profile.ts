@@ -9,7 +9,7 @@ export interface ProfileImage {
 
 export interface SocialLink {
   id: number;
-  platform: "facebook" | "instagram";
+  platform: "facebook" | "instagram" | "x";
   username: string;
 }
 

@@ -31,17 +31,17 @@ export default function RootLayout({
       <body className={`${manrope.variable} antialiased  `}>
         {/* <GeneralProvider> */}
         {/* Desktop centering frame */}
-        <div className="min-h-dvh w-full flex justify-center">
+        <div className="min-h-dvh w-full flex justify-center ">
           {/* Phone-sized canvas */}
           <div
             className="
-              w-full max-w-[393px]
+              w-full max-w-[425px]
               bg-white min-h-dvh
               relative overflow-hidden  
             "
           >
             {/* Inner scroller so the “phone” scrolls, not the page */}
-            <div className="min-h-dvh overflow-y-auto">{children}</div>
+            <div className="min-h-dvh overflow-y-auto ">{children}</div>
           </div>
         </div>
         {/* </GeneralProvider> */}

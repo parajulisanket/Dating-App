@@ -14,7 +14,7 @@ export default function UserPage({ params }: UserPageProps) {
     return (
         <div className="min-h-screen flex flex-col">
 
-            <div className="fixed bg-white w-[393px] z-50">
+            <div className="fixed bg-white w-[425px] z-50">
                 <Header onMenuClick={() => setIsMenuOpen(true)} />
             </div>
 

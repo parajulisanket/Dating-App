@@ -305,7 +305,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
             {/* Image Gallery Section */}
             <div className="px-4">
-                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">Images</h1>
+                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Images</h1>
 
                 <Swiper
                     spaceBetween={5}
@@ -333,7 +333,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
             {/* About Me Section */}
             <div className="px-4 ">
-                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">About {profileData.name}</h1>
+                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">About me</h1>
                 <div className="flex flex-wrap gap-2">
                     {profileData.aboutMe.map((item, index) => (
                         <div
@@ -366,7 +366,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
             {/* My Hobbies Section */}
             <div className="px-4">
-                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">Hobbies</h1>
+                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Hobbies</h1>
                 <div className="flex flex-wrap gap-2">
                     {profileData.hobbies.map((hobbyKey) => {
                         const hobby = getHobbyDetails(hobbyKey);
@@ -385,7 +385,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
             {/* My Lifestyle Section */}
             <div className="px-4 ">
-                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold"> Lifestyle</h1>
+                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Lifestyle</h1>
                 <div className="flex flex-wrap gap-2">
                     {Object.entries(profileData.lifestyle).map(([categoryKey, optionKey]) => {
                         const details = getLifestyleDetails(categoryKey, optionKey);
@@ -403,7 +403,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
             </div>
 
             <div className="px-4 pb-4">
-                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold"> Social Accounts</h1>
+                <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Social Accounts</h1>
                 <div className="flex gap-2">
                     <Image
                         src="/facebook.svg"

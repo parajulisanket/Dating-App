@@ -4,6 +4,8 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import icons from "@/assets/icons/icons";
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from "react";
 // Types for backend integration
 interface UserProfile {
     name: string;
@@ -22,6 +24,34 @@ interface SettingsMenuItem {
 
 export const Settings = () => {
     const router = useRouter();
+    const { theme, setTheme, resolvedTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    const toggleTheme = () => {
+        // Use resolvedTheme to get the actual current theme
+        const currentTheme = resolvedTheme || theme;
+        setTheme(currentTheme === "dark" ? "light" : "dark");
+    };
+
+
+
+    if (!mounted) {
+        // Return a placeholder that matches your initial render
+        return (
+            <main className="min-h-screen relative">
+                {/* Simplified loading structure */}
+                <div className="border-b border-neutral-200">
+                    <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
+                        {/* Loading skeleton */}
+                    </div>
+                </div>
+            </main>
+        );
+    }
 
     // Demo data - will be replaced with API data
     const userProfile: UserProfile = {
@@ -94,10 +124,10 @@ export const Settings = () => {
     };
 
     return (
-        <main className="min-h-screen relative">
+        <main className="min-h-screen relative ">
             {/* Header */}
             <div className="border-b border-neutral-200">
-                <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
+                <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
                     <Link href='/profile' aria-label="Back" className="rounded-full">
                         <ChevronLeft className="" size={24} strokeWidth={1.5} />
@@ -138,7 +168,7 @@ export const Settings = () => {
                 <div className="px-4 border-y border-neutral-200">
                     <div className="size-[52px] w-full  flex items-center    ">
                         <div className="flex justify-between items-center w-full cursor-pointer">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 bg-background">
                                 <Image
                                     src={icons.darkmode}
                                     alt="Dark mode icon"
@@ -149,10 +179,24 @@ export const Settings = () => {
                                 <h3 className="text-[16px] font-bold text-gray-900 leading-tight">
                                     Dark Mode
                                 </h3>
+
                             </div>
-                            <div className="h-6 w-[42px] border border-primary-500 bg-primary-500/10 rounded-full p-1">
+                            {/* <div className="h-6 w-[42px] border border-primary-500 bg-primary-500/10 rounded-full p-1">
                                 <div className="w-4 h-4 bg-primary-500 rounded-full"></div>
+                            </div> */}
+                            <div
+                                onClick={toggleTheme}
+                                className={`h-6 w-[42px] rounded-full p-1 transition-all duration-300 cursor-pointer  border border-primary-500 flex items-center
+    ${theme === "dark" ? "bg-primary-500" : "bg-primary-500/10"}
+  `}
+                            >
+                                <div
+                                    className={`w-4 h-4  rounded-full shadow-md transform transition-transform duration-300
+      ${theme === "dark" ? "translate-x-[18px] bg-white" : "translate-x-0 bg-primary-500"}
+    `}
+                                ></div>
                             </div>
+
                         </div>
                     </div>
                 </div>

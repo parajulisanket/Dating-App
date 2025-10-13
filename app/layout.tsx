@@ -1,6 +1,8 @@
 
-// import { GeneralProvider } from './context/GeneralContext'
+
+
 import type { Metadata, Viewport } from "next";
+import { ThemeProvider } from "next-themes";
 import { Manrope } from "next/font/google";
 import "./global.css";
 
@@ -27,30 +29,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+
       <body className={`${manrope.variable} antialiased  `}>
-        {/* <GeneralProvider> */}
-        {/* Desktop centering frame */}
-        <div className="min-h-dvh w-full flex justify-center ">
-          {/* Phone-sized canvas */}
-          <div
-            className="
-              w-full max-w-[425px]
-              bg-white min-h-dvh
+        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" storageKey='app-theme' disableTransitionOnChange={false}>
+          <div className="min-h-dvh w-full flex justify-center ">
+            <div
+              className="
+              w-full max-w-[425px] 
+              bg-background min-h-dvh
               relative overflow-hidden  
             "
-          >
-            {/* Inner scroller so the “phone” scrolls, not the page */}
-            <div className="min-h-dvh overflow-y-auto ">{children}</div>
+            >
+              <div className="min-h-dvh overflow-y-auto ">
+
+                {children}
+
+              </div>
+            </div>
           </div>
-        </div>
-        {/* </GeneralProvider> */}
+        </ThemeProvider>
 
       </body>
     </html>
   );
 }
 
-// shadow-none sm:shadow-xl
-// sm:rounded-[32px] sm:my-5 sm:overflow-hidden
-// border-2 border-transparent sm:border-black

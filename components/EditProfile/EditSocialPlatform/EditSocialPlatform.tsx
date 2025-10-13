@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import {
     Select,
@@ -11,6 +12,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ProfileFormData } from "@/types/profile";
+import icons from "@/assets/icons/icons";
 
 export const EditSocialPlatform = ({ backHref = "/home" }) => {
     const [formData, setFormData] = useState<ProfileFormData>({
@@ -38,9 +40,9 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
     const [username, setUsername] = useState("");
 
     const socialPlatformOptions = [
-        { value: "facebook", label: "Facebook" },
-        { value: "instagram", label: "Instagram" },
-        { value: "x", label: "X" },
+        { value: "facebook", label: "Facebook", icon: icons.facebookOrg },
+        { value: "instagram", label: "Instagram", icon: icons.instagramOrg },
+        { value: "x", label: "X", icon: icons.XOrg },
     ];
 
     // When user selects a platform
@@ -104,9 +106,11 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
                     >
                         <SelectValue placeholder="Select Social Platform" />
                     </SelectTrigger>
-                    <SelectContent className="border !border-primary-500/40">
+                    <SelectContent className="border border-neutral-200 !rounded-2xl">
                         {socialPlatformOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
+                                <Image src={option.icon} alt="icon" height={50} width={50} className='size-[24px]'
+                                />
                                 {option.label}
                             </SelectItem>
                         ))}
@@ -125,19 +129,22 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
                 />
             </div>
 
-            {/* Save Button */}
-            <div className="fixed bottom-0 left-0 right-0 max-w-[425px] mx-auto bg-white border-t border-gray-200 px-4 py-3">
-                <button
-                    onClick={handleSave}
-                    disabled={!selectedPlatform || !username}
-                    className={`w-full h-[52px] rounded-full text-[16px] font-semibold transition-colors ${!selectedPlatform || !username
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "bg-[#F92FA2] text-white hover:bg-pink-600 active:bg-pink-700"
-                        }`}
-                >
-                    Save
-                </button>
+            <div className=" pb-8">
+                <div className="max-w-[425px] mx-auto px-4 py-3 ">
+                    <button
+                        onClick={handleSave}
+                        disabled={!selectedPlatform || !username}
+                        className={`w-full h-[52px] rounded-full text-[16px] font-semibold transition-colors ${!selectedPlatform || !username
+                            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                            : "bg-primary-500 text-white hover:bg-primary-700 active:bg-[#D01080]"
+                            }`}
+                    >
+                        Save
+                    </button>
+                </div>
             </div>
+
+
         </main>
     );
 };

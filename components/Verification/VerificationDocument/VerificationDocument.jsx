@@ -31,17 +31,15 @@ export function VerificationDocument() {
                         <button
                             key={doc.id}
                             onClick={() => setSelectedDocument(doc.id)}
-                            className={`w-full h-[52px] px-5 rounded-full border flex items-center justify-between transition-all ${selectedDocument === doc.id
-                                ? 'border-[#F92FA2] bg-primary-500/10'
-                                : 'border-gray-200 bg-white hover:border-neutral-300'
+                            className={`w-full py-[14px] px-[18px] border rounded-full text-[16px] font-semibold leading-[20px] font-semibold cursor-pointer ${selectedDocument === doc.id
+                                ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
+                                : 'border-neutral-200 '
                                 }`}
                         >
                             <span className="text-[16px] font-semibold    ">
                                 {doc.label}
                             </span>
-                            {selectedDocument === doc.id && (
-                                <ChevronRight size={20} className="text-[#F92FA2]" />
-                            )}
+
                         </button>
                     ))}
                 </div>

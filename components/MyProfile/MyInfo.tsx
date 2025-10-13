@@ -408,7 +408,7 @@ export const MyInfo = () => {
                 </div>
             </div>
 
-            <div className="px-4 pb-4">
+            <div className="px-4 pb-4 ">
                 <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Social Accounts</h1>
                 <div className="flex gap-2">
                     <Image

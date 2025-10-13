@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { ProfileFormData } from "@/types/profile";
 import { button } from "framer-motion/client";
 
-export const EditSocialPlatform = ({ backHref = "/home" }) => {
+export const EditSexualOrientation = ({ backHref = "/home" }) => {
     const [formData, setFormData] = useState<ProfileFormData>({
         profilePicture: {
             url: "/nobita.png"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+
 // Types for backend integration
 interface ProfilePicture {
   url: string;
@@ -25,6 +26,7 @@ interface ProfileFormData {
   hobbies: string[];
   socialLinks: SocialLink[];
 }
+
 // Constants for dropdowns
 const GENDER_OPTIONS = [
   { value: "woman", label: "Woman" },
@@ -48,12 +50,11 @@ const HOBBIES_OPTIONS = [
   { key: "reading", label: "Reading", emoji: ":book:" },
   { key: "dancing", label: "Dancing", emoji: ":dancer:" },
 ];
-export const EditProfile = ({ backHref = "/home" }) => {
-  // Demo data - will be replaced with API data
+
+export const EditProfile = ({ backHref = "/home" }: { backHref?: string }) => {
+  // Demo data - replace with API data
   const [formData, setFormData] = useState<ProfileFormData>({
-    profilePicture: {
-      url: "/nobita.png",
-    },
+    profilePicture: { url: "/nobita.png" },
     images: [
       { id: 1, url: "/profile1.jpg" },
       { id: 2, url: "/profile2.jpg" },
@@ -71,11 +72,13 @@ export const EditProfile = ({ backHref = "/home" }) => {
       { id: 2, platform: "instagram", username: "Socialmedia/username" },
     ],
   });
-  // Handlers for backend integration
+
+  // Handlers (wire to your API later)
   const handleProfilePictureChange = () => {
     console.log("Change profile picture");
     // TODO: Implement file upload logic
   };
+
   const handleImageDelete = (imageId: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -84,17 +87,21 @@ export const EditProfile = ({ backHref = "/home" }) => {
     console.log("Delete image:", imageId);
     // TODO: Call API to delete image
   };
+
   const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, bio: e.target.value }));
   };
+
   const handleInterestedInChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setFormData((prev) => ({ ...prev, interestedIn: e.target.value }));
   };
+
   const handleOrientationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, sexualOrientation: e.target.value }));
   };
+
   const handleHobbyToggle = (hobbyKey: string) => {
     setFormData((prev) => {
       const hobbies = prev.hobbies.includes(hobbyKey)
@@ -103,6 +110,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
       return { ...prev, hobbies };
     });
   };
+
   const handleSocialLinkRemove = (linkId: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -111,26 +119,30 @@ export const EditProfile = ({ backHref = "/home" }) => {
     console.log("Remove social link:", linkId);
     // TODO: Call API to remove social link
   };
+
   const handleAddSocialLink = () => {
     console.log("Add social link");
     // TODO: Show modal to add new social link
   };
+
   const handleSave = () => {
     console.log("Save profile:", formData);
     // TODO: Call API to save profile data
   };
+
   return (
-    <main className="min-h-screen ">
+    <main className="min-h-screen">
       {/* Header */}
       <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2]">
         <Link href={backHref} aria-label="Back" className="rounded-full">
-          <ChevronLeft className="" size={24} strokeWidth={1.5} />
+          <ChevronLeft size={24} strokeWidth={1.5} />
         </Link>
         <h1 className="text-[24px] font-bold leading-[36px]">Edit Profile</h1>
       </div>
+
       <div className="px-4 py-6 space-y-6">
-        {/* Profile Picture Section */}
-        <div>
+        {/* Profile Picture */}
+        <section>
           <h2 className="edit-title">My Profile Picture</h2>
           <div className="flex items-center gap-4">
             <Image
@@ -147,9 +159,10 @@ export const EditProfile = ({ backHref = "/home" }) => {
               Change
             </button>
           </div>
-        </div>
-        {/* My Pictures Section */}
-        <div>
+        </section>
+
+        {/* Pictures grid */}
+        <section>
           <h2 className="edit-title">My Pictures</h2>
           <div className="grid grid-cols-3 gap-3">
             {formData.images.map((image) => (
@@ -176,29 +189,29 @@ export const EditProfile = ({ backHref = "/home" }) => {
               </div>
             ))}
           </div>
-        </div>
-        {/* Bio Section */}
-        <div>
-          <div className="flex">
-            <h2 className="edit-title">My Bio</h2>
-            <Link href=""></Link>
-          </div>
+        </section>
+
+        {/* Bio */}
+        <section>
+          <h2 className="edit-title">My Bio</h2>
           <textarea
             value={formData.bio}
             onChange={handleBioChange}
             className="w-full border border-gray-300 rounded-lg p-3 text-[14px] min-h-[80px] focus:outline-none focus:border-[#F9209B]"
             placeholder="Write something about yourself..."
           />
-        </div>
-        {/* Interested In Section */}
-        <div>
+        </section>
+
+        {/* Interested In */}
+        <section>
           <h2 className="edit-title">I'm interested in</h2>
           <select
             value={formData.interestedIn}
             onChange={handleInterestedInChange}
             className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none focus:border-[#F9209B] appearance-none bg-white cursor-pointer"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E\")",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right 12px center",
             }}
@@ -209,16 +222,18 @@ export const EditProfile = ({ backHref = "/home" }) => {
               </option>
             ))}
           </select>
-        </div>
-        {/* Sexual Orientation Section */}
-        <div>
+        </section>
+
+        {/* Sexual Orientation */}
+        <section>
           <h2 className="edit-title">My Sexual Orientation is</h2>
           <select
             value={formData.sexualOrientation}
             onChange={handleOrientationChange}
             className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none focus:border-[#F9209B] appearance-none bg-white cursor-pointer"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E\")",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right 12px center",
             }}
@@ -229,9 +244,10 @@ export const EditProfile = ({ backHref = "/home" }) => {
               </option>
             ))}
           </select>
-        </div>
-        {/* Hobbies Section */}
-        <div>
+        </section>
+
+        {/* Hobbies */}
+        <section>
           <h2 className="edit-title">My Hobbies are</h2>
           <div className="flex flex-wrap gap-2">
             {HOBBIES_OPTIONS.map((hobby) => {
@@ -252,9 +268,10 @@ export const EditProfile = ({ backHref = "/home" }) => {
               );
             })}
           </div>
-        </div>
-        {/* Social Links Section */}
-        <div>
+        </section>
+
+        {/* Social Links */}
+        <section>
           <h2 className="edit-title">My Social Links</h2>
           <div className="space-y-3">
             {formData.socialLinks.map((link) => (
@@ -262,25 +279,20 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 key={link.id}
                 className="flex items-center gap-3 bg-white border border-gray-300 rounded-lg p-3"
               >
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center '
-                                    }`}
-                >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center">
                   {link.platform === "facebook" ? (
                     <Image
                       src="/icons/facebookBlue.svg"
-                      alt="Profile picture"
-                      width={80}
-                      height={80}
-                      className="rounded-full"
+                      alt="Facebook"
+                      width={24}
+                      height={24}
                     />
                   ) : (
                     <Image
                       src="/icons/instagramblue.svg"
-                      alt="Profile picture"
-                      width={80}
-                      height={80}
-                      className="rounded-full"
+                      alt="Instagram"
+                      width={24}
+                      height={24}
                     />
                   )}
                 </div>
@@ -302,6 +314,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                 </button>
               </div>
             ))}
+
             <button
               onClick={handleAddSocialLink}
               className="w-full border-2 border-dashed border-gray-300 rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#F9209B] hover:text-[#F9209B] transition-colors"
@@ -317,17 +330,18 @@ export const EditProfile = ({ backHref = "/home" }) => {
               Add social link
             </button>
           </div>
-        </div>
+        </section>
       </div>
-      {/* Save Button - Fixed at bottom */}
+
+      {/* Save Button (uncomment when ready) */}
       {/* <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
-                <button
-                    onClick={handleSave}
-                    className="w-full bg-gradient-to-r from-[#F9209B] to-[#FF6B9D] text-white py-3 rounded-full text-[16px] font-semibold"
-                >
-                    Save Changes
-                </button>
-            </div> */}
+        <button
+          onClick={handleSave}
+          className="w-full bg-gradient-to-r from-[#F9209B] to-[#FF6B9D] text-white py-3 rounded-full text-[16px] font-semibold"
+        >
+          Save Changes
+        </button>
+      </div> */}
     </main>
   );
 };

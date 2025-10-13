@@ -1,20 +1,16 @@
-import TopBar from "@/components/layout/TopBar";
-import { Header } from "@/components/MyProfile/Header"
+import FooterBar from "@/components/layout/FooterBar";
 import { MyInfo } from "@/components/MyProfile/MyInfo";
+import Header from "@/components/MyProfile/Header";
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="fixed bg-white w-[393px] z-50">
-        <Header />
-      </div>
-
-      <main className="flex-1 pb-20 pt-[50px]  ">
-        <MyInfo />
-      </main>
-
-
-
-
+      {" "}
+      <Header />{" "}
+      <main className="flex-1">
+        {" "}
+        <MyInfo />{" "}
+      </main>{" "}
+      <FooterBar />{" "}
     </div>
   );
 }

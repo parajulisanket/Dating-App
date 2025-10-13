@@ -54,10 +54,18 @@ export default function FooterBar({
   const isProfile = pathname?.startsWith("/profile");
 
   return (
-    <footer className={cn("footer-shell footer-safe shadow-[0px_-2px_8px_0px_#0000001A] ", className)}>
-      <div className="mx-auto w-full max-w-[480px] ">
-        <ul className="grid grid-cols-4 items-center">
-          {/* home */}
+    <footer
+      className={cn(
+        "w-full bg-white/90 supports-[backdrop-filter]:backdrop-blur",
+        "border-t border-black/10 shadow-[0_-2px_8px_rgba(0,0,0,0.10)]",
+        "footer-safe",
+        className
+      )}
+    >
+      {/* Lock width to phone frame */}
+      <div className="mx-auto w-full max-w-[393px] px-2">
+        <ul className="grid grid-cols-4 items-center h-16">
+          {/* Discover */}
           <li className="flex justify-center min-w-[93px]">
             {isDiscover ? (
               <Link
@@ -65,7 +73,6 @@ export default function FooterBar({
                 aria-current="page"
                 className={cn(
                   "pill pill--active",
-
                   "max-w-[108px] w-full justify-center whitespace-nowrap"
                 )}
               >
@@ -83,7 +90,7 @@ export default function FooterBar({
               <Link
                 href="/home"
                 aria-label="Discover"
-                className="grid place-items-center"
+                className="relative grid place-items-center"
               >
                 <TabIcon
                   active={false}
@@ -95,7 +102,7 @@ export default function FooterBar({
             )}
           </li>
 
-          {/* match */}
+          {/* Match */}
           <li className="flex justify-center min-w-[93px]">
             {isLikes ? (
               <Link
@@ -140,7 +147,7 @@ export default function FooterBar({
             )}
           </li>
 
-          {/* chat */}
+          {/* Messages */}
           <li className="flex justify-center min-w-[93px]">
             {isChat ? (
               <Link
@@ -155,7 +162,7 @@ export default function FooterBar({
                   active
                   activeSrc="/icons/chat.svg"
                   inactiveSrc="/icons/chat-inactive.svg"
-                  alt="Chat"
+                  alt="Messages"
                 />
                 <span className="text-xs tracking-wide font-bold">Message</span>
                 {unreadCount > 0 && (
@@ -167,14 +174,14 @@ export default function FooterBar({
             ) : (
               <Link
                 href="/messages"
-                aria-label="Chat"
+                aria-label="Messages"
                 className="relative grid place-items-center"
               >
                 <TabIcon
                   active={false}
                   activeSrc="/icons/chat.svg"
                   inactiveSrc="/icons/chat-inactive.svg"
-                  alt="Chat"
+                  alt="Messages"
                 />
                 {unreadCount > 0 && (
                   <span className="badge">
@@ -185,8 +192,8 @@ export default function FooterBar({
             )}
           </li>
 
-          {/* profile */}
-          <li className="flex justify-center min-[86px]">
+          {/* Profile */}
+          <li className="flex justify-center min-w-[86px]">
             {isProfile ? (
               <Link
                 href="/profile"
@@ -208,7 +215,7 @@ export default function FooterBar({
               <Link
                 href="/profile"
                 aria-label="Profile"
-                className="grid place-items-center"
+                className="relative grid place-items-center"
               >
                 <TabIcon
                   active={false}

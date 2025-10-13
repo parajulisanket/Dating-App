@@ -64,7 +64,7 @@ export default function OrientationPage() {
                   "absolute top-1/2 -translate-y-1/2 h-6 w-6 rounded-full transition-all",
                   showOnProfile
                     ? "left-[calc(100%-1.75rem)] bg-[#F92FA2]"
-                    : "left-2 bg-white border border-[#F92FA2]",
+                    : "left-1 bg-[#f92fa2] border border-[#F92FA2]",
                 ].join(" ")}
               />
             </button>

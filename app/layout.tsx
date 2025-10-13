@@ -1,5 +1,3 @@
-
-// import { GeneralProvider } from './context/GeneralContext'
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./global.css";
@@ -28,29 +26,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable} antialiased  `}>
-        {/* <GeneralProvider> */}
-        {/* Desktop centering frame */}
+      <body className={`${manrope.variable} antialiased`}>
         <div className="min-h-dvh w-full flex justify-center">
           {/* Phone-sized canvas */}
-          <div
-            className="
-              w-full max-w-[393px]
-              bg-white min-h-dvh
-              relative overflow-hidden  
-            "
-          >
+          <div className="w-full max-w-[393px] bg-white min-h-dvh relative overflow-hidden">
             {/* Inner scroller so the “phone” scrolls, not the page */}
             <div className="min-h-dvh overflow-y-auto">{children}</div>
+
+            <div
+              id="phone-overlay-root"
+              className="absolute inset-0 z-[60] pointer-events-none"
+            />
           </div>
         </div>
-        {/* </GeneralProvider> */}
-
       </body>
     </html>
   );
 }
-
-// shadow-none sm:shadow-xl
-// sm:rounded-[32px] sm:my-5 sm:overflow-hidden
-// border-2 border-transparent sm:border-black

@@ -1,6 +1,3 @@
-
-
-
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { Manrope } from "next/font/google";
@@ -30,9 +27,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-
       <body className={`${manrope.variable} antialiased  `}>
-        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" storageKey='app-theme' disableTransitionOnChange={false}>
+        <ThemeProvider
+          attribute="class"
+          enableSystem={false}
+          defaultTheme="light"
+          storageKey="app-theme"
+          disableTransitionOnChange={false}
+        >
           <div className="min-h-dvh w-full flex justify-center ">
             <div
               className="
@@ -41,17 +43,11 @@ export default function RootLayout({
               relative overflow-hidden  
             "
             >
-              <div className="min-h-dvh overflow-y-auto ">
-
-                {children}
-
-              </div>
+              <div className="min-h-dvh overflow-y-auto ">{children}</div>
             </div>
           </div>
         </ThemeProvider>
-
       </body>
     </html>
   );
 }
-

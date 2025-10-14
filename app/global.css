@@ -259,3 +259,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.input {
+  @apply w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[16px] placeholder:text-neutral-300 focus:outline-none focus:border focus:border-primary-500 focus:bg-primary-500/10
+}

@@ -225,7 +225,7 @@ export const MyInfo = () => {
                     {
                         !profileData.isVerified && (
                             <Link href='/verification'>
-                                <div className="flex gap-2  flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4 border border-solid [border-image-source:linear-gradient(137.38deg,#00E6FF_-4.64%,#00AAFF_104.24%)] ">
+                                <div className="flex gap-2  flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4 border border-[#00E6FF] ">
                                     <div className="text-[16px] leading-[20px] font-semibold">Verify Account</div>
                                     <div className="text-[12px] leading-[18px] font-medium">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum minima esse officiis.</div>
                                 </div></Link>

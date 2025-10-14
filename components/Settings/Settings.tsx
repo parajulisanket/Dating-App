@@ -165,10 +165,10 @@ export const Settings = () => {
 
 
                 {/* Settings Menu Items */}
-                <div className="px-4 border-y border-neutral-200">
-                    <div className="size-[52px] w-full  flex items-center    ">
+                <div className="px-4 mb-1">
+                    <div className="size-[52px]  w-full  flex items-center  px-4 rounded-[16px]  bg-neutral-1000/5 ">
                         <div className="flex justify-between items-center w-full cursor-pointer">
-                            <div className="flex items-center gap-3 bg-background">
+                            <div className="flex items-center gap-3 ">
                                 <Image
                                     src={icons.darkmode}
                                     alt="Dark mode icon"
@@ -202,14 +202,14 @@ export const Settings = () => {
                 </div>
 
 
-                <div className=" px-4  ">
+                <div className=" px-4 space-y-1  ">
                     {menuItems.map((item) => (
                         <button
                             key={item.id}
                             onClick={() => handleMenuItemClick(item.route)}
-                            className="w-full flex items-start gap-4 py-4  rounded-xl  hover:bg-gray-50 transition-colors text-left cursor-pointer"
+                            className="w-full flex items-start gap-4 p-4  rounded-[16px]  bg-neutral-1000/5 transition-colors text-left cursor-pointer"
                         >
-                            <div className="pt-1">
+                            <div className="pt-1 ">
                                 <Image
                                     src={item.icon}
                                     alt={item.title}

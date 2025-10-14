@@ -54,7 +54,7 @@ export default function FooterBar({
   const isProfile = pathname?.startsWith("/profile");
 
   return (
-    <footer className={cn("footer-shell dark:bg-black footer-safe shadow-[0px_-2px_8px_0px_#0000001A] max-w-[425px] w-full  ", className)}>
+    <footer className={cn("footer-shell bg-footer   footer-safe shadow-[0px_-2px_8px_0px_#0000001A] max-w-[425px] w-full  ", className)}>
       <div className="mx-auto w-full   ">
         <ul className="grid grid-cols-4 items-center">
           {/* home */}

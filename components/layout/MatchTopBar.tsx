@@ -26,7 +26,6 @@ export default function TopBar({
       className={cn(
         "sticky top-0 z-40",
         "flex items-center justify-between",
-        "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60",
         "p-6",
         className
       )}

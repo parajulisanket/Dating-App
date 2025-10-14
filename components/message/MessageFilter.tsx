@@ -29,12 +29,12 @@ export default function MessageFIlter({
                 aria-selected={active}
                 onClick={() => select(tab)}
                 className={[
-                    "inline-flex items-center justify-center",
-                    "px-4 py-2  rounded-4xl border",
-                    "text-sm leading-none ",
+                    "inline-flex items-center justify-center ",
+                    "px-4 py-2  rounded-4xl ",
+                    "text-sm leading-none text-neutral-1000 ",
                     active
                         ? "bg-[#F92FA2] text-white border-transparent font-bold"
-                        : "bg-white text-black border-[#33333333] font-medium ",
+                        : " bg-background  border-dark font-medium ",
                     "transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB3FA5]/40",
                 ].join(" ")}
             >

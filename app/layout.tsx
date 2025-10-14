@@ -37,7 +37,7 @@ export default function RootLayout({
             <div
               className="
               w-full max-w-[425px] 
-              bg-background min-h-dvh
+              bg-background text-neutral-1000 min-h-dvh
               relative overflow-hidden  
             "
             >

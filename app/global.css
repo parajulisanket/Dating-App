@@ -8,6 +8,8 @@
 
 :root {
   --background: #ffffff;
+  --backround-search: #3333331A;
+  --border: #FFFFFF66;
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -63,6 +65,11 @@
 
 .dark {
   --background: #1F1F1F;
+  --background-footer: #161616;
+  --backround-search: #FFFFFF1A;
+  --border: #BBBBBB;
+
+
   --colors-neutral-100: #1a1a1a;
   --colors-neutral-1000: #ffffff;
 }
@@ -73,8 +80,11 @@
 @theme inline {
   --dark-mode: class;
   --color-background: var(--background);
-  /* Primary Colors */
-  --color-primary-100: var(--colors-primary-100);
+  --color-footer: var(--background-footer);
+  --color-search: var(--backround-search);
+  --color-border-dark: var(--border)
+    /* Primary Colors */
+    --color-primary-100: var(--colors-primary-100);
   --color-primary-200: var(--colors-primary-200);
   --color-primary-300: var(--colors-primary-300);
   --color-primary-400: var(--colors-primary-400);

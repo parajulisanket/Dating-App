@@ -124,9 +124,8 @@ function ChatRow({
             </span>
 
             <span
-              className={`ml-auto text-[12px] font-semibold ${
-                isUnread ? "text-[#F92FA2]" : "text-[#A4A4A4]"
-              }`}
+              className={`ml-auto text-[12px] font-semibold ${isUnread ? "text-[#F92FA2]" : "text-[#A4A4A4]"
+                }`}
             >
               {formatWhen(item.lastMessageAt)}
             </span>
@@ -193,7 +192,7 @@ function useChatListHeight<T extends HTMLElement>(
   }, [ref]);
 }
 
-export default function ChatList({
+function ChatList({
   items,
   loading = false,
   onOpenChat,
@@ -212,10 +211,10 @@ export default function ChatList({
         i < 1
           ? new Date(Date.now() - 15 * 60 * 1000)
           : i < 2
-          ? new Date(Date.now() - 60 * 60 * 1000)
-          : i === 2
-          ? new Date()
-          : "2025-12-04",
+            ? new Date(Date.now() - 60 * 60 * 1000)
+            : i === 2
+              ? new Date()
+              : "2025-12-04",
       unreadCount: i === 2 ? 2 : i === 4 ? 3 : 0,
       capUnreadAt: 5,
       hasStoryRing: i === 2,
@@ -234,11 +233,11 @@ export default function ChatList({
       <div className="h-full overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] no-scrollbar">
         {loading
           ? Array.from({ length: 10 }).map((_, i) => (
-              <ChatRowSkeleton key={i} />
-            ))
+            <ChatRowSkeleton key={i} />
+          ))
           : data.map((it) => (
-              <ChatRow key={it.id} item={it} onPress={onOpenChat} />
-            ))}
+            <ChatRow key={it.id} item={it} onPress={onOpenChat} />
+          ))}
       </div>
 
       {/* prefer dvh; hide scrollbar cross-browser */}
@@ -266,3 +265,4 @@ export default function ChatList({
     </div>
   );
 }
+export default ChatList;

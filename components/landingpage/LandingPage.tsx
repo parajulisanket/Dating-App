@@ -19,7 +19,7 @@ export default function LandingPage() {
 
   return (
     <div className="w-full flex justify-center">
-      <main className="w-full max-w-[393px] px-5 pt-6 pb-8">
+      <main className="w-full max-w-[425px] px-5 pt-6 pb-8">
         <div className="title text-center">LOGO</div>
 
         <div className="relative mt-2 h-[420px] w-full overflow-hidden">
@@ -61,9 +61,8 @@ export default function LandingPage() {
           {images.map((_, i) => (
             <span
               key={i}
-              className={`rounded-full transition-all duration-300 ${
-                i === current ? "h-2 w-2 bg-pink-500" : "h-1 w-1 bg-pink-200"
-              }`}
+              className={`rounded-full transition-all duration-300 ${i === current ? "h-2 w-2 bg-pink-500" : "h-1 w-1 bg-pink-200"
+                }`}
             />
           ))}
         </div>

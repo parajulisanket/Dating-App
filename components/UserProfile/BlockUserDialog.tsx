@@ -30,7 +30,7 @@ export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserPro
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/50 z-40"
+                        className="fixed inset-0 bg-black/40 z-50"
                     />
 
                     {/* Bottom Sheet */}
@@ -39,7 +39,7 @@ export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserPro
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50  mx-auto w-[393px] h-[343px] p-4"
+                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50  mx-auto w-[425px] h-[343px] p-4"
                     >
                         <div className="z-50   mx-auto pb-4">
                             {/* Profile Image */}

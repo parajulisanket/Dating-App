@@ -1,4 +1,8 @@
+
+
+
 import type { Metadata, Viewport } from "next";
+import { ThemeProvider } from "next-themes";
 import { Manrope } from "next/font/google";
 import "./global.css";
 
@@ -25,21 +29,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${manrope.variable} antialiased`}>
-        <div className="min-h-dvh w-full flex justify-center">
-          {/* Phone-sized canvas */}
-          <div className="w-full max-w-[393px] bg-white min-h-dvh relative overflow-hidden">
-            {/* Inner scroller so the “phone” scrolls, not the page */}
-            <div className="min-h-dvh overflow-y-auto">{children}</div>
+    <html lang="en" suppressHydrationWarning>
 
+      <body className={`${manrope.variable} antialiased  `}>
+        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" storageKey='app-theme' disableTransitionOnChange={false}>
+          <div className="min-h-dvh w-full flex justify-center ">
             <div
-              id="phone-overlay-root"
-              className="absolute inset-0 z-[60] pointer-events-none"
-            />
+              className="
+              w-full max-w-[425px] 
+              bg-background text-neutral-1000 min-h-dvh
+              relative overflow-hidden  
+            "
+            >
+              <div className="min-h-dvh overflow-y-auto ">
+
+                {children}
+
+              </div>
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
+
       </body>
     </html>
   );
 }
+

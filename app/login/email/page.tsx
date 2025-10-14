@@ -41,7 +41,7 @@ export default function LoginEmailPage() {
         </NextButton>
       }
     >
-      <form id="login-email-form" onSubmit={onSubmit} className="space-y-4">
+      <form id="login-email-form" onSubmit={onSubmit} className="space-y-4 ">
         {/* Email */}
         <input
           type="email"
@@ -62,7 +62,7 @@ export default function LoginEmailPage() {
             autoComplete="current-password"
             placeholder="Enter your password"
             className="w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[15px]
-                       placeholder:text-neutral-400 focus:outline-none focus:ring-2
+                       placeholder:text-neutral-600 focus:outline-none focus:ring-2
                        focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}

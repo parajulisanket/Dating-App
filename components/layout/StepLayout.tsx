@@ -22,7 +22,7 @@ export default function StepLayout({
 }) {
   return (
     <div className="w-full flex justify-center">
-      <main className="w-full max-w-[393px] min-h-screen flex flex-col px-5 pt-6 pb-8">
+      <main className="w-full max-w-[425px] min-h-screen flex flex-col px-5 pt-6 pb-8">
         <div className="flex items-start justify-between">
           {backHref ? (
             <Link

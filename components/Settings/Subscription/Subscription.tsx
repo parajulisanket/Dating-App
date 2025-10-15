@@ -6,7 +6,7 @@ import icons from '@/assets/icons/icons';
 export const Subscripition = () => {
     return (
         <>
-            <main className='min-h-screen'>
+            <main className='max-h-screen'>
                 <div className="border-b border-neutral-200">
                     <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
@@ -17,8 +17,51 @@ export const Subscripition = () => {
                         <h1 className="text-[24px] font-bold leading-[36px]">Subscripition</h1>
                     </div>
                 </div>
-                <div className="mt-2">
+                <div className="p-4">
+                    <div className="space-y-4">
+                        <div className="flex flex-col gap-1">
+                            <h2 className='text-[24px] leading-[36px] font-bold'>Upgrade Your Experience!</h2>
+                            <p className='text-[14px]  leading-[21px] font-medium text-neutral-800 '>Find your match faster and stand out from the crowd! Choose the plan that fits your vibe and unlock exclusive features made to boost your dating journey.</p>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <div className="rounded-2xl flex flex-col justify-center items-center more-swipes p-4 text-white">
+                                <Image
+                                    src={icons.moreSwipes}
+                                    alt='moreSwipes'
+                                    height={96}
+                                    width={96}
+                                    className='h-12 w-12 '
+                                />
+                                <h2 className='text-[16px] font-bold leading-5'>More swipes</h2>
+                                <p className='font-medium text-[16px] '>200 swipes  for Rs.200</p>
 
+                            </div>
+                            <div className="rounded-2xl flex flex-col justify-center items-center view-profile p-4 text-white">
+                                <Image
+                                    src={icons.viewProfile}
+                                    alt='viewProfile'
+                                    height={96}
+                                    width={96}
+                                    className='h-12 w-12 '
+                                />
+                                <h2 className='text-[16px] font-bold leading-5'>View Profile</h2>
+                                <p className='font-medium text-[16px] '>View unmatched profiles for Rs. 200.</p>
+
+                            </div>
+                            <div className="rounded-2xl  flex flex-col justify-center items-center boost-profile p-4 text-white">
+                                <Image
+                                    src={icons.boostProfile}
+                                    alt='boostProfile'
+                                    height={96}
+                                    width={96}
+                                    className='h-12 w-12 '
+                                />
+                                <h2 className='text-[16px] font-bold leading-5'>Boost Profile</h2>
+                                <p className='font-medium text-[16px] '>15 days boost for Rs.700.</p>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 

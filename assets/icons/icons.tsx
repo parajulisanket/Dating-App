@@ -13,6 +13,12 @@ import changePassword from './changePassword.svg'
 import deleteAccount from './deleteAccount.svg'
 import nonSelected from './nonSelected.svg'
 import selected from './selected.svg'
+import helpCenter from './helpCenter.svg'
+import privacy from './privacy.svg'
+import faq from './faq.svg'
+import moreSwipes from './moreSwipes.svg'
+import boostProfile from './boostProfile.svg'
+import viewProfile from './viewProfile.svg'
 const icons = {
     facebook,
     instagram,
@@ -29,5 +35,11 @@ const icons = {
     deleteAccount,
     nonSelected,
     selected,
+    helpCenter,
+    privacy,
+    faq,
+    moreSwipes,
+    boostProfile,
+    viewProfile
 }
 export default icons;

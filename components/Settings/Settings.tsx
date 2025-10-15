@@ -126,7 +126,7 @@ export const Settings = () => {
     return (
         <main className="min-h-screen relative ">
             {/* Header */}
-            <div className="border-b border-neutral-200">
+            <div className="border-b border-neutral-200 ">
                 <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
                     <Link href='/profile' aria-label="Back" className="rounded-full">
@@ -139,7 +139,7 @@ export const Settings = () => {
 
 
 
-            <div className="">
+            <div className="pt-4">
                 {/* User Profile Card */}
                 <div className="px-4 pb-4"><div className="bg-[#fee9f5] rounded-2xl p-4 flex items-center gap-3 border-[1px] border-[#F92FA233]">
                     <Image

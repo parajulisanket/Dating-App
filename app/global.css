@@ -388,3 +388,28 @@ body {
   }
 
 }
+
+.more-swipes {
+  /* background: linear-gradient(130.89deg, #A500DD 4.3%, #D557FF 97.77%);
+  border: linear-gradient(101.58deg, #7E7E7E 5.24%, #C8C8C8 94.06%); */
+
+  @apply border-[1px] border-transparent;
+  background:
+    linear-gradient(130.89deg, #A500DD 4.3%, #D557FF 97.77%) padding-box,
+    linear-gradient(101.58deg, #d17eee 5.24%, #f6daff 94.06%) border-box;
+}
+
+.view-profile {
+  @apply border-[1px] border-transparent;
+  background:
+    linear-gradient(130.89deg, #F6812E 4.3%, #FFB84C 97.77%) padding-box,
+    linear-gradient(101.58deg, #f4ba92 5.24%, #f4ba92 94.06%) border-box;
+
+}
+
+.boost-profile {
+  @apply border-[1px] border-transparent;
+  background:
+    linear-gradient(130.89deg, #7B2FF7 4.3%, #A26FF5 97.77%) padding-box,
+    linear-gradient(101.58deg, #bc96fb 4.3%, #A26FF5 94.06%) padding-box,
+}

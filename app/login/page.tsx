@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function SignUpPage() {
   return (
-    <div className="w-full flex justify-center">
-      <main className="w-full max-w-[390px] min-h-screen flex flex-col px-5 pt-10 pb-8">
+    <div className="w-full  h-screen flex justify-center">
+      <main className="w-full  flex flex-col p-4  pb-8">
         {/* Top bar */}
         <div className="flex items-center justify-between">
           <Link

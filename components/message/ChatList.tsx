@@ -108,7 +108,7 @@ function ChatRow({
   return (
     <button
       onClick={() => onPress?.(item.id)}
-      className="group w-full select-none  px-4 py-3 text-left hover:bg-gray-50/60 focus:outline-none"
+      className="group w-full select-none  px-4 py-3 text-left  focus:outline-none"
     >
       <div className="flex items-center gap-3">
         <Avatar
@@ -119,13 +119,14 @@ function ChatRow({
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline">
-            <span className="truncate text-[18px] font-semibold text-[#111827]">
+            <span className="truncate text-[18px] font-semibold text-neutral-1000">
               {item.name}
             </span>
 
             <span
-              className={`ml-auto text-[12px] font-semibold ${isUnread ? "text-[#F92FA2]" : "text-[#A4A4A4]"
-                }`}
+              className={`ml-auto text-[12px] font-semibold ${
+                isUnread ? "text-[#F92FA2]" : "text-[#A4A4A4]"
+              }`}
             >
               {formatWhen(item.lastMessageAt)}
             </span>
@@ -192,11 +193,7 @@ function useChatListHeight<T extends HTMLElement>(
   }, [ref]);
 }
 
-function ChatList({
-  items,
-  loading = false,
-  onOpenChat,
-}: ChatListProps) {
+function ChatList({ items, loading = false, onOpenChat }: ChatListProps) {
   const hostRef = React.useRef<HTMLDivElement | null>(null);
   useChatListHeight(hostRef);
 
@@ -211,10 +208,10 @@ function ChatList({
         i < 1
           ? new Date(Date.now() - 15 * 60 * 1000)
           : i < 2
-            ? new Date(Date.now() - 60 * 60 * 1000)
-            : i === 2
-              ? new Date()
-              : "2025-12-04",
+          ? new Date(Date.now() - 60 * 60 * 1000)
+          : i === 2
+          ? new Date()
+          : "2025-12-04",
       unreadCount: i === 2 ? 2 : i === 4 ? 3 : 0,
       capUnreadAt: 5,
       hasStoryRing: i === 2,
@@ -233,11 +230,11 @@ function ChatList({
       <div className="h-full overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] no-scrollbar">
         {loading
           ? Array.from({ length: 10 }).map((_, i) => (
-            <ChatRowSkeleton key={i} />
-          ))
+              <ChatRowSkeleton key={i} />
+            ))
           : data.map((it) => (
-            <ChatRow key={it.id} item={it} onPress={onOpenChat} />
-          ))}
+              <ChatRow key={it.id} item={it} onPress={onOpenChat} />
+            ))}
       </div>
 
       {/* prefer dvh; hide scrollbar cross-browser */}

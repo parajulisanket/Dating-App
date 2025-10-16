@@ -40,8 +40,7 @@ export const Faq = () => {
                                         <Accordion key={faq.question} type="single" collapsible >
                                             <AccordionItem value="item-1" className='bg-neutral-1000/5 rounded-[16px]' >
                                                 <AccordionTrigger className='p-4 font-bold  !text-[16px]'>{faq.question}</AccordionTrigger>
-                                                <AccordionContent className='text-[15px] px-2  pb-4 transition-all duration-300 ease-out 
-      data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp'>
+                                                <AccordionContent className='text-[15px] px-2  pb-4 '>
 
                                                     {faq.ans}
                                                 </AccordionContent>

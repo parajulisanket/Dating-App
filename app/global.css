@@ -78,6 +78,11 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
+  --border-button: #E8E8E8;
+  --roundSection: #F92FA233;
+  --capsule-border: rgba(51, 51, 51, 0.2);
+  --non-selective-capsule: white/30;
+
 }
 
 /* [data-theme='dark'] {
@@ -93,12 +98,22 @@
 } */
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #1F1F1F;
   --background-footer: #161616;
   --backround-search: #FFFFFF1A;
-  --border: oklch(1 0 0 / 10%);
+  --border-button: #FFFFFF26;
+  --roundSection: #FFFFFF1A;
+  --capsule: #FFFFFF1A;
+  --capsule-border: #FFFFFF66;
+
+  --colors-primary-100: #FFFFFF1A;
+  --colors-primary-200: #FFFFFF33;
+  --colors-primary-500: #FFFFFF66;
+  --non-selective-capsule: white/30;
+
 
   --colors-neutral-100: #1a1a1a;
+  --color-neutral-200: #FFFFFF26;
   --colors-neutral-1000: #ffffff;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -136,9 +151,13 @@
   --color-background: var(--background);
   --color-footer: var(--background-footer);
   --color-search: var(--backround-search);
-  --color-border-dark: var(--border)
-    /* Primary Colors */
-    --color-primary-100: var(--colors-primary-100);
+  --color-border-dark: var(--border);
+  --color-borderButton: var(--border-button);
+  --color-roundSection: var(--roundSection);
+  --color-capsule: var(--capsule);
+  --color-capsule-border: var(--capsule-border);
+  /* Primary Colors */
+  --color-primary-100: var(--colors-primary-100);
   --color-primary-200: var(--colors-primary-200);
   --color-primary-300: var(--colors-primary-300);
   --color-primary-400: var(--colors-primary-400);
@@ -309,7 +328,7 @@ body {
   }
 
   .footer-shell {
-    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6 pt-2;
+    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6;
   }
 
   .pill {
@@ -374,6 +393,10 @@ body {
 
 .input {
   @apply w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[16px] placeholder:text-neutral-300 focus:outline-none focus:border focus:border-primary-500 focus:bg-primary-500/10
+}
+
+.textarea {
+  @apply w-full rounded-2xl border border-neutral-300 px-5 py-2 pr-12 text-[14px] resize-none focus:outline-none placeholder:text-neutral-300 focus:border focus:border-primary-500 focus:bg-primary-500/10
 }
 
 @layer base {

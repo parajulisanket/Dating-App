@@ -1,13 +1,15 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 
 export const AddEmailComponent = () => {
+    const router = useRouter()
     const [email, setEmail] = useState('');
     const handleSave = () => {
-
+        router.push('')
     }
     return (
         <>

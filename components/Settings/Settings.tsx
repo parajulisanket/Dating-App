@@ -44,7 +44,7 @@ export const Settings = () => {
         return (
             <main className="min-h-screen relative">
                 {/* Simplified loading structure */}
-                <div className="border-b border-neutral-200">
+                <div className="border-b border-neutral-200 ">
                     <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
                         {/* Loading skeleton */}
                     </div>
@@ -126,7 +126,7 @@ export const Settings = () => {
     return (
         <main className="min-h-screen relative ">
             {/* Header */}
-            <div className="border-b border-neutral-200 ">
+            <div className="border-b border-borderButton ">
                 <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
                     <Link href='/profile' aria-label="Back" className="rounded-full">
@@ -141,7 +141,7 @@ export const Settings = () => {
 
             <div className="pt-4">
                 {/* User Profile Card */}
-                <div className="px-4 pb-4"><div className="bg-[#fee9f5] rounded-2xl p-4 flex items-center gap-3 border-[1px] border-[#F92FA233]">
+                <div className="px-4 pb-4"><div className="bg-primary-100 rounded-2xl p-4 flex items-center gap-3 border-[1px] border-roundSection">
                     <Image
                         src={userProfile.profileImage}
                         alt={userProfile.name}
@@ -176,7 +176,7 @@ export const Settings = () => {
                                     height={20}
                                     className="w-5 h-5"
                                 />
-                                <h3 className="text-[16px] font-bold text-gray-900 leading-tight">
+                                <h3 className="text-[16px] font-bold  leading-tight">
                                     Dark Mode
                                 </h3>
 
@@ -220,10 +220,10 @@ export const Settings = () => {
                             </div>
 
                             <div className="flex-1">
-                                <h3 className="text-[16px] font-bold text-gray-900 mb-1 leading-tight">
+                                <h3 className="text-[16px] font-bold  mb-1 leading-tight">
                                     {item.title}
                                 </h3>
-                                <p className="text-[12px] text-gray-500 leading-[18px]">
+                                <p className="text-[12px] text-neutral-700 leading-[18px]">
                                     {item.description}
                                 </p>
                             </div>

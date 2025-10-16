@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import { ProfileFormData } from "@/types/profile";
 import emoji from "@/assets/emojis/emoji"
-import { button } from "framer-motion/client";
+import { useTheme } from "next-themes";
 
 interface HobbyOption {
     key: string,
@@ -14,7 +14,8 @@ interface HobbyOption {
     emoji: string,
 }
 
-export const EditHobbies = ({ backHref = "/home" }) => {
+export const EditHobbies = ({ backHref = "/edit-profile" }) => {
+    const { theme } = useTheme();
     const [formData, setFormData] = useState<ProfileFormData>({
         profilePicture: {
             url: "/nobita.png"
@@ -69,9 +70,9 @@ export const EditHobbies = ({ backHref = "/home" }) => {
 
 
     return (
-        <main className="min-h-screen bg-white flex flex-col">
+        <main className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-gray-200">
+            <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
                 <Link href={backHref} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
                 </Link>
@@ -88,10 +89,15 @@ export const EditHobbies = ({ backHref = "/home" }) => {
                                 key={option.key}
                                 onClick={() => handleToggleHobby(option.key)}
                                 className={`flex h-[40px] cursor-pointer items-center gap-2 py-[10px] px-[16px] rounded-full border text-[14px] leading-[21px] font-medium transition 
-                  ${isSelected
-                                        ? "bg-primary-500/10 text-primary-500 border-primary-500/40"
-                                        : "bg-white  border-neutral-200"
+  ${isSelected
+                                        ? theme === 'light'
+                                            ? 'bg-primary-500/10 text-primary-500 border-primary-500/40'
+                                            : 'bg-[#FFFFFF4D] border-white text-white'
+                                        : theme === 'light'
+                                            ? 'bg-white border-neutral-200 text-neutral-1000'
+                                            : 'bg-transparent border-[#FFFFFF4D] text-white'
                                     }`}
+
                             >
                                 {/* <span>{option.emoji}</span> */}
                                 <span>
@@ -118,7 +124,7 @@ export const EditHobbies = ({ backHref = "/home" }) => {
 
             {/* Fixed Button Container */}
             <div
-                className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto  "
+                className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
 
             >
                 <div className="max-w-[425px] mx-auto px-4 py-3 ">

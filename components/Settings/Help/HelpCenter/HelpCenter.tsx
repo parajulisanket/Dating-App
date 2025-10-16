@@ -2,7 +2,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { ChevronLeft } from "lucide-react";
-import { h2, li } from 'framer-motion/client';
 
 export const HelpCenter = () => {
     const HelpCenterList = [

@@ -3,8 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import icons from '@/assets/icons/icons';
+
 
 export const ChangePasswordComponent = () => {
     const [showPwd, setShowPwd] = useState(false)

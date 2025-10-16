@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import { ProfileFormData } from "@/types/profile";
 
-export const EditBio = ({ backHref = "/home" }) => {
+export const EditBio = ({ backHref = "/edit-profile" }) => {
     const [formData, setFormData] = useState<ProfileFormData>({
         profilePicture: {
             url: "/nobita.png"
@@ -60,9 +60,9 @@ export const EditBio = ({ backHref = "/home" }) => {
     const currentLength = formData.bio.length;
 
     return (
-        <main className="min-h-screen bg-white flex flex-col">
+        <main className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-gray-200">
+            <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
                 <Link href={backHref} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
                 </Link>
@@ -72,7 +72,7 @@ export const EditBio = ({ backHref = "/home" }) => {
             {/* Content Area - scrollable */}
             <div className="flex-1 overflow-y-auto px-4 py-4 pb-24">
                 <div className="space-y-4">
-                    <div className="text-[16px] font-medium text-gray-800">
+                    <div className="text-[16px] font-medium ">
                         Tell a bit about yourself. Keep it short and engaging.
                     </div>
 
@@ -83,9 +83,7 @@ export const EditBio = ({ backHref = "/home" }) => {
                             maxLength={maxLength}
                             rows={4}
                             placeholder="Write something about yourself..."
-                            className="w-full rounded-2xl border border-neutral-300 p-4 text-[14px] resize-none
-                                focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/5
-                                placeholder:text-gray-400"
+                            className="textarea"
                         />
                         <div className="text-right text-[12px] text-gray-500 mt-1">
                             {currentLength}/{maxLength}
@@ -96,7 +94,7 @@ export const EditBio = ({ backHref = "/home" }) => {
 
             {/* Fixed Button Container */}
             <div
-                className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto  "
+                className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
                 style={{
                     bottom: keyboardHeight > 0 ? `${keyboardHeight}px` : '0px',
                 }}

@@ -48,9 +48,7 @@ export default function LoginEmailPage() {
           autoComplete="email"
           inputMode="email"
           placeholder="Enter your email address"
-          className="w-full h-12 rounded-2xl border border-neutral-300 px-5 text-[15px]
-                     placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                     focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+          className="input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -61,9 +59,7 @@ export default function LoginEmailPage() {
             type={showPwd ? "text" : "password"}
             autoComplete="current-password"
             placeholder="Enter your password"
-            className="w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[15px]
-                       placeholder:text-neutral-600 focus:outline-none focus:ring-2
-                       focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+            className="input"
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
           />

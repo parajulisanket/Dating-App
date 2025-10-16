@@ -1,4 +1,3 @@
-// app/signup/orientation/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -47,24 +46,24 @@ export default function OrientationPage() {
       footer={
         <>
           {/* Toggle row */}
-          <label className="mb-4 flex items-center gap-3">
+          <label className="mb-4 flex items-center justify-center gap-2">
             <button
               type="button"
               onClick={() => setShowOnProfile((v) => !v)}
               aria-pressed={showOnProfile}
               className={[
-                "relative h-8 w-14 rounded-full border",
+                "relative inline-flex h-6 w-11 items-center rounded-full border transition-colors",
                 showOnProfile
-                  ? "border-[#F92FA2] bg-[#F92FA2]/20"
-                  : "border-[#F92FA2] bg-white",
+                  ? "bg-[#F92FA2] border-[#F92FA2]"
+                  : "bg-[#feeaf6] border-[#F92FA2]",
               ].join(" ")}
             >
               <span
                 className={[
-                  "absolute top-1/2 -translate-y-1/2 h-6 w-6 rounded-full transition-all",
+                  "pointer-events-none absolute left-0 h-5 w-5 rounded-full transition-transform",
                   showOnProfile
-                    ? "left-[calc(100%-1.75rem)] bg-[#F92FA2]"
-                    : "left-2 bg-white border border-[#F92FA2]",
+                    ? " bg-white translate-x-5"
+                    : "translate-x-0.5 bg-[#f92fa2] border border-[#F92FA2]",
                 ].join(" ")}
               />
             </button>

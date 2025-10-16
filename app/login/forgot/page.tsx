@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
     if (!valid) return;
 
     // TODO: call Django API to send reset code/email
-    await new Promise((r) => setTimeout(r, 300)); 
+    await new Promise((r) => setTimeout(r, 300));
     // Go to verify or reset flow (choose your path)
     router.push(`/login/verify?email=${encodeURIComponent(email)}`);
   }
@@ -46,9 +46,7 @@ export default function ForgotPasswordPage() {
           inputMode="email"
           autoComplete="email"
           placeholder="Enter your email address"
-          className="w-full h-12 rounded-2xl border border-neutral-300 px-5 text-[15px]
-                     placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                     focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+          className="input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

@@ -68,13 +68,7 @@ export default function DobPage() {
           inputMode="numeric"
           placeholder="DD / MM / YYYY"
           maxLength={14}
-          className="
-            w-full h-14 rounded-[20px]
-            border border-neutral-300
-            px-5 text-[16px]
-            placeholder:text-neutral-400
-            focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10
-          "
+          className="input"
           value={dob}
           onChange={(e) => onDobChange(e.target.value)}
         />

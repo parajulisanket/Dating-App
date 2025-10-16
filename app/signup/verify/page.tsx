@@ -111,7 +111,7 @@ export default function VerifyPage() {
                 w-[45px] h-[45px]
                 md:w-[50px] md:h-[50px] text-center text-lg
                 rounded-2xl border border-neutral-300 bg-white
-                focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10
+                focus:outline-none focus:border focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
               "
             />
           ))}

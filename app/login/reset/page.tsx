@@ -50,9 +50,7 @@ export default function ResetPasswordPage() {
             type={showPwd ? "text" : "password"}
             autoComplete="new-password"
             placeholder="New password"
-            className="w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-10 text-[15px]
-                       placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                       focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+            className="input"
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
           />
@@ -71,9 +69,7 @@ export default function ResetPasswordPage() {
             type={showConfirm ? "text" : "password"}
             autoComplete="new-password"
             placeholder="Confirm password"
-            className="w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-10 text-[15px]
-                       placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                       focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+            className="input"
             value={confirmPwd}
             onChange={(e) => setConfirmPwd(e.target.value)}
           />

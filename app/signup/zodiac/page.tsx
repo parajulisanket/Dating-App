@@ -67,11 +67,11 @@ export default function ZodiacPage() {
                 type="button"
                 onClick={() => setSelected(z.key)}
                 className={[
-                  "h-12 w-full rounded-full border px-4",
+                  "h-10 w-full rounded-full border px-4",
                   "flex items-center gap-2 justify-start",
                   active
                     ? "border-[#F92FA2] bg-[#F92FA2]/10 text-[#F92FA2] font-medium "
-                    : "border-neutral-300 text-neutral-800 bg-white",
+                    : "border-neutral-300 text-[#333333] bg-white",
                 ].join(" ")}
               >
                 <span className="text-lg">{z.emoji}</span>
@@ -82,7 +82,7 @@ export default function ZodiacPage() {
         </div>
 
         {/* Note */}
-        <p className="mt-6 text-[15px] leading-6 text-neutral-700">
+        <p className="mt-6 text-[15px] leading-6 text-[#333333]">
           Your zodiac sign will be public.{" "}
           <span className="font-bold">You can&apos;t change it later.</span>
         </p>

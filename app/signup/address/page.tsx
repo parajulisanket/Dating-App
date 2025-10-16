@@ -58,9 +58,7 @@ export default function AddressPage() {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className={[
-              "w-full h-14 rounded-2xl border border-neutral-300",
-              "pl-5 pr-12 text-[16px] bg-white appearance-none",
-              "focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10",
+              "input appearance-none",
               address ? "text-neutral-900" : "text-neutral-500",
             ].join(" ")}
           >

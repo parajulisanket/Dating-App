@@ -14,7 +14,7 @@ import {
 import { ProfileFormData } from "@/types/profile";
 import icons from "@/assets/icons/icons";
 
-export const EditSocialPlatform = ({ backHref = "/home" }) => {
+export const EditSocialPlatform = ({ backHref = "/edit-profile" }) => {
     const [formData, setFormData] = useState<ProfileFormData>({
         profilePicture: { url: "/nobita.png" },
         images: [
@@ -90,9 +90,9 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
     };
 
     return (
-        <main className="min-h-screen bg-white flex flex-col">
+        <main className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-gray-200">
+            <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
                 <Link href={backHref} aria-label="Back" className="rounded-full">
                     <ChevronLeft size={24} strokeWidth={1.5} />
                 </Link>
@@ -102,16 +102,26 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
             {/* Content */}
             <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
                 <Select onValueChange={handleSelectPlatform}>
-                    <SelectTrigger className="w-full  !rounded-[16px] px-4 py-[14px] border border-gray-300 !text-[16px]"
-                    >
+                    <SelectTrigger className="w-full !rounded-[16px] px-4 py-[14px] border border-gray-300 !text-[16px]">
                         <SelectValue placeholder="Select Social Platform" />
                     </SelectTrigger>
-                    <SelectContent className="border border-neutral-200 !rounded-2xl">
+                    <SelectContent className="border border-neutral-200 !rounded-2xl ">
                         {socialPlatformOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                                <Image src={option.icon} alt="icon" height={50} width={50} className='size-[24px]'
-                                />
-                                {option.label}
+                            <SelectItem
+                                key={option.value}
+                                value={option.value}
+                                className="cursor-pointer"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Image
+                                        src={option.icon}
+                                        alt="icon"
+                                        height={24}
+                                        width={24}
+                                        className="size-[24px]"
+                                    />
+                                    <span >{option.label}</span>
+                                </div>
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -123,9 +133,7 @@ export const EditSocialPlatform = ({ backHref = "/home" }) => {
                     value={username}
                     onChange={handleUsernameChange}
                     disabled={!selectedPlatform}
-                    className="w-full h-[52px] w-full rounded-[16px] border border-neutral-300 p-4 text-[16px] resize-none
-                                focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/5
-                                placeholder-neutral-300 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="input !h-[52px]"
                 />
             </div>
 

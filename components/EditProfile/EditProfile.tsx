@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-
+import emoji from "@/assets/emojis/emoji";
 // Types for backend integration
 interface ProfilePicture {
     url: string;
@@ -48,16 +49,25 @@ const ORIENTATION_OPTIONS = [
 ];
 
 const HOBBIES_OPTIONS = [
-    { key: "football", label: "Football", emoji: "⚽" },
-    { key: "exercising", label: "Exercising", emoji: "💪" },
-    { key: "art", label: "Art", emoji: "🎨" },
-    { key: "singing", label: "Singing", emoji: "🎤" },
-    { key: "reading", label: "Reading", emoji: "📖" },
-    { key: "dancing", label: "Dancing", emoji: "💃" },
+    { key: "football", label: "Football", emoji: emoji.football },
+    { key: "exercising", label: "Exercising", emoji: emoji.exercising },
+    { key: "singing", label: "Singing", emoji: emoji.singing },
+    { key: "reading", label: "Reading", emoji: emoji.reading },
+    { key: "acting", label: "Acting", emoji: emoji.acting },
+    { key: "swimming", label: "Swimming", emoji: emoji.swimming },
+    { key: "cricket", label: "Cricket", emoji: emoji.cricket },
+    { key: "dancing", label: "Dancing", emoji: emoji.dancing },
+    { key: "painting", label: "Art", emoji: emoji.painting },
+    { key: "boxing", label: "Boxing", emoji: emoji.boxing },
+    { key: "hiking", label: "Hiking", emoji: emoji.hiking },
+    { key: "meditation", label: "Meditation", emoji: emoji.meditation },
+    { key: "paragliding", label: "Paragliding", emoji: emoji.paragliding },
+    { key: "cycling", label: "Cycling", emoji: emoji.cycling },
 ];
 
-export const EditProfile = ({ backHref = "/home" }) => {
+export const EditProfile = () => {
     // Demo data - will be replaced with API data
+    const router = useRouter();
     const [formData, setFormData] = useState<ProfileFormData>({
         profilePicture: {
             url: "/nobita.png"
@@ -73,7 +83,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
         bio: "It is a long established fact that a reader will be distracted by the readable content.",
         interestedIn: "woman",
         sexualOrientation: "heterosexual",
-        hobbies: ["football", "exercising", "art"],
+        hobbies: ["football", "exercising", "cycling"],
         socialLinks: [
             { id: 1, platform: "facebook", username: "Socialmedia/username" },
             { id: 2, platform: "instagram", username: "Socialmedia/username" },
@@ -125,25 +135,16 @@ export const EditProfile = ({ backHref = "/home" }) => {
         // TODO: Call API to remove social link
     };
 
-    const handleAddSocialLink = () => {
-        console.log("Add social link");
-        // TODO: Show modal to add new social link
-    };
-
-    const handleSave = () => {
-        console.log("Save profile:", formData);
-        // TODO: Call API to save profile data
-    };
 
 
     return (
         <main className="min-h-screen ">
             {/* Header */}
-            <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-gray-200">
+            <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
 
-                <Link href={backHref} aria-label="Back" className="rounded-full">
+                <button onClick={() => router.back()} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
-                </Link>
+                </button>
 
                 <h1 className="text-[24px] font-bold leading-[36px]">Edit Profile</h1>
             </div>
@@ -207,7 +208,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                     </div>
 
                     <div
-                        className="w-full border border-gray-300  rounded-lg p-3 text-[14px] focus:outline-none"
+                        className="w-full border border-neutral-400  rounded-lg p-3 text-[14px] focus:outline-none"
                     >
                         {formData.bio || ""}
                     </div>
@@ -226,9 +227,9 @@ export const EditProfile = ({ backHref = "/home" }) => {
                         </Link>
                     </div>
                     <div
-                        className="w-full border border-gray-300 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
+                        className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
                     >
-                        <span className="py-[14px] px-4 rounded-[200px] border h-[32px] border-[#33333333] inline-flex justify-center items-center">
+                        <span className="py-[14px] px-4 rounded-[200px] border border-capsule-border bg-capsule h-[32px] inline-flex justify-center items-center">
                             {formData.interestedIn || ""}
                         </span>
 
@@ -247,9 +248,9 @@ export const EditProfile = ({ backHref = "/home" }) => {
                         </Link>
                     </div>
                     <div
-                        className="w-full border border-gray-300 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
+                        className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none"
                     >
-                        <span className="py-[14px] px-4 rounded-[200px] border h-[32px] border-[#33333333] inline-flex justify-center items-center">
+                        <span className="py-[14px] px-4 rounded-[200px] border border-capsule-border bg-capsule h-[32px] inline-flex justify-center items-center">
                             {formData.sexualOrientation || ""}
                         </span>
 
@@ -266,7 +267,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                             </button>
                         </Link>
                     </div>
-                    <div className="w-full border border-gray-300 rounded-lg p-3 text-[14px] focus:outline-none">
+                    <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
                         <div className="flex gap-2 overflow-x-auto whitespace-nowrap no-scrollbar">
                             {formData.hobbies.length > 0 ? (
                                 formData.hobbies.map(hobbyKey => {
@@ -274,9 +275,15 @@ export const EditProfile = ({ backHref = "/home" }) => {
                                     return (
                                         <span
                                             key={hobbyKey}
-                                            className="px-4 py-[6px] rounded-full border border-[#33333333] inline-flex items-center gap-2"
+                                            className="px-4 py-[6px] rounded-full border border-capsule-border bg-capsule inline-flex items-center gap-2"
                                         >
-                                            <span>{hobby?.emoji}</span>
+                                            <Image
+                                                src={hobby?.emoji}
+                                                alt={`Picture ${hobby?.label}`}
+                                                height={20}
+                                                width={20}
+                                                className=" object-cover h-5 w-5"
+                                            />
                                             <span>{hobby?.label}</span>
                                         </span>
                                     );
@@ -301,7 +308,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                     </div>
                     <div className="space-y-3">
                         {formData.socialLinks.map(link => (
-                            <div key={link.id} className="flex items-center gap-3 bg-white border border-gray-300 rounded-lg p-3">
+                            <div key={link.id} className="flex items-center gap-3  border border-neutral-400 rounded-lg p-3">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center '
                                     }`}>
                                     {link.platform === 'facebook' ? (
@@ -322,10 +329,10 @@ export const EditProfile = ({ backHref = "/home" }) => {
                                         />
                                     )}
                                 </div>
-                                <span className="flex-1 text-[14px] text-gray-700">{link.username}</span>
+                                <span className="flex-1 text-[14px]">{link.username}</span>
                                 <button
                                     onClick={() => handleSocialLinkRemove(link.id)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className=" hover:text-gray-600"
                                 >
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                         <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -335,7 +342,7 @@ export const EditProfile = ({ backHref = "/home" }) => {
                         ))}
                         <Link href='/edit-profile/social-accounts'>
                             <button
-                                className="w-full p-4 bg-neutral-200 h-[52px]  rounded-lg py-3 text-[14px] text-gray-500 flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer"
+                                className="w-full p-4 bg-capsule h-[52px]  rounded-lg py-3 text-[14px]  flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer"
                             >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path d="M10 5V15M5 10H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

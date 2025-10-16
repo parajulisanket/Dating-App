@@ -91,17 +91,33 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --border-button: #e8e8e8;
+  --roundSection: #f92fa233;
+  --capsule-border: rgba(51, 51, 51, 0.2);
+  --non-selective-capsule: white/30;
 }
 
 /* Dark overrides */
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #1f1f1f;
   --background-footer: #161616;
   --background-search: #ffffff1a;
   --backround-search: var(--background-search);
   --border: oklch(1 0 0 / 10%);
+  --backround-search: #ffffff1a;
+  --border-button: #ffffff26;
+  --roundSection: #ffffff1a;
+  --capsule: #ffffff1a;
+  --capsule-border: #ffffff66;
+
+  --colors-primary-100: #ffffff1a;
+  --colors-primary-200: #ffffff33;
+  --colors-primary-500: #ffffff66;
+  --non-selective-capsule: white/30;
 
   --colors-neutral-100: #1a1a1a;
+  --color-neutral-200: #ffffff26;
   --colors-neutral-1000: #ffffff;
 
   --foreground: oklch(0.985 0 0);
@@ -152,6 +168,13 @@
   --color-border-dark: var(--border);
 
   /* Primary */
+  --color-search: var(--backround-search);
+  --color-border-dark: var(--border);
+  --color-borderButton: var(--border-button);
+  --color-roundSection: var(--roundSection);
+  --color-capsule: var(--capsule);
+  --color-capsule-border: var(--capsule-border);
+  /* Primary Colors */
   --color-primary-100: var(--colors-primary-100);
   --color-primary-200: var(--colors-primary-200);
   --color-primary-300: var(--colors-primary-300);
@@ -243,7 +266,19 @@ body {
   } /* frame color on desktop/tablet */
 }
 
-/* Single, canonical scrollbar hider */
+* {
+  scroll-behavior: smooth;
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -310,7 +345,7 @@ body {
   }
 
   .footer-shell {
-    @apply sticky bottom-0 z-[100] flex items-center justify-between bg-white backdrop-blur px-3 pb-6 pt-2;
+    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6;
   }
 
   .pill {
@@ -319,6 +354,7 @@ body {
 
   .pill--active {
     @apply text-white rounded-full border-[1.5px] border-transparent;
+
     background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
         padding-box,
       linear-gradient(135deg, #eb97f3, #fbcfef) border-box;
@@ -404,10 +440,30 @@ body {
 }
 
 /* Tailwind base hook to theme defaults */
+/* background:
+      var(--gb-fill, linear-gradient(126.64deg, #CA2CFF 0%, #F92FA2 120.26%)) padding-box,
+      var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%)) border-box;
+  }
+} */
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.input {
+  @apply w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[16px] placeholder:text-neutral-300 focus:outline-none focus:border focus:border-primary-500 focus:bg-primary-500/10;
+}
+
+.textarea {
+  @apply w-full rounded-2xl border border-neutral-300 px-5 py-2 pr-12 text-[14px] resize-none focus:outline-none placeholder:text-neutral-300 focus:border focus:border-primary-500 focus:bg-primary-500/10;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -425,4 +481,28 @@ body {
            focus:ring-offset-0 focus-visible:outline-none
            focus:bg-[#F92FA2]/10;
   }
+}
+
+.more-swipes {
+  /* background: linear-gradient(130.89deg, #A500DD 4.3%, #D557FF 97.77%);
+  border: linear-gradient(101.58deg, #7E7E7E 5.24%, #C8C8C8 94.06%); */
+
+  @apply border-[1px] border-transparent;
+  background: linear-gradient(130.89deg, #a500dd 4.3%, #d557ff 97.77%)
+      padding-box,
+    linear-gradient(101.58deg, #d17eee 5.24%, #f6daff 94.06%) border-box;
+}
+
+.view-profile {
+  @apply border-[1px] border-transparent;
+  background: linear-gradient(130.89deg, #f6812e 4.3%, #ffb84c 97.77%)
+      padding-box,
+    linear-gradient(101.58deg, #f4ba92 5.24%, #f4ba92 94.06%) border-box;
+}
+
+.boost-profile {
+  @apply border-[1px] border-transparent;
+  background: linear-gradient(130.89deg, #7b2ff7 4.3%, #a26ff5 97.77%)
+      padding-box,
+    linear-gradient(101.58deg, #bc96fb 4.3%, #a26ff5 94.06%) padding-box;
 }

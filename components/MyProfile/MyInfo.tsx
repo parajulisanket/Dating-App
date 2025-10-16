@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Link from "next/link";
-import GlobeIcon from "@/assets/globe.svg";
 
 // Types
 interface RelationshipOption {
@@ -220,13 +219,13 @@ export const MyInfo = () => {
   ];
 
   return (
-    <main className="flex flex-col gap-[24px]">
+    <main className="flex flex-col gap-[24px] ">
       {/* Profile Info Section */}
-      <div className="p-4 border-y border-gray-300">
+      <div className="p-4  ">
         <div className="w-full h-full flex flex-col  ">
           {!profileData.isVerified && (
             <Link href="/verification">
-              <div className="flex gap-2  flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4 border border-solid [border-image-source:linear-gradient(137.38deg,#00E6FF_-4.64%,#00AAFF_104.24%)] ">
+              <div className="flex gap-2  flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4  ">
                 <div className="text-[16px] leading-[20px] font-semibold">
                   Verify Account
                 </div>
@@ -352,7 +351,7 @@ export const MyInfo = () => {
           {profileData.aboutMe.map((item, index) => (
             <div
               key={index}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px]"
+              className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
             >
               {item.value}
             </div>
@@ -367,7 +366,7 @@ export const MyInfo = () => {
         </h1>
         <div className="flex flex-wrap gap-2">
           {profileData.lookingFor.relationshipType && (
-            <div className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2">
+            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
               <span>
                 {
                   getRelationshipType(profileData.lookingFor.relationshipType)
@@ -383,7 +382,7 @@ export const MyInfo = () => {
             </div>
           )}
           {profileData.lookingFor.genderPreference && (
-            <div className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px]">
+            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
               {profileData.lookingFor.genderPreference}
             </div>
           )}
@@ -401,7 +400,7 @@ export const MyInfo = () => {
             return hobby ? (
               <div
                 key={hobbyKey}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2"
+                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
               >
                 <span>{hobby.emoji}</span>
                 <span>{hobby.label}</span>
@@ -423,7 +422,7 @@ export const MyInfo = () => {
               return details ? (
                 <div
                   key={categoryKey}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2"
+                  className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                 >
                   <span>{details.icon}</span>
                   <span>{details.label}</span>

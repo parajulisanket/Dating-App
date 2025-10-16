@@ -1,8 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { ChevronLeft } from "lucide-react";
-import Image from 'next/image';
-import icons from '@/assets/icons/icons';
 export const ActivityLog = () => {
     return (
         <>

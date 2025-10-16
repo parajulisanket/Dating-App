@@ -48,7 +48,7 @@ export default function MessageFIlter({
             role="tablist"
             aria-label="Messages filter"
             className={[
-                "flex items-center gap-2 pt-3 px-6 pb-2 border-b border-[#E8E8E8]",
+                "flex items-center gap-2 pt-3 px-6 pb-2 border-b border-borderButton",
                 className,
             ].join(" ")}
         >

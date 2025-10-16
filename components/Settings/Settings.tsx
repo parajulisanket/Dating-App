@@ -44,7 +44,7 @@ export const Settings = () => {
         return (
             <main className="min-h-screen relative">
                 {/* Simplified loading structure */}
-                <div className="border-b border-neutral-200">
+                <div className="border-b border-neutral-200 ">
                     <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
                         {/* Loading skeleton */}
                     </div>
@@ -126,7 +126,7 @@ export const Settings = () => {
     return (
         <main className="min-h-screen relative ">
             {/* Header */}
-            <div className="border-b border-neutral-200">
+            <div className="border-b border-borderButton ">
                 <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
                     <Link href='/profile' aria-label="Back" className="rounded-full">
@@ -139,9 +139,9 @@ export const Settings = () => {
 
 
 
-            <div className="">
+            <div className="pt-4">
                 {/* User Profile Card */}
-                <div className="px-4 pb-4"><div className="bg-[#fee9f5] rounded-2xl p-4 flex items-center gap-3 border-[1px] border-[#F92FA233]">
+                <div className="px-4 pb-4"><div className="bg-primary-100 rounded-2xl p-4 flex items-center gap-3 border-[1px] border-roundSection">
                     <Image
                         src={userProfile.profileImage}
                         alt={userProfile.name}
@@ -165,10 +165,10 @@ export const Settings = () => {
 
 
                 {/* Settings Menu Items */}
-                <div className="px-4 border-y border-neutral-200">
-                    <div className="size-[52px] w-full  flex items-center    ">
+                <div className="px-4 mb-1">
+                    <div className="size-[52px]  w-full  flex items-center  px-4 rounded-[16px]  bg-neutral-1000/5 ">
                         <div className="flex justify-between items-center w-full cursor-pointer">
-                            <div className="flex items-center gap-3 bg-background">
+                            <div className="flex items-center gap-3 ">
                                 <Image
                                     src={icons.darkmode}
                                     alt="Dark mode icon"
@@ -176,7 +176,7 @@ export const Settings = () => {
                                     height={20}
                                     className="w-5 h-5"
                                 />
-                                <h3 className="text-[16px] font-bold text-gray-900 leading-tight">
+                                <h3 className="text-[16px] font-bold  leading-tight">
                                     Dark Mode
                                 </h3>
 
@@ -202,14 +202,14 @@ export const Settings = () => {
                 </div>
 
 
-                <div className=" px-4  ">
+                <div className=" px-4 space-y-1  ">
                     {menuItems.map((item) => (
                         <button
                             key={item.id}
                             onClick={() => handleMenuItemClick(item.route)}
-                            className="w-full flex items-start gap-4 py-4  rounded-xl  hover:bg-gray-50 transition-colors text-left cursor-pointer"
+                            className="w-full flex items-start gap-4 p-4  rounded-[16px]  bg-neutral-1000/5 transition-colors text-left cursor-pointer"
                         >
-                            <div className="pt-1">
+                            <div className="pt-1 ">
                                 <Image
                                     src={item.icon}
                                     alt={item.title}
@@ -220,10 +220,10 @@ export const Settings = () => {
                             </div>
 
                             <div className="flex-1">
-                                <h3 className="text-[16px] font-bold text-gray-900 mb-1 leading-tight">
+                                <h3 className="text-[16px] font-bold  mb-1 leading-tight">
                                     {item.title}
                                 </h3>
-                                <p className="text-[12px] text-gray-500 leading-[18px]">
+                                <p className="text-[12px] text-neutral-700 leading-[18px]">
                                     {item.description}
                                 </p>
                             </div>

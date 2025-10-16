@@ -4,7 +4,7 @@ import * as React from "react";
 
 type TabKey = "all" | "unread" | "archived";
 
-export default function MessageFIlter({
+export default function MessageFilter({
   defaultValue = "all",
   onChange,
   className = "",

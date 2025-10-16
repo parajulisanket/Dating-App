@@ -254,8 +254,10 @@
 html,
 body {
   height: 100%;
-  overflow: hidden; /* lock global scroll */
-  overscroll-behavior: none; /* no rubber-banding */
+  overflow: hidden;
+  /* lock global scroll */
+  overscroll-behavior: none;
+  /* no rubber-banding */
   -webkit-text-size-adjust: 100%;
   font-family: var(--font-geist-sans);
 }
@@ -263,7 +265,9 @@ body {
 @media (min-width: 451px) {
   body {
     background: #e9aecf;
-  } /* frame color on desktop/tablet */
+  }
+
+  /* frame color on desktop/tablet */
 }
 
 * {
@@ -282,6 +286,7 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -300,21 +305,27 @@ body {
 .btn {
   @apply inline-flex w-full h-12 items-center justify-center rounded-full text-base font-semibold duration-200 active:scale-95 select-none;
 }
+
 .btn:focus-visible {
   @apply outline-none ring-2 ring-pink-500/40;
 }
+
 .btn:disabled {
   @apply opacity-50 pointer-events-none;
 }
+
 .btn-signup {
   @apply bg-[#F92FA2] font-medium text-white;
 }
+
 .btn-login {
   @apply bg-[#6D4AFF] font-medium text-white;
 }
+
 .btn-sm {
   @apply h-10 text-sm;
 }
+
 .btn-lg {
   @apply h-14 text-lg;
 }
@@ -323,9 +334,11 @@ body {
 .title {
   @apply text-3xl text-[#F92FA2] font-semibold;
 }
+
 .footer-icon {
   @apply bg-gradient-to-r from-[#F92FA2] to-[#CA2CFF];
 }
+
 .btn-userprofile {
   @apply text-[16px] bg-[#F92FA2] text-white font-bold py-4 rounded-full;
 }
@@ -355,8 +368,7 @@ body {
   .pill--active {
     @apply text-white rounded-full border-[1.5px] border-transparent;
 
-    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
-        padding-box,
+    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%) padding-box,
       linear-gradient(135deg, #eb97f3, #fbcfef) border-box;
   }
 
@@ -377,9 +389,11 @@ body {
 .btn-logout {
   background: linear-gradient(308.64deg, #f92fa2 0%, #ca2cff 120.26%);
 }
+
 .btn-close {
   background: linear-gradient(308.64deg, #f92fa2 0%, #ca2cff 120.26%);
 }
+
 .btn-edit {
   @apply text-primary-500 font-bold text-[16px] pr-2 cursor-pointer;
 }
@@ -387,20 +401,15 @@ body {
 @layer utilities {
   .gradient-border-126 {
     border: var(--gb-width, 1.5px) solid transparent;
-    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
-        padding-box,
+    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%) padding-box,
       linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%) border-box;
   }
 
   .gradient-border {
     border: var(--gb-width, 1.5px) solid transparent;
-    background: var(
-          --gb-fill,
-          linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
-        )
-        padding-box,
-      var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%))
-        border-box;
+    background: var(--gb-fill,
+        linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)) padding-box,
+      var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%)) border-box;
   }
 
   /* ======= Reusable Phone Layout ======= */
@@ -411,15 +420,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* no global scroll */
-    background: #e9aecf; /* same as body >=451px */
+    overflow: hidden;
+    /* no global scroll */
+    background: #e9aecf;
+    /* same as body >=451px */
   }
 
   /* Inner canvas with fixed max width, stable height, safe-area padding, no scroll */
   .phone-canvas {
     width: 100%;
     max-width: var(--phone-max-w, 425px);
-    height: 100svh; /* stable mobile viewport */
+    height: 100svh;
+    /* stable mobile viewport */
     background: var(--background, #fff);
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -472,14 +484,9 @@ body {
 /* for every input field and focus */
 @layer components {
   .input {
-    @apply w-full h-12 rounded-2xl px-5 text-[16px] 
-           placeholder:text-neutral-400 bg-white
-           border border-neutral-300
-           outline-none ring-0;
+    @apply w-full h-12 rounded-2xl px-5 text-[16px] placeholder:text-neutral-400 bg-white border border-neutral-300 outline-none ring-0;
 
-    @apply focus:border focus:border-[#F92FA2] focus:ring-inset
-           focus:ring-offset-0 focus-visible:outline-none
-           focus:bg-[#F92FA2]/10;
+    @apply focus:border focus:border-[#F92FA2] focus:ring-inset focus:ring-offset-0 focus-visible:outline-none focus:bg-[#F92FA2]/10;
   }
 }
 
@@ -488,21 +495,18 @@ body {
   border: linear-gradient(101.58deg, #7E7E7E 5.24%, #C8C8C8 94.06%); */
 
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #a500dd 4.3%, #d557ff 97.77%)
-      padding-box,
+  background: linear-gradient(130.89deg, #a500dd 4.3%, #d557ff 97.77%) padding-box,
     linear-gradient(101.58deg, #d17eee 5.24%, #f6daff 94.06%) border-box;
 }
 
 .view-profile {
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #f6812e 4.3%, #ffb84c 97.77%)
-      padding-box,
+  background: linear-gradient(130.89deg, #f6812e 4.3%, #ffb84c 97.77%) padding-box,
     linear-gradient(101.58deg, #f4ba92 5.24%, #f4ba92 94.06%) border-box;
 }
 
 .boost-profile {
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #7b2ff7 4.3%, #a26ff5 97.77%)
-      padding-box,
+  background: linear-gradient(130.89deg, #7b2ff7 4.3%, #a26ff5 97.77%) padding-box,
     linear-gradient(101.58deg, #bc96fb 4.3%, #a26ff5 94.06%) padding-box;
 }

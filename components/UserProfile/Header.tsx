@@ -13,13 +13,7 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
     return (
         <>
             <header
-                className={cn(
-                    "sticky top-0 z-40 flex items-center justify-between",
-                    "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 mt-2",
-                    "px-6 h-[40px]",
-
-                )}
-            >
+                className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton " >
                 {/* Left: Back button + title */}
                 <div className="flex items-center gap-3 text-[#F92FA2]">
                     <Link href='/home' aria-label="Back" className="rounded-full">

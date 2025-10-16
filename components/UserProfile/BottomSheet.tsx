@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import BlockUserDialog from "./BlockUserDialog";
+import { useTheme } from "next-themes";
 
 interface BottomSheetMenuProps {
     isOpen: boolean;
@@ -24,7 +25,7 @@ export const BottomSheetMenu = ({
     userImage,
     isVerified
 }: BottomSheetMenuProps) => {
-
+    const { theme } = useTheme()
     const [isBlockActive, setIsBlockActive] = useState(false);
     const handleBlock = () => {
         console.log("Block user");
@@ -63,10 +64,10 @@ export const BottomSheetMenu = ({
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 h-[306px] w-[425px] mx-auto "
+                        className="fixed bottom-0 left-0 right-0 bg-background rounded-t-3xl z-50 h-[306px] w-[425px] mx-auto "
                     >
                         {/* User Info Header */}
-                        <div className="bg-[#fee9f5] rounded-3xl border border-[#F92FA233] p-4 mx-4 mt-4 flex items-center gap-3 ">
+                        <div className=" rounded-3xl bg-primary-100 border border-primary-200 p-4 mx-4 mt-4 flex items-center gap-3 ">
                             <Image
                                 src='/profile1.jpg'
                                 alt={userName}
@@ -92,7 +93,7 @@ export const BottomSheetMenu = ({
                         <div className="px-4 py-4 space-y-1">
                             <button
                                 onClick={handleBlock}
-                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-4 py-3  rounded-lg transition-colors text-left"
                             >
                                 <Image
                                     src='/icons/block.svg'
@@ -100,12 +101,12 @@ export const BottomSheetMenu = ({
                                     height={24}
                                     width={24}
                                 />
-                                <span className="text-[16px] text-gray-900">Block</span>
+                                <span className="text-[16px] ">Block</span>
                             </button>
 
                             <button
                                 onClick={handleMuteNotifications}
-                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-4 py-3  rounded-lg transition-colors text-left"
                             >
                                 <Image
                                     src='/icons/mute.svg'
@@ -113,12 +114,12 @@ export const BottomSheetMenu = ({
                                     height={24}
                                     width={24}
                                 />
-                                <span className="text-[16px] text-gray-900">Mute Notifications</span>
+                                <span className="text-[16px] ">Mute Notifications</span>
                             </button>
 
                             <button
                                 onClick={handleReport}
-                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left"
                             >
                                 <Image
                                     src='/icons/reportIcon.svg'
@@ -126,7 +127,7 @@ export const BottomSheetMenu = ({
                                     height={24}
                                     width={24}
                                 />
-                                <span className="text-[16px] text-gray-900">Report</span>
+                                <span className="text-[16px] ">Report</span>
                             </button>
                         </div>
                     </motion.div>

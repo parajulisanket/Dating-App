@@ -224,7 +224,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
     return (
         <main className="flex flex-col gap-[24px]">
             {/* Profile Info Section */}
-            <div className="p-4 border-y border-gray-200">
+            <div className="p-4 ">
                 <div className="w-full h-full flex flex-col">
                     {/* Profile Header */}
                     <div className="flex h-[80px] gap-4">
@@ -338,7 +338,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                     {profileData.aboutMe.map((item, index) => (
                         <div
                             key={index}
-                            className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px]"
+                            className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
                         >
                             {item.value}
                         </div>
@@ -351,13 +351,13 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                 <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">I'm Looking for</h1>
                 <div className="flex flex-wrap gap-2">
                     {profileData.lookingFor.relationshipType && (
-                        <div className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2">
+                        <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
                             <span>{getRelationshipType(profileData.lookingFor.relationshipType)?.emoji}</span>
                             <span>{getRelationshipType(profileData.lookingFor.relationshipType)?.label}</span>
                         </div>
                     )}
                     {profileData.lookingFor.genderPreference && (
-                        <div className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px]">
+                        <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
                             {profileData.lookingFor.genderPreference}
                         </div>
                     )}
@@ -373,7 +373,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                         return hobby ? (
                             <div
                                 key={hobbyKey}
-                                className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2"
+                                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                             >
                                 <span>{hobby.emoji}</span>
                                 <span>{hobby.label}</span>
@@ -392,7 +392,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                         return details ? (
                             <div
                                 key={categoryKey}
-                                className="px-4 py-2 bg-white border border-gray-300 rounded-full text-[14px] flex items-center gap-2"
+                                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                             >
                                 <span>{details.icon}</span>
                                 <span>{details.label}</span>

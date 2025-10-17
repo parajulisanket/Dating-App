@@ -11,34 +11,28 @@ interface RelationshipOption {
   label: string;
   emoji: string;
 }
-
 interface Hobby {
   key: string;
   label: string;
   emoji: string;
 }
-
 interface LifestyleOption {
   key: string;
   label: string;
 }
-
 interface LifestyleCategory {
   key: string;
   icon: string;
   title: string;
   options: LifestyleOption[];
 }
-
 interface AboutMeItem {
   value: string;
 }
-
 interface LookingFor {
   relationshipType: string;
   genderPreference: string;
 }
-
 interface LifestyleData {
   drink: string;
   smoke: string;
@@ -46,7 +40,6 @@ interface LifestyleData {
   travel: string;
   pets: string;
 }
-
 interface ProfileData {
   name: string;
   age: number;
@@ -60,14 +53,13 @@ interface ProfileData {
   hobbies: string[];
   lifestyle: LifestyleData;
 }
-
 interface ImageData {
   id: number;
   src: string;
   alt: string;
 }
 
-// Constants - Frontend maintains all emojis and labels
+// Constants
 const RELATIONSHIP_OPTIONS: RelationshipOption[] = [
   { key: "serious", label: "Serious Relationship", emoji: "💕" },
   { key: "casual", label: "Casual Dating", emoji: "😊" },
@@ -160,29 +152,19 @@ const LIFESTYLE: LifestyleCategory[] = [
   },
 ];
 
-// Helper functions to get emoji and labels from keys
-const getRelationshipType = (key: string): RelationshipOption | undefined => {
-  return RELATIONSHIP_OPTIONS.find((option) => option.key === key);
-};
-
-const getHobbyDetails = (key: string): Hobby | undefined => {
-  return HOBBIES.find((hobby) => hobby.key === key);
-};
-
-const getLifestyleDetails = (
-  categoryKey: string,
-  optionKey: string
-): { icon: string; label: string } | null => {
-  const category = LIFESTYLE.find((item) => item.key === categoryKey);
+// Helpers
+const getRelationshipType = (key: string) =>
+  RELATIONSHIP_OPTIONS.find((o) => o.key === key);
+const getHobbyDetails = (key: string) => HOBBIES.find((h) => h.key === key);
+const getLifestyleDetails = (categoryKey: string, optionKey: string) => {
+  const category = LIFESTYLE.find((c) => c.key === categoryKey);
   if (!category) return null;
-
-  const option = category.options.find((opt) => opt.key === optionKey);
+  const option = category.options.find((o) => o.key === optionKey);
   return option ? { icon: category.icon, label: option.label } : null;
 };
 
 export const MyInfo = () => {
-  // Demo profile data - will be replaced with API data
-  // Backend will only send keys/values, emojis are maintained on frontend
+  // demo data
   const profileData: ProfileData = {
     name: "Anup",
     age: 23,
@@ -198,13 +180,10 @@ export const MyInfo = () => {
       { value: "At University" },
       { value: "5'7\"" },
     ],
-    lookingFor: {
-      relationshipType: "serious", // Backend sends only the key
-      genderPreference: "Woman",
-    },
-    hobbies: ["football", "exercising", "art"], // Backend sends only keys
+    lookingFor: { relationshipType: "serious", genderPreference: "Woman" },
+    hobbies: ["football", "exercising", "art"],
     lifestyle: {
-      drink: "never", // Backend sends only keys
+      drink: "never",
       smoke: "never",
       diet: "nonveg",
       travel: "love_exploring",
@@ -218,14 +197,27 @@ export const MyInfo = () => {
     { id: 3, src: "/profile3.jpg", alt: "profile3" },
   ];
 
+  // If header/footer sizes differ, update these:
+  const HEADER_H = 48;
+  const FOOTER_H = 64;
+  const containerHeight = `calc(90svh - ${HEADER_H + FOOTER_H}px)`;
+
   return (
-    <main className="flex flex-col gap-[24px] ">
-      {/* Profile Info Section */}
-      <div className="p-4  ">
-        <div className="w-full h-full flex flex-col  ">
+    // Self-contained scroll container
+    <div
+      className=""
+      style={{
+        height: containerHeight,
+        WebkitOverflowScrolling: "touch",
+        overscrollBehaviorY: "contain",
+      }}
+    >
+      {/* Profile Info */}
+      <div className="p-4">
+        <div className="w-full flex flex-col">
           {!profileData.isVerified && (
             <Link href="/verification">
-              <div className="flex gap-2  flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4  ">
+              <div className="flex gap-2 flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4">
                 <div className="text-[16px] leading-[20px] font-semibold">
                   Verify Account
                 </div>
@@ -236,7 +228,8 @@ export const MyInfo = () => {
               </div>
             </Link>
           )}
-          {/* Profile Header */}
+
+          {/* Header row */}
           <div className="flex h-[80px] gap-4">
             <Image
               src={profileData.profileImage}
@@ -245,8 +238,7 @@ export const MyInfo = () => {
               height={80}
               className="cursor-pointer rounded-full object-cover h-[80px] w-[80px]"
             />
-
-            <div className="flex flex-col h-[57px] ">
+            <div className="flex flex-col h-[57px]">
               <div className="flex gap-2 items-center text-[#f9209b] text-[24px] font-bold leading-[36px]">
                 <h1>
                   {profileData.name}, {profileData.age}
@@ -257,7 +249,7 @@ export const MyInfo = () => {
                     alt="verified"
                     width={24}
                     height={24}
-                    className="cursor-pointer rounded-full object-cover h-6 w-6"
+                    className="h-6 w-6"
                   />
                 )}
               </div>
@@ -281,34 +273,30 @@ export const MyInfo = () => {
             <p>{profileData.bio}</p>
           </div>
 
-          {/* Action Buttons */}
+          {/* Actions */}
           <div className="flex gap-2">
-            {/* Add Story Button */}
             <button
               onClick={() => console.log("Add Story clicked")}
-              className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95 cursor-pointer"
+              className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95"
             >
               <Image
                 src="/icons/addStory.svg"
                 alt="Add Story"
                 width={136}
                 height={52}
-                className="select-none"
               />
             </button>
 
-            {/* Edit Button */}
             <Link href="/edit-profile">
               <button
                 onClick={() => console.log("Edit clicked")}
-                className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95 cursor-pointer"
+                className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95"
               >
                 <Image
                   src="/icons/edit.svg"
                   alt="Edit"
                   width={52}
                   height={52}
-                  className="select-none"
                 />
               </button>
             </Link>
@@ -316,13 +304,10 @@ export const MyInfo = () => {
         </div>
       </div>
 
-      {/* Image Gallery Section */}
+      {/* Images */}
       <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
-          My Images
-        </h1>
-
-        <Swiper spaceBetween={5} slidesPerView={"auto"} className="">
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">My Images</h1>
+        <Swiper spaceBetween={5} slidesPerView={"auto"}>
           {images.map((image) => (
             <SwiperSlide
               key={image.id}
@@ -342,11 +327,9 @@ export const MyInfo = () => {
         </Swiper>
       </div>
 
-      {/* About Me Section */}
+      {/* About Me */}
       <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
-          About Me
-        </h1>
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">About Me</h1>
         <div className="flex flex-wrap gap-2">
           {profileData.aboutMe.map((item, index) => (
             <div
@@ -359,9 +342,9 @@ export const MyInfo = () => {
         </div>
       </div>
 
-      {/* I'm Looking for Section */}
+      {/* Looking For */}
       <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
           I'm Looking for
         </h1>
         <div className="flex flex-wrap gap-2">
@@ -389,9 +372,9 @@ export const MyInfo = () => {
         </div>
       </div>
 
-      {/* My Hobbies Section */}
+      {/* Hobbies */}
       <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
           My Hobbies
         </h1>
         <div className="flex flex-wrap gap-2">
@@ -410,9 +393,9 @@ export const MyInfo = () => {
         </div>
       </div>
 
-      {/* My Lifestyle Section */}
-      <div className="px-4 ">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+      {/* Lifestyle */}
+      <div className="px-4">
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
           My Lifestyle
         </h1>
         <div className="flex flex-wrap gap-2">
@@ -433,8 +416,9 @@ export const MyInfo = () => {
         </div>
       </div>
 
-      <div className="px-4 pb-4 ">
-        <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+      {/* Social */}
+      <div className="px-4 pb-4">
+        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
           My Social Accounts
         </h1>
         <div className="flex gap-2">
@@ -454,6 +438,6 @@ export const MyInfo = () => {
           />
         </div>
       </div>
-    </main>
+    </div>
   );
 };

@@ -62,6 +62,38 @@ const DATA: Match[] = [
     image: "/images/Shristima.jpg",
     verified: true,
   },
+  {
+    id: "7",
+    name: "Ariana",
+    age: 28,
+    distanceKm: 3.2,
+    image: "/images/Shristima.jpg",
+    verified: true,
+  },
+  {
+    id: "8",
+    name: "Ariana",
+    age: 28,
+    distanceKm: 3.2,
+    image: "/images/Shristima.jpg",
+    verified: true,
+  },
+  {
+    id: "9",
+    name: "Ariana",
+    age: 28,
+    distanceKm: 3.2,
+    image: "/images/Shristima.jpg",
+    verified: true,
+  },
+  {
+    id: "10",
+    name: "Ariana",
+    age: 28,
+    distanceKm: 3.2,
+    image: "/images/Shristima.jpg",
+    verified: true,
+  },
 ];
 
 export default function MatchListings() {

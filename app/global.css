@@ -482,13 +482,13 @@ body {
 }
 
 /* for every input field and focus */
-@layer components {
+/* @layer components {
   .input {
     @apply w-full h-12 rounded-2xl px-5 text-[16px] placeholder:text-neutral-400 bg-white border border-neutral-300 outline-none ring-0;
 
     @apply focus:border focus:border-[#F92FA2] focus:ring-inset focus:ring-offset-0 focus-visible:outline-none focus:bg-[#F92FA2]/10;
   }
-}
+} */
 
 .more-swipes {
   /* background: linear-gradient(130.89deg, #A500DD 4.3%, #D557FF 97.77%);

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 // Types for backend integration
 interface ReportData {
     reportedUserId: string;
@@ -20,6 +22,8 @@ const REPORT_REASONS = [
 ];
 
 export const ReportUser = () => {
+    const router = useRouter();
+    const { theme } = useTheme()
     const [selectedReason, setSelectedReason] = useState<string>("");
     const [additionalDetails, setAdditionalDetails] = useState<string>("");
 
@@ -49,11 +53,12 @@ export const ReportUser = () => {
 
     const handleCancel = () => {
         console.log("Cancel report");
-        // TODO: Close modal or navigate back
+        router.back()
+
     };
 
     return (
-        <main className="min-h-screen bg-white flex flex-col items-center px-6 py-8">
+        <main className="min-h-screen  flex flex-col items-center px-6 py-8">
             {/* Icon and Header */}
             <div className=" mb-8 flex-col flex items-center ">
                 <Image
@@ -63,16 +68,16 @@ export const ReportUser = () => {
                     width={120}
                     className="h-[120px] w-[120px]"
                 />
-                <h1 className="text-[24px] font-bold text-gray-900 mb-2">Report User</h1>
-                <p className="text-[14px] text-gray-500">Help us keep the community safe.</p>
+                <h1 className="text-[24px] font-bold  mb-2">Report User</h1>
+                <p className={`text-[14px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'}`}>Help us keep the community safe.</p>
             </div>
 
             {/* Report Reasons Section */}
             <div className="w-full max-w-md mb-6">
-                <h2 className="text-[16px] font-bold text-gray-900 mb-2 leading-[20px]">
+                <h2 className="text-[16px] font-bold  mb-2 leading-[20px]">
                     Why are you reporting this profile?
                 </h2>
-                <p className="text-[12px] text-gray-500 mb-4">Select an option</p>
+                <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} mb-4`}>Select an option</p>
 
                 <div className="flex flex-wrap gap-2">
                     {REPORT_REASONS.map((reason) => (
@@ -80,8 +85,8 @@ export const ReportUser = () => {
                             key={reason.id}
                             onClick={() => handleReasonSelect(reason.id)}
                             className={`px-4 py-2 rounded-full text-[14px] border transition-all ${selectedReason === reason.id
-                                ? "bg-[#f9209b] text-white border-[#f9209b]"
-                                : "bg-white text-gray-700 border-gray-300 hover:border-[#f9209b]"
+                                ? "bg-primary-500/10 text-primary-500 border-primary-500/40"
+                                : "  border-neutral-200 text-neutral-1000"
                                 }`}
                         >
                             {reason.label}
@@ -92,14 +97,14 @@ export const ReportUser = () => {
 
             {/* Additional Details Section */}
             <div className="w-full max-w-md mb-6">
-                <h2 className="text-[16px] font-semibold text-gray-900 mb-3">
+                <h2 className="text-[16px] font-semibold  mb-3">
                     Additional Details
                 </h2>
                 <textarea
                     value={additionalDetails}
                     onChange={handleAdditionalDetailsChange}
                     placeholder="Tell us what happened...."
-                    className="w-full border border-gray-300 rounded-2xl p-4 text-[14px] min-h-[120px] focus:outline-none focus:border-[#f9209b] resize-none"
+                    className="min-h-[120px] textarea no-scrollbar"
                 />
             </div>
 

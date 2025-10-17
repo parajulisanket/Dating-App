@@ -42,7 +42,7 @@ export default function SignUpPhoneForm({
       if (s !== null && epos !== null) {
         try {
           el.setSelectionRange(s, epos);
-        } catch {}
+        } catch { }
       }
     });
   };

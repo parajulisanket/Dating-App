@@ -2,6 +2,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from 'next/image';
 import profile from '@/public/profile1.jpg';
+import { useState } from "react";
+import { useTheme } from "next-themes";
 
 interface BlockUserProps {
     isBlockActive: boolean;
@@ -9,6 +11,7 @@ interface BlockUserProps {
 }
 
 export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserProps) {
+    const { theme } = useTheme();
     const handleBlock = () => {
         console.log('User blocked');
         onClose();
@@ -39,7 +42,7 @@ export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserPro
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50  mx-auto w-[425px] h-[343px] p-4"
+                        className="fixed bottom-0 left-0 right-0 bg-background rounded-t-3xl z-50  mx-auto w-[425px] h-[343px] p-4"
                     >
                         <div className="z-50   mx-auto pb-4">
                             {/* Profile Image */}
@@ -56,12 +59,12 @@ export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserPro
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-2xl font-semibold text-center text-gray-900 mb-4">
+                            <h2 className="text-2xl font-semibold text-center  mb-4">
                                 Block Shreya
                             </h2>
 
                             {/* Description */}
-                            <p className="text-center text-gray-600 text-sm mb-8 leading-relaxed">
+                            <p className={`text-center ${theme === 'light' ? 'text-gray-600' : ""} text-sm mb-8 leading-relaxed`}>
                                 It is a long established fact that a reader will be distracted by the readable content
                             </p>
 

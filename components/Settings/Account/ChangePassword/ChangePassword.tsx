@@ -15,26 +15,7 @@ export const ChangePasswordComponent = () => {
     const currentPasswordRef = useRef<HTMLInputElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
-    useEffect(() => {
-        const handleResize = () => {
-            if (typeof window !== 'undefined' && window.visualViewport) {
-                const viewportHeight = window.visualViewport.height;
-                const windowHeight = window.innerHeight;
-                const kbHeight = windowHeight - viewportHeight;
-                setKeyboardHeight(kbHeight > 0 ? kbHeight : 0);
-            }
-        };
 
-        if (typeof window !== 'undefined' && window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleResize);
-            return () => {
-                if (window.visualViewport) {
-                    window.visualViewport.removeEventListener('resize', handleResize);
-                }
-            };
-        }
-    }, []);
     return (
         <>
             <main className='min-h-screen'>
@@ -116,9 +97,6 @@ export const ChangePasswordComponent = () => {
                 </div>
                 <div
                     className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
-                    style={{
-                        bottom: keyboardHeight > 0 ? `${keyboardHeight}px` : '0px',
-                    }}
                 >
                     <div className="max-w-[425px] mx-auto px-4 py-3 ">
                         <button

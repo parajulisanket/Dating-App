@@ -9,7 +9,7 @@ export default function HomePage() {
         <Header />
       </div>
 
-      <main className="flex-1 pb-20 pt-[50px]  ">
+      <main className="flex-1 pb-20 pt-[50px]  " >
         <MyInfo />
       </main>
 

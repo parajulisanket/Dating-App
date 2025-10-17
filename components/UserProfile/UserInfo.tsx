@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import Link from "next/link";
-import { profile } from "console";
+import emoji from "@/assets/emojis/emoji"
 
 // Types
 interface RelationshipOption {
@@ -77,20 +76,20 @@ const RELATIONSHIP_OPTIONS: RelationshipOption[] = [
 ];
 
 const HOBBIES: Hobby[] = [
-    { key: "football", label: "Football", emoji: "⚽" },
-    { key: "singing", label: "Singing", emoji: "🎤" },
-    { key: "reading", label: "Reading", emoji: "📖" },
-    { key: "acting", label: "Acting", emoji: "🕺" },
-    { key: "swimming", label: "Swimming", emoji: "🏊" },
-    { key: "cricket", label: "Cricket", emoji: "🏏" },
-    { key: "dancing", label: "Dancing", emoji: "💃" },
-    { key: "exercising", label: "Exercising", emoji: "💪" },
-    { key: "art", label: "Art", emoji: "🎨" },
-    { key: "boxing", label: "Boxing", emoji: "🥊" },
-    { key: "hiking", label: "Hiking", emoji: "🥾" },
-    { key: "meditation", label: "Meditation", emoji: "🧘" },
-    { key: "paragliding", label: "Paragliding", emoji: "🪂" },
-    { key: "cycling", label: "Cycling", emoji: "🚴" },
+    { key: "football", label: "Football", emoji: emoji.football },
+    { key: "exercising", label: "Exercising", emoji: emoji.exercising },
+    { key: "singing", label: "Singing", emoji: emoji.singing },
+    { key: "reading", label: "Reading", emoji: emoji.reading },
+    { key: "acting", label: "Acting", emoji: emoji.acting },
+    { key: "swimming", label: "Swimming", emoji: emoji.swimming },
+    { key: "cricket", label: "Cricket", emoji: emoji.cricket },
+    { key: "dancing", label: "Dancing", emoji: emoji.dancing },
+    { key: "painting", label: "Art", emoji: emoji.painting },
+    { key: "boxing", label: "Boxing", emoji: emoji.boxing },
+    { key: "hiking", label: "Hiking", emoji: emoji.hiking },
+    { key: "meditation", label: "Meditation", emoji: emoji.meditation },
+    { key: "paragliding", label: "Paragliding", emoji: emoji.paragliding },
+    { key: "cycling", label: "Cycling", emoji: emoji.cycling },
 ];
 
 const LIFESTYLE: LifestyleCategory[] = [
@@ -375,7 +374,16 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                                 key={hobbyKey}
                                 className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                             >
-                                <span>{hobby.emoji}</span>
+                                <span>
+                                    <Image
+                                        src={hobby.emoji}
+                                        height={40}
+                                        width={40}
+                                        alt="emoji"
+                                        className="size-[20px]"
+                                    />
+
+                                </span>
                                 <span>{hobby.label}</span>
                             </div>
                         ) : null;

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import BlockUserDialog from "./BlockUserDialog";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 interface BottomSheetMenuProps {
     isOpen: boolean;
@@ -25,7 +26,8 @@ export const BottomSheetMenu = ({
     userImage,
     isVerified
 }: BottomSheetMenuProps) => {
-    const { theme } = useTheme()
+    const { theme } = useTheme();
+    const router = useRouter();
     const [isBlockActive, setIsBlockActive] = useState(false);
     const handleBlock = () => {
         console.log("Block user");
@@ -41,7 +43,7 @@ export const BottomSheetMenu = ({
 
     const handleReport = () => {
         console.log("Report user");
-        // TODO: Navigate to report page or open report modal
+        router.push('repo')
         onClose();
     };
 

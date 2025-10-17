@@ -142,7 +142,7 @@ export const EditProfile = () => {
             {/* Header */}
             <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
 
-                <button onClick={() => router.back()} aria-label="Back" className="rounded-full">
+                <button onClick={() => router.push('/profile')} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
                 </button>
 

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { Manrope } from "next/font/google";
 import "./global.css";
+// import PageTransition from "@/components/PageTransition";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -43,7 +44,11 @@ export default function RootLayout({
               relative overflow-hidden  
             "
             >
-              <div className="min-h-dvh overflow-y-auto ">{children}</div>
+              <div className="min-h-dvh overflow-y-auto ">
+                {/* <PageTransition> */}
+                {children}
+                {/* </PageTransition> */}
+              </div>
             </div>
           </div>
         </ThemeProvider>

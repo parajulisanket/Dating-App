@@ -6,7 +6,7 @@ export const metadata = { title: "Sign Up" };
 
 export default function SignUpPage() {
   return (
-    <PhoneViewport maxWidth={425} className="grid grid-rows-[auto_1fr_auto]">
+    <PhoneViewport maxWidth={425} className="grid grid-rows-[auto_1fr_auto] bg-background">
       {/* HEADER */}
       <header className="flex items-center justify-between">
         <Link

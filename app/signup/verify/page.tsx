@@ -4,10 +4,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
+  const { theme } = useTheme()
   const router = useRouter();
   const params = useSearchParams();
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
@@ -91,7 +93,7 @@ export default function VerifyPage() {
         onPaste={onPaste}
         className="space-y-6"
       >
-        <p className="text-[16px] text-[#777777]">
+        <p className={`text-[16px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`}>
           Enter verification code we sent to{" "}
           <span className="font-semibold">{emailFromQuery}</span>.
         </p>
@@ -110,7 +112,7 @@ export default function VerifyPage() {
               className="
                 w-[45px] h-[45px]
                 md:w-[50px] md:h-[50px] text-center text-lg
-                rounded-2xl border border-neutral-300 bg-white
+                rounded-2xl border border-neutral-300 bg-background
                 focus:outline-none focus:border focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
               "
             />

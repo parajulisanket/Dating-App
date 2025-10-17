@@ -1,14 +1,17 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
 import { ChevronLeft } from "lucide-react";
 import Image from 'next/image';
 import icons from '@/assets/icons/icons';
+import { useTheme } from 'next-themes';
 export const Subscripition = () => {
+    const { theme } = useTheme()
     return (
         <>
             <main className='max-h-screen'>
-                <div className="border-b border-neutral-200">
-                    <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
+                <div className="border-b border-borderButton">
+                    <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 
                         <Link href='/settings' aria-label="Back" className="rounded-full">
                             <ChevronLeft className="" size={24} strokeWidth={1.5} />
@@ -21,7 +24,7 @@ export const Subscripition = () => {
                     <div className="space-y-4">
                         <div className="flex flex-col gap-1">
                             <h2 className='text-[24px] leading-[36px] font-bold'>Upgrade Your Experience!</h2>
-                            <p className='text-[14px]  leading-[21px] font-medium text-neutral-800 '>Find your match faster and stand out from the crowd! Choose the plan that fits your vibe and unlock exclusive features made to boost your dating journey.</p>
+                            <p className={`text-[14px]  leading-[21px] font-medium ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} `}>Find your match faster and stand out from the crowd! Choose the plan that fits your vibe and unlock exclusive features made to boost your dating journey.</p>
                         </div>
                         <div className="flex flex-col gap-4">
                             <div className="rounded-2xl flex flex-col justify-center items-center more-swipes p-4 text-white">

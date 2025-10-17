@@ -48,7 +48,7 @@ export default function DobPage() {
       titleClassName="title"
       // Subtitle matches style (darker copy with bold emphasis)
       subtitle={
-        <p className="text-[16px] leading-6 text-neutral-700">
+        <p className="{` ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`} leading-6 text-[16px] ">
           Your age not birthdate will be public.
           <span className="font-semibold">
             {" "}

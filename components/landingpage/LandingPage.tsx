@@ -21,7 +21,7 @@ export default function LandingPage() {
   return (
     <PhoneViewport
       maxWidth={425}
-      className="grid grid-rows-[auto_1fr_auto] gap-4"
+      className="grid bg-background grid-rows-[auto_1fr_auto] gap-4"
     >
       {/* HEADER */}
       <header className="text-center">
@@ -78,11 +78,10 @@ export default function LandingPage() {
               <span
                 key={i}
                 aria-hidden="true"
-                className={`rounded-full transition-all duration-300 ${
-                  i === current
+                className={`rounded-full transition-all duration-300 ${i === current
                     ? "h-2 w-2 bg-pink-500"
                     : "h-1.5 w-1.5 bg-pink-200"
-                }`}
+                  }`}
               />
             ))}
           </div>

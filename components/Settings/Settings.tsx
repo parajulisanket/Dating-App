@@ -223,7 +223,7 @@ export const Settings = () => {
                                 <h3 className="text-[16px] font-bold  mb-1 leading-tight">
                                     {item.title}
                                 </h3>
-                                <p className="text-[12px] text-neutral-700 leading-[18px]">
+                                <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} leading-[18px]`}>
                                     {item.description}
                                 </p>
                             </div>

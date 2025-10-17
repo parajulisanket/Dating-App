@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 const ZODIACS = [
   { key: "aries", label: "Aries", emoji: "♈️" },
@@ -24,6 +25,7 @@ export default function ZodiacPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
+  const { theme } = useTheme()
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -70,8 +72,12 @@ export default function ZodiacPage() {
                   "h-10 w-full rounded-full border px-4",
                   "flex items-center gap-2 justify-start",
                   active
-                    ? "border-[#F92FA2] bg-[#F92FA2]/10 text-[#F92FA2] font-medium "
-                    : "border-neutral-300 text-[#333333] bg-white",
+                    ? theme === 'light'
+                      ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
+                      : 'bg-[#FFFFFF4D] border-white'
+                    : theme === 'light'
+                      ? 'border-neutral-200  '
+                      : 'border-[#FFFFFF4D] ',
                 ].join(" ")}
               >
                 <span className="text-lg">{z.emoji}</span>
@@ -82,7 +88,7 @@ export default function ZodiacPage() {
         </div>
 
         {/* Note */}
-        <p className="mt-6 text-[15px] leading-6 text-[#333333]">
+        <p className={`mt-6 text-[15px] leading-6  ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`}>
           Your zodiac sign will be public.{" "}
           <span className="font-bold">You can&apos;t change it later.</span>
         </p>

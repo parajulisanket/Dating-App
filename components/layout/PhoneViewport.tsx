@@ -13,7 +13,7 @@ export default function PhoneViewport({
   className,
   children,
   maxWidth = 425, // your design width
-  bg = "bg-white", // inner canvas background
+  bg = "bg-background", // inner canvas background
   frameBg = "bg-[#F4B7D0]", // outer frame (the pink sides you like)
 }: {
   className?: string;

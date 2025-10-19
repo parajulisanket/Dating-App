@@ -4,10 +4,12 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { NotificationSheet } from "@/components/sheets/NotificationSheet";
 import { FilterSheet } from "@/components/sheets/FilterSheet";
+import { useTheme } from "next-themes";
 
 type TopBarProps = { className?: string };
 
 export default function TopBar({ className }: TopBarProps) {
+  const { theme } = useTheme()
   const [open, setOpen] = React.useState<null | "notif" | "filter">(null);
 
   const [animateIn, setAnimateIn] = React.useState(false);
@@ -65,7 +67,7 @@ export default function TopBar({ className }: TopBarProps) {
       </header>
 
       {open && (
-        <div className="absolute inset-0 z-50">
+        <div className="absolute inset-0 z-200">
           <div
             className={cn(
               "absolute inset-0 bg-black/40 transition-opacity duration-200",
@@ -78,13 +80,13 @@ export default function TopBar({ className }: TopBarProps) {
             className={cn(
               "absolute bottom-0 left-0 right-0 w-full",
 
-              "rounded-t-3xl bg-white shadow-xl p-6",
+              "rounded-t-3xl bg-background shadow-xl p-6",
 
               "transition-transform duration-200",
               animateIn ? "translate-y-0" : "translate-y-full"
             )}
           >
-            <h2 className="text-center text-xl font-bold text-[#F92FA2] mb-4">
+            <h2 className={`text-center text-xl font-bold ${theme === 'light' ? 'text-primary-500' : 'text-white'} mb-4`}>
               {open === "notif" ? "Notifications" : "Filters"}
             </h2>
 

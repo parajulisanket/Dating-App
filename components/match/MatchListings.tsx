@@ -78,76 +78,79 @@ const DATA: Match[] = [
     image: "/images/Shristima.jpg",
     verified: true,
   },
-  {
-    id: "9",
-    name: "Ariana",
-    age: 28,
-    distanceKm: 3.2,
-    image: "/images/Shristima.jpg",
-    verified: true,
-  },
-  {
-    id: "10",
-    name: "Ariana",
-    age: 28,
-    distanceKm: 3.2,
-    image: "/images/Shristima.jpg",
-    verified: true,
-  },
 ];
+
+const HEADER_H = 48;
+const FOOTER_H = 68;
+const containerHeight = `calc(100dvh - ${HEADER_H + FOOTER_H}px)`;
 
 export default function MatchListings() {
   return (
-    <section className="px-6 pb-6 h-[calc(100vh-160px)] overflow-y-auto no-scrollbar">
-      <div className="grid grid-cols-2 gap-4">
-        {DATA.map((m) => (
-          <article
-            key={m.id}
-            className="relative rounded-[16px] overflow-hidden  bg-neutral-200"
-          >
-            {/* image section */}
-            <div className="relative aspect-[3/4] w-full">
-              <Image
-                src={m.image}
-                alt={m.name}
-                fill
-                priority={true}
-                className="object-cover"
-                sizes="(max-width: 768px) 50vw, 200px"
-              />
-            </div>
-
-            {/* top-right menu */}
-            <button
-              aria-label="Card menu"
-              className="absolute right-4 top-3  text-white 
-                         flex items-center justify-center "
+    <div
+      className="no-scrollbar scroll-smooth pb-16 "
+      style={{
+        height: containerHeight,
+        WebkitOverflowScrolling: "touch",
+        overscrollBehaviorY: "contain",
+        overflowY: "auto",
+      }}
+    >
+      {" "}
+      <section className="px-4 ">
+        <div className="grid grid-cols-2 gap-4">
+          {DATA.map((m) => (
+            <article
+              key={m.id}
+              className="relative rounded-[16px] overflow-hidden  bg-neutral-200"
             >
-              <MoreHorizontal size={20} />
-            </button>
+              {/* image section */}
+              <div className="relative aspect-[3/4] w-full">
+                <Image
+                  src={m.image}
+                  alt={m.name}
+                  fill
+                  priority={true}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 200px"
+                />
+              </div>
 
-            {/* text overlay */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0">
-              <div className="absolute inset-0  bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
-              {/* content */}
-              <div className="relative  p-2 text-white">
-                <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
-                  <span className="truncate">
-                    {m.name}, {m.age}
-                  </span>
-                  {m.verified && (
-                    <img src={"/icons/verify.svg"} alt="" className="w-4 h-4" />
-                  )}
-                </div>
-                <div className=" flex items-center gap-1.5 text-sm font-semibold">
-                  <img src={"/icons/MapPin.svg"} alt="" className="w-4 h-4" />
-                  <span>{m.distanceKm} Km</span>
+              {/* top-right menu */}
+              <button
+                aria-label="Card menu"
+                className="absolute right-4 top-3  text-white 
+                         flex items-center justify-center "
+              >
+                <MoreHorizontal size={20} />
+              </button>
+
+              {/* text overlay */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0">
+                <div className="absolute inset-0  bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
+                {/* content */}
+                <div className="relative  p-2 text-white">
+                  <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
+                    <span className="truncate">
+                      {m.name}, {m.age}
+                    </span>
+                    {m.verified && (
+                      <img
+                        src={"/icons/verify.svg"}
+                        alt=""
+                        className="w-4 h-4"
+                      />
+                    )}
+                  </div>
+                  <div className=" flex items-center gap-1.5 text-sm font-semibold">
+                    <img src={"/icons/MapPin.svg"} alt="" className="w-4 h-4" />
+                    <span>{m.distanceKm} Km</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

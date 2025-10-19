@@ -2,12 +2,18 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export function FilterSheet({ onApply }: { onApply: () => void }) {
+  const { theme } = useTheme();
   const [show, setShow] = React.useState<"man" | "woman" | "all" | null>(null);
   const [age, setAge] = React.useState<[number, number]>([23, 36]);
   const [distance, setDistance] = React.useState(7);
   const [hasBio, setHasBio] = React.useState(true);
+
+  const toggleFloatingBadges = () => {
+    setHasBio(prev => !prev)
+  }
 
   const reset = () => {
     setShow(null);
@@ -28,8 +34,12 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       className={cn(
         "rounded-full border px-4 py-1.5 text-sm font-medium transition",
         show === value
-          ? "border-pink-500 bg-pink-50 text-pink-600"
-          : "border-gray-300 text-gray-700 hover:bg-gray-50"
+          ? theme === 'light'
+            ? 'bg-primary-500/10 text-primary-500 border-primary-500/40'
+            : 'bg-[#FFFFFF4D] border-white '
+          : theme === 'light'
+            ? ' border-neutral-200 text-neutral-1000'
+            : ' border-neutral-300'
       )}
     >
       {label}
@@ -37,9 +47,9 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <div>
-        <p className="mb-2 text-[#333333] font-bold">Show me</p>
+        <p className="mb-2  font-bold">Show me</p>
         <div className="flex gap-2">
           <Chip label="Man" value="man" />
           <Chip label="Woman" value="woman" />
@@ -48,7 +58,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       </div>
 
       <div>
-        <div className="flex justify-between text-[#333333] mb-2">
+        <div className="flex justify-between  mb-2">
           <span className="font-bold">Preferred age</span>
           <span className="text-pink-600 text-sm">
             {age[0]}–{age[1]}
@@ -75,7 +85,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       </div>
 
       <div>
-        <div className="flex justify-between text-[#333333] mb-2">
+        <div className="flex justify-between  mb-2">
           <span className="font-bold">Preferred distance</span>
           <span className="text-pink-600 text-sm">{distance} km</span>
         </div>
@@ -90,16 +100,19 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       </div>
 
       <label className="flex items-center justify-between">
-        <span className="text-[#333333] font-bold">Should have a bio</span>
-        <input
-          type="checkbox"
-          checked={hasBio}
-          onChange={(e) => setHasBio(e.target.checked)}
-          className="peer sr-only"
-        />
-        <span className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition peer-checked:bg-pink-500">
-          <span className="absolute left-1 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5" />
-        </span>
+        <span className=" font-bold">Should have a bio</span>
+        <div
+          onClick={toggleFloatingBadges}
+          className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
+              ${hasBio ? "bg-primary-500" : "bg-primary-500/10"}
+            `}
+        >
+          <div
+            className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
+                ${hasBio ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+              `}
+          ></div>
+        </div>
       </label>
 
       <div className="space-y-3">

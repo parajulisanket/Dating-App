@@ -48,7 +48,7 @@ export default function SearchTop({
       className={cn(
         sticky && "sticky top-0 z-30",
         // "bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-background",
-        "p-6",
+        "p-4",
         className
       )}
     >

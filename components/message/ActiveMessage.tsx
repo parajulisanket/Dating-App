@@ -44,7 +44,7 @@ export default function ActiveMessage() {
 
   return (
     <div className="w-full overflow-x-auto no-scrollbar select-none ">
-      <div className="flex items-center gap-4 px-6">
+      <div className="flex items-center gap-4 px-4">
         {/* Add / New message button */}
         <div className="relative shrink-0 grid place-items-center size-14 pill--active ">
           <Plus size={36} strokeWidth={2} color="white" />

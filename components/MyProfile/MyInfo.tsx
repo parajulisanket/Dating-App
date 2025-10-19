@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Link from "next/link";
-import emoji from "@/assets/emojis/emoji";
+
 // Types
 interface RelationshipOption {
   key: string;
@@ -68,20 +68,20 @@ const RELATIONSHIP_OPTIONS: RelationshipOption[] = [
 ];
 
 const HOBBIES: Hobby[] = [
-  { key: "football", label: "Football", emoji: emoji.football },
-  { key: "exercising", label: "Exercising", emoji: emoji.exercising },
-  { key: "singing", label: "Singing", emoji: emoji.singing },
-  { key: "reading", label: "Reading", emoji: emoji.reading },
-  { key: "acting", label: "Acting", emoji: emoji.acting },
-  { key: "swimming", label: "Swimming", emoji: emoji.swimming },
-  { key: "cricket", label: "Cricket", emoji: emoji.cricket },
-  { key: "dancing", label: "Dancing", emoji: emoji.dancing },
-  { key: "painting", label: "Art", emoji: emoji.painting },
-  { key: "boxing", label: "Boxing", emoji: emoji.boxing },
-  { key: "hiking", label: "Hiking", emoji: emoji.hiking },
-  { key: "meditation", label: "Meditation", emoji: emoji.meditation },
-  { key: "paragliding", label: "Paragliding", emoji: emoji.paragliding },
-  { key: "cycling", label: "Cycling", emoji: emoji.cycling },
+  { key: "football", label: "Football", emoji: "⚽" },
+  { key: "singing", label: "Singing", emoji: "🎤" },
+  { key: "reading", label: "Reading", emoji: "📖" },
+  { key: "acting", label: "Acting", emoji: "🕺" },
+  { key: "swimming", label: "Swimming", emoji: "🏊" },
+  { key: "cricket", label: "Cricket", emoji: "🏏" },
+  { key: "dancing", label: "Dancing", emoji: "💃" },
+  { key: "exercising", label: "Exercising", emoji: "💪" },
+  { key: "art", label: "Art", emoji: "🎨" },
+  { key: "boxing", label: "Boxing", emoji: "🥊" },
+  { key: "hiking", label: "Hiking", emoji: "🥾" },
+  { key: "meditation", label: "Meditation", emoji: "🧘" },
+  { key: "paragliding", label: "Paragliding", emoji: "🪂" },
+  { key: "cycling", label: "Cycling", emoji: "🚴" },
 ];
 
 const LIFESTYLE: LifestyleCategory[] = [
@@ -180,11 +180,8 @@ export const MyInfo = () => {
       { value: "At University" },
       { value: "5'7\"" },
     ],
-    lookingFor: {
-      relationshipType: "serious", // Backend sends only the key
-      genderPreference: "Woman",
-    },
-    hobbies: ["football", "exercising", "art"], // Backend sends only keys
+    lookingFor: { relationshipType: "serious", genderPreference: "Woman" },
+    hobbies: ["football", "exercising", "art"],
     lifestyle: {
       drink: "never",
       smoke: "never",
@@ -200,24 +197,22 @@ export const MyInfo = () => {
     { id: 3, src: "/profile3.jpg", alt: "profile3" },
   ];
 
-  // If header/footer sizes differ, update these:
-  const HEADER_H = 40;
-  const FOOTER_H = 64;
+  const HEADER_H = 48;
+  const FOOTER_H = 68;
   const containerHeight = `calc(100svh - ${HEADER_H + FOOTER_H}px)`;
-
   return (
-    // Self-contained scroll container
     <div
-      className="flex gap-4 flex-col no-scrollbar "
+      className="no-scrollbar scroll-smooth"
       style={{
         height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
+        overflowY: "auto",
       }}
     >
       {/* Profile Info */}
       <div className="p-4 ">
-        <div className="w-full flex flex-col ">
+        <div className="w-full flex flex-col">
           {!profileData.isVerified && (
             <Link href="/verification">
               <div className="flex gap-2 flex-col text-white bg-[linear-gradient(130.89deg,#006FFF_4.3%,#01E6FF_97.77%)] mb-4 rounded-[16px] p-4">
@@ -308,146 +303,143 @@ export const MyInfo = () => {
       </div>
 
       {/* Images */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">My Images</h1>
-        <Swiper spaceBetween={5} slidesPerView={"auto"}>
-          {images.map((image) => (
-            <SwiperSlide
-              key={image.id}
-              className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="relative h-full w-full">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover rounded-2xl"
-                  sizes="172px"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      {/* About Me */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">About Me</h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.aboutMe.map((item, index) => (
-            <div
-              key={index}
-              className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
-            >
-              {item.value}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Looking For */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          I'm Looking for
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.lookingFor.relationshipType && (
-            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
-              <span>
-                {
-                  getRelationshipType(profileData.lookingFor.relationshipType)
-                    ?.emoji
-                }
-              </span>
-              <span>
-                {
-                  getRelationshipType(profileData.lookingFor.relationshipType)
-                    ?.label
-                }
-              </span>
-            </div>
-          )}
-          {profileData.lookingFor.genderPreference && (
-            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
-              {profileData.lookingFor.genderPreference}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Hobbies */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Hobbies
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.hobbies.map((hobbyKey) => {
-            const hobby = getHobbyDetails(hobbyKey);
-            return hobby ? (
-              <div
-                key={hobbyKey}
-                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
+      <div className="space-y-8">
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Images
+          </h1>
+          <Swiper spaceBetween={5} slidesPerView={"auto"}>
+            {images.map((image) => (
+              <SwiperSlide
+                key={image.id}
+                className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <span>
+                <div className="relative h-full w-full">
                   <Image
-                    src={hobby.emoji}
-                    height={40}
-                    width={40}
-                    alt="emoji"
-                    className="size-[20px]"
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover rounded-2xl"
+                    sizes="172px"
                   />
-
-                </span>
-                <span>{hobby.label}</span>
-              </div>
-            ) : null;
-          })}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-      </div>
 
-      {/* Lifestyle */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Lifestyle
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {Object.entries(profileData.lifestyle).map(
-            ([categoryKey, optionKey]) => {
-              const details = getLifestyleDetails(categoryKey, optionKey);
-              return details ? (
+        {/* About Me */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            About Me
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.aboutMe.map((item, index) => (
+              <div
+                key={index}
+                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
+              >
+                {item.value}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Looking For */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            I'm Looking for
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.lookingFor.relationshipType && (
+              <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.emoji
+                  }
+                </span>
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.label
+                  }
+                </span>
+              </div>
+            )}
+            {profileData.lookingFor.genderPreference && (
+              <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
+                {profileData.lookingFor.genderPreference}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Hobbies */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Hobbies
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.hobbies.map((hobbyKey) => {
+              const hobby = getHobbyDetails(hobbyKey);
+              return hobby ? (
                 <div
-                  key={categoryKey}
+                  key={hobbyKey}
                   className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                 >
-                  <span>{details.icon}</span>
-                  <span>{details.label}</span>
+                  <span>{hobby.emoji}</span>
+                  <span>{hobby.label}</span>
                 </div>
               ) : null;
-            }
-          )}
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Social */}
-      <div className="px-4 pb-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Social Accounts
-        </h1>
-        <div className="flex gap-2">
-          <Image
-            src="/facebook.svg"
-            alt="facebook"
-            width={36}
-            height={36}
-            className="select-none"
-          />
-          <Image
-            src="/instagram.svg"
-            alt="instagram"
-            width={32}
-            height={32}
-            className="select-none"
-          />
+        {/* Lifestyle */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Lifestyle
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(profileData.lifestyle).map(
+              ([categoryKey, optionKey]) => {
+                const details = getLifestyleDetails(categoryKey, optionKey);
+                return details ? (
+                  <div
+                    key={categoryKey}
+                    className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
+                  >
+                    <span>{details.icon}</span>
+                    <span>{details.label}</span>
+                  </div>
+                ) : null;
+              }
+            )}
+          </div>
+        </div>
+
+        {/* Social */}
+        <div className="px-4 pb-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Social Accounts
+          </h1>
+          <div className="flex gap-2">
+            <Image
+              src="/facebook.svg"
+              alt="facebook"
+              width={36}
+              height={36}
+              className="select-none"
+            />
+            <Image
+              src="/instagram.svg"
+              alt="instagram"
+              width={32}
+              height={32}
+              className="select-none"
+            />
+          </div>
         </div>
       </div>
     </div>

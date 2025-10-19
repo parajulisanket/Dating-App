@@ -16,7 +16,7 @@ const OPTIONS = [
 type Orientation = (typeof OPTIONS)[number];
 
 export default function OrientationPage() {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<Orientation | null>(null);
   const [showOnProfile, setShowOnProfile] = useState(true);
@@ -49,26 +49,26 @@ export default function OrientationPage() {
         <>
           {/* Toggle row */}
           <label className="mb-4 flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={() => setShowOnProfile((v) => !v)}
-              aria-pressed={showOnProfile}
-              className={[
-                "relative inline-flex h-6 w-11 items-center rounded-full border transition-colors",
+            <div
+              onClick={
                 showOnProfile
-                  ? "bg-[#F92FA2] border-[#F92FA2]"
-                  : "bg-[#feeaf6] border-[#F92FA2]",
-              ].join(" ")}
+                  ? () => setShowOnProfile(false)
+                  : () => setShowOnProfile(true)
+              }
+              className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
+              ${showOnProfile ? "bg-primary-500" : "bg-primary-500/10"}
+            `}
             >
-              <span
-                className={[
-                  "pointer-events-none absolute left-0 h-5 w-5 rounded-full transition-transform",
+              <div
+                className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
+                ${
                   showOnProfile
-                    ? " bg-white translate-x-5"
-                    : "translate-x-0.5 bg-[#f92fa2] border border-[#F92FA2]",
-                ].join(" ")}
-              />
-            </button>
+                    ? "translate-x-[20px] bg-white"
+                    : "translate-x-0 bg-primary-500"
+                }
+              `}
+              ></div>
+            </div>
             <span className="text-[16px] text-neutral-800">
               Show my orientation in my profile.
             </span>
@@ -93,12 +93,12 @@ export default function OrientationPage() {
                 "w-full h-14 rounded-full border px-6",
                 "flex items-center justify-center text-[18px] font-semibold",
                 active
-                  ? theme === 'light'
-                    ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
-                    : 'bg-[#FFFFFF4D] border-white'
-                  : theme === 'light'
-                    ? 'border-neutral-200  '
-                    : 'border-[#FFFFFF4D] ',
+                  ? theme === "light"
+                    ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
+                    : "bg-[#FFFFFF4D] border-white"
+                  : theme === "light"
+                  ? "border-neutral-200  "
+                  : "border-[#FFFFFF4D] ",
                 "transition-colors",
               ].join(" ")}
             >

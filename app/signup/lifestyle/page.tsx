@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
+import { useTheme } from "next-themes";
 
 type Choice = { key: string; label: string };
 type Question = {
@@ -82,6 +83,7 @@ const QUESTIONS: Question[] = [
 
 export default function LifestylePage() {
   const router = useRouter();
+  const { theme } = useTheme();
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const onPick = (qKey: string, value: string) =>
@@ -102,7 +104,11 @@ export default function LifestylePage() {
       title="What are your lifestyle choices?"
       titleClassName="title"
       subtitle={
-        <p className="text-[15px] leading-6 text-neutral-600">
+        <p
+          className={`text-[15px] ${
+            theme === "light" ? "text-neutral-1000" : "text-neutral-500"
+          } leading-6 }`}
+        >
           Let everyone know about your lifestyle to get a
           <br /> better match.
         </p>
@@ -130,7 +136,7 @@ export default function LifestylePage() {
               ].join(" ")}
             >
               {/* Heading */}
-              <h2 className="text-[18px] font-medium text-neutral-900 flex items-center gap-2">
+              <h2 className="text-[18px] font-medium text-neutral flex items-center gap-2">
                 <span aria-hidden>{q.icon}</span>
                 <span>{q.title}</span>
               </h2>
@@ -144,7 +150,7 @@ export default function LifestylePage() {
                       key={opt.key}
                       type="button"
                       onClick={() => onPick(q.key, opt.key)}
-                      className="flex items-center gap-2 text-[15px] text-neutral-800"
+                      className="flex items-center gap-2 text-[15px] text-neutral"
                       aria-pressed={active}
                     >
                       {/* custom radio */}

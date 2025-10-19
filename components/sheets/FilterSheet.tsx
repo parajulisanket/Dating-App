@@ -12,8 +12,8 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
   const [hasBio, setHasBio] = React.useState(true);
 
   const toggleFloatingBadges = () => {
-    setHasBio(prev => !prev)
-  }
+    setHasBio((prev) => !prev);
+  };
 
   const reset = () => {
     setShow(null);
@@ -34,12 +34,12 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       className={cn(
         "rounded-full border px-4 py-1.5 text-sm font-medium transition",
         show === value
-          ? theme === 'light'
-            ? 'bg-primary-500/10 text-primary-500 border-primary-500/40'
-            : 'bg-[#FFFFFF4D] border-white '
-          : theme === 'light'
-            ? ' border-neutral-200 text-neutral-1000'
-            : ' border-neutral-300'
+          ? theme === "light"
+            ? "bg-primary-500/10 text-primary-500 border-primary-500/40"
+            : "bg-[#FFFFFF4D] border-white "
+          : theme === "light"
+          ? " border-neutral-200 text-neutral-1000"
+          : " border-neutral-300"
       )}
     >
       {label}
@@ -109,7 +109,11 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
         >
           <div
             className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${hasBio ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+                ${
+                  hasBio
+                    ? "translate-x-[20px] bg-white"
+                    : "translate-x-0 bg-primary-500"
+                }
               `}
           ></div>
         </div>

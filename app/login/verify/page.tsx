@@ -117,7 +117,7 @@ export default function VerifyEmailPage() {
               maxLength={1}
               className="
                 h-12 w-12 sm:w-12 text-center text-lg
-                rounded-2xl border border-neutral-300 bg-white
+                rounded-2xl border border-neutral-300 bg-background
                 focus:outline-none focus:border focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
               "
             />

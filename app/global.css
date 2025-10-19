@@ -1,4 +1,3 @@
-/* ========== Imports ========== */
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 @import "swiper/css";
@@ -9,12 +8,12 @@
 /* Tailwind dark variant helper */
 @custom-variant dark (&:is(.dark *));
 
-/* ========== Design Tokens ========== */
+/*  Design Tokens  */
 :root {
   /* Typo fixed, keep alias for compatibility */
   --background-search: #3333331a;
   --backround-search: var(--background-search);
-
+  --background-footer: white;
   --border: oklch(0.922 0 0);
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -250,7 +249,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* ========== Base ========== */
+/* Base  */
 html,
 body {
   height: 100%;
@@ -297,7 +296,7 @@ body {
   border: 2px solid black;
 }
 
-/* ========== Components & Utilities ========== */
+/*  Components & Utilities  */
 .edit-title {
   @apply text-[16px] font-bold mb-3;
 }
@@ -358,7 +357,7 @@ body {
   }
 
   .footer-shell {
-    @apply sticky bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur px-3 pb-6;
+    @apply fixed bottom-0 z-100 flex items-center justify-between backdrop-blur-sm px-3 pb-6 pt-2;
   }
 
   .pill {
@@ -412,7 +411,7 @@ body {
       var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%)) border-box;
   }
 
-  /* ======= Reusable Phone Layout ======= */
+  /*  Reusable Phone Layout  */
   /* Centered outer frame that fills the viewport (keeps pink sides on desktop) */
   .phone-frame {
     position: fixed;

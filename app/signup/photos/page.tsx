@@ -44,7 +44,7 @@ export default function PhotosPage() {
         {photos.map((p, i) => (
           <label
             key={i}
-            className="relative aspect-[3/4] rounded-xl bg-[#FDEBFA] flex items-center justify-center cursor-pointer"
+            className="relative aspect-[3/4] rounded-xl bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer"
           >
             {p ? (
               <img

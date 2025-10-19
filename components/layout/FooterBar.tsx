@@ -56,7 +56,7 @@ export default function FooterBar({
   return (
     <footer
       className={cn(
-        "footer-shell bg-footer  footer-safe shadow-[0px_-2px_8px_0px_#0000001A] max-w-[425px] w-full  ",
+        "footer-shell   footer-safe shadow-[0px_-2px_8px_0px_#0000001A] max-w-[425px] w-full  ",
         className
       )}
     >

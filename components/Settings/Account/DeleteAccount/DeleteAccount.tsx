@@ -9,27 +9,7 @@ export const DeleteAccountComponent = () => {
     const [showPwd, setShowPwd] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
     const currentPasswordRef = useRef<HTMLInputElement>(null);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
     const router = useRouter()
-    useEffect(() => {
-        const handleResize = () => {
-            if (typeof window !== 'undefined' && window.visualViewport) {
-                const viewportHeight = window.visualViewport.height;
-                const windowHeight = window.innerHeight;
-                const kbHeight = windowHeight - viewportHeight;
-                setKeyboardHeight(kbHeight > 0 ? kbHeight : 0);
-            }
-        };
-
-        if (typeof window !== 'undefined' && window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleResize);
-            return () => {
-                if (window.visualViewport) {
-                    window.visualViewport.removeEventListener('resize', handleResize);
-                }
-            };
-        }
-    }, []);
 
     const handleProceed = () => {
         router.push('delete-account/reason')
@@ -77,9 +57,6 @@ export const DeleteAccountComponent = () => {
 
                 <div
                     className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
-                    style={{
-                        bottom: keyboardHeight > 0 ? `${keyboardHeight}px` : '0px',
-                    }}
                 >
                     <div className="max-w-[425px] mx-auto px-4 py-3 ">
                         <button

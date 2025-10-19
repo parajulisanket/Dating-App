@@ -72,7 +72,7 @@ export const EditHobbies = ({ backHref = "/edit-profile" }) => {
     return (
         <main className="min-h-screen bg-background flex flex-col">
             {/* Header */}
-            <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
+            <div className=" px-4 py-4 flex items-center gap-3 text-heading border-b border-borderButton">
                 <Link href={backHref} aria-label="Back" className="rounded-full">
                     <ChevronLeft className="" size={24} strokeWidth={1.5} />
                 </Link>

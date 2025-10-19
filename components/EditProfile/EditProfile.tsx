@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Plus } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import emoji from "@/assets/emojis/emoji";
+
 // Types for backend integration
 interface ProfilePicture {
   url: string;
@@ -23,7 +25,7 @@ interface SocialLink {
 
 interface ProfileFormData {
   profilePicture: ProfilePicture;
-  images: ProfileImage[];
+  images: (ProfileImage | null)[];
   bio: string;
   interestedIn: string;
   sexualOrientation: string;
@@ -66,19 +68,19 @@ const HOBBIES_OPTIONS = [
 ];
 
 export const EditProfile = () => {
-  // Demo data - will be replaced with API data
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
   const [formData, setFormData] = useState<ProfileFormData>({
-    profilePicture: {
-      url: "/nobita.png",
-    },
+    profilePicture: { url: "/nobita.png" },
     images: [
       { id: 1, url: "/profile1.jpg" },
       { id: 2, url: "/profile2.jpg" },
       { id: 3, url: "/profile3.jpg" },
       { id: 4, url: "/profile1.jpg" },
       { id: 5, url: "/profile2.jpg" },
-      { id: 6, url: "/profile3.jpg" },
+      null,
     ],
     bio: "It is a long established fact that a reader will be distracted by the readable content.",
     interestedIn: "woman",
@@ -90,42 +92,39 @@ export const EditProfile = () => {
     ],
   });
 
-  // Handlers for backend integration
   const handleProfilePictureChange = () => {
     console.log("Change profile picture");
-    // TODO: Implement file upload logic
   };
 
-  const handleImageDelete = (imageId: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      images: prev.images.filter((img) => img.id !== imageId),
-    }));
-    console.log("Delete image:", imageId);
-    // TODO: Call API to delete image
-  };
-
-  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, bio: e.target.value }));
-  };
-
-  const handleInterestedInChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, interestedIn: e.target.value }));
-  };
-
-  const handleOrientationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, sexualOrientation: e.target.value }));
-  };
-
-  const handleHobbyToggle = (hobbyKey: string) => {
+  const handleImageDelete = (index: number) => {
     setFormData((prev) => {
-      const hobbies = prev.hobbies.includes(hobbyKey)
-        ? prev.hobbies.filter((h) => h !== hobbyKey)
-        : [...prev.hobbies, hobbyKey];
-      return { ...prev, hobbies };
+      const updated = [...prev.images];
+      updated[index] = null;
+      return { ...prev, images: updated };
     });
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || selectedIndex === null) return;
+
+    const imageURL = URL.createObjectURL(file);
+    const newImage = { id: Date.now(), url: imageURL };
+
+    setFormData((prev) => {
+      const updated = [...prev.images];
+      updated[selectedIndex] = newImage;
+      return { ...prev, images: updated };
+    });
+
+    e.target.value = "";
+    setSelectedIndex(null);
+    setTimeout(() => URL.revokeObjectURL(imageURL), 3000);
+  };
+
+  const handleAddClick = (index: number) => {
+    setSelectedIndex(index);
+    fileInputRef.current?.click();
   };
 
   const handleSocialLinkRemove = (linkId: number) => {
@@ -133,15 +132,13 @@ export const EditProfile = () => {
       ...prev,
       socialLinks: prev.socialLinks.filter((link) => link.id !== linkId),
     }));
-    console.log("Remove social link:", linkId);
-    // TODO: Call API to remove social link
   };
 
   const containerHeight = `calc(100dvh)`;
 
   return (
     <div
-      className="no-scrollbar scroll-smooth "
+      className="no-scrollbar scroll-smooth"
       style={{
         height: containerHeight,
         WebkitOverflowScrolling: "touch",
@@ -149,18 +146,16 @@ export const EditProfile = () => {
         overflowY: "auto",
       }}
     >
-      {" "}
-      <main className="min-h-screen ">
+      <main className="min-h-screen">
         {/* Header */}
-        <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] border-b border-borderButton">
+        <div className="bg-background px-4 py-4 flex items-center gap-3  text-heading border-b border-borderButton">
           <button
             onClick={() => router.back()}
             aria-label="Back"
             className="rounded-full"
           >
-            <ChevronLeft className="" size={24} strokeWidth={1.5} />
+            <ChevronLeft size={24} strokeWidth={1.5} />
           </button>
-
           <h1 className="text-[24px] font-bold leading-[36px]">Edit Profile</h1>
         </div>
 
@@ -188,30 +183,73 @@ export const EditProfile = () => {
           {/* My Pictures Section */}
           <div>
             <h2 className="edit-title">My Pictures</h2>
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileInputChange}
+            />
+
             <div className="grid grid-cols-3 gap-3">
-              {formData.images.map((image) => (
-                <div key={image.id} className="relative aspect-[3/4]">
-                  <Image
-                    src={image.url}
-                    alt={`Picture ${image.id}`}
-                    fill
-                    className="rounded-2xl object-cover"
-                  />
-                  <button
-                    onClick={() => handleImageDelete(image.id)}
-                    className="absolute top-2 right-2 btn-close rounded-full w-6 h-6 flex items-center justify-center"
+              <AnimatePresence mode="popLayout">
+                {formData.images.map((image, index) => (
+                  <motion.div
+                    key={image ? image.id : `empty-${index}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative aspect-[3/4]"
                   >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path
-                        d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              ))}
+                    {image ? (
+                      <>
+                        <Image
+                          src={image.url}
+                          alt={`Picture ${index + 1}`}
+                          fill
+                          className="rounded-2xl object-cover"
+                        />
+                        <button
+                          onClick={() => handleImageDelete(index)}
+                          className="absolute top-2 right-2 btn-close rounded-full w-6 h-6 flex items-center justify-center bg-black/50"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                            <path
+                              d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </button>
+                      </>
+                    ) : (
+                      // <button
+                      //   onClick={() => handleAddClick(index)}
+                      //   className="w-full h-full rounded-2xl border-2 border-dashed border-neutral-400 flex flex-col items-center justify-center text-gray-400 hover:border-[#F92FA2] hover:text-[#F92FA2] transition"
+                      // >
+                      //   <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                      //     <path
+                      //       d="M12 5v14m-7-7h14"
+                      //       stroke="currentColor"
+                      //       strokeWidth="2"
+                      //       strokeLinecap="round"
+                      //     />
+                      //   </svg>
+                      // </button>
+                      <div onClick={() => handleAddClick(index)} className="relative aspect-[3/4] rounded-xl bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer border border-white">
+                        <div className="h-12 w-12 rounded-full flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500">
+                          <Plus size={28} className="text-white" />
+                        </div>
+                      </div>
+
+                    )}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -223,8 +261,7 @@ export const EditProfile = () => {
                 <button className="btn-edit">Edit</button>
               </Link>
             </div>
-
-            <div className="w-full border border-neutral-400  rounded-lg p-3 text-[14px] focus:outline-none">
+            <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
               {formData.bio || ""}
             </div>
           </div>
@@ -271,9 +308,7 @@ export const EditProfile = () => {
               <div className="flex gap-2 overflow-x-auto whitespace-nowrap no-scrollbar">
                 {formData.hobbies.length > 0 ? (
                   formData.hobbies.map((hobbyKey) => {
-                    const hobby = HOBBIES_OPTIONS.find(
-                      (h) => h.key === hobbyKey
-                    );
+                    const hobby = HOBBIES_OPTIONS.find((h) => h.key === hobbyKey);
                     return (
                       <span
                         key={hobbyKey}
@@ -281,10 +316,10 @@ export const EditProfile = () => {
                       >
                         <Image
                           src={hobby?.emoji}
-                          alt={`Picture ${hobby?.label}`}
+                          alt={hobby?.label || ""}
                           height={20}
                           width={20}
-                          className=" object-cover h-5 w-5"
+                          className="object-cover h-5 w-5"
                         />
                         <span>{hobby?.label}</span>
                       </span>
@@ -309,26 +344,23 @@ export const EditProfile = () => {
               {formData.socialLinks.map((link) => (
                 <div
                   key={link.id}
-                  className="flex items-center gap-3  border border-neutral-400 rounded-lg p-3"
+                  className="flex items-center gap-3 border border-neutral-400 rounded-lg p-3"
                 >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center '
-                                    }`}
-                  >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center">
                     {link.platform === "facebook" ? (
                       <Image
                         src="/icons/facebookBlue.svg"
-                        alt="Profile picture"
-                        width={80}
-                        height={80}
+                        alt="Facebook"
+                        width={32}
+                        height={32}
                         className="rounded-full"
                       />
                     ) : (
                       <Image
                         src="/icons/instagramblue.svg"
-                        alt="Profile picture"
-                        width={80}
-                        height={80}
+                        alt="Instagram"
+                        width={32}
+                        height={32}
                         className="rounded-full"
                       />
                     )}
@@ -336,7 +368,7 @@ export const EditProfile = () => {
                   <span className="flex-1 text-[14px]">{link.username}</span>
                   <button
                     onClick={() => handleSocialLinkRemove(link.id)}
-                    className=" hover:text-gray-600"
+                    className="hover:text-gray-600"
                   >
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path
@@ -350,7 +382,7 @@ export const EditProfile = () => {
                 </div>
               ))}
               <Link href="/edit-profile/social-accounts">
-                <button className="w-full p-4 bg-capsule h-[52px]  rounded-lg py-3 text-[14px]  flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer">
+                <button className="w-full p-4 bg-capsule h-[52px] rounded-lg py-3 text-[14px] flex items-center justify-center gap-2 hover:border-[#f9209b] hover:text-[#f9209b] transition-colors cursor-pointer">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
                       d="M10 5V15M5 10H15"

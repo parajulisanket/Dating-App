@@ -25,7 +25,7 @@ export const DeleteAccountReasonComponent = () => {
         <>
             <main className='min-h-screen'>
                 <div className="border-b border-borderButton">
-                    <div className="px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
+                    <div className="px-4 py-4 flex items-center gap-3 text-heading ml-1">
                         <Link href='/settings/account' aria-label="Back" className="rounded-full">
                             <ChevronLeft size={24} strokeWidth={1.5} />
                         </Link>

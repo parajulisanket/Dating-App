@@ -13,8 +13,9 @@
   /* Typo fixed, keep alias for compatibility */
   --background-search: #3333331a;
   --backround-search: var(--background-search);
-
+  --background-footer: white;
   --border: oklch(0.922 0 0);
+  --heading: #f92fa2;
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -109,6 +110,7 @@
   --roundSection: #ffffff1a;
   --capsule: #ffffff1a;
   --capsule-border: #ffffff66;
+  --heading: white;
 
   --colors-primary-100: #ffffff1a;
   --colors-primary-200: #ffffff33;
@@ -165,6 +167,7 @@
   --color-footer: var(--background-footer);
   --color-search: var(--background-search);
   --color-border-dark: var(--border);
+  --color-heading: var(--heading);
 
   /* Primary */
   --color-search: var(--backround-search);

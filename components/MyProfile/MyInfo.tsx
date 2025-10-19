@@ -197,23 +197,22 @@ export const MyInfo = () => {
     { id: 3, src: "/profile3.jpg", alt: "profile3" },
   ];
 
-  // If header/footer sizes differ, update these:
   const HEADER_H = 48;
-  const FOOTER_H = 64;
-  const containerHeight = `calc(90svh - ${HEADER_H + FOOTER_H}px)`;
+  const FOOTER_H = 68;
+  const containerHeight = `calc(100svh - ${HEADER_H + FOOTER_H}px)`;
 
   return (
-    // Self-contained scroll container
     <div
-      className=""
+      className="no-scrollbar scroll-smooth"
       style={{
         height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
+        overflowY: "auto",
       }}
     >
       {/* Profile Info */}
-      <div className="p-4">
+      <div className="p-4 ">
         <div className="w-full flex flex-col">
           {!profileData.isVerified && (
             <Link href="/verification">
@@ -305,137 +304,143 @@ export const MyInfo = () => {
       </div>
 
       {/* Images */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">My Images</h1>
-        <Swiper spaceBetween={5} slidesPerView={"auto"}>
-          {images.map((image) => (
-            <SwiperSlide
-              key={image.id}
-              className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="relative h-full w-full">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover rounded-2xl"
-                  sizes="172px"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      {/* About Me */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">About Me</h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.aboutMe.map((item, index) => (
-            <div
-              key={index}
-              className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
-            >
-              {item.value}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Looking For */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          I'm Looking for
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.lookingFor.relationshipType && (
-            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
-              <span>
-                {
-                  getRelationshipType(profileData.lookingFor.relationshipType)
-                    ?.emoji
-                }
-              </span>
-              <span>
-                {
-                  getRelationshipType(profileData.lookingFor.relationshipType)
-                    ?.label
-                }
-              </span>
-            </div>
-          )}
-          {profileData.lookingFor.genderPreference && (
-            <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
-              {profileData.lookingFor.genderPreference}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Hobbies */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Hobbies
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {profileData.hobbies.map((hobbyKey) => {
-            const hobby = getHobbyDetails(hobbyKey);
-            return hobby ? (
-              <div
-                key={hobbyKey}
-                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
+      <div className="space-y-8">
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Images
+          </h1>
+          <Swiper spaceBetween={5} slidesPerView={"auto"}>
+            {images.map((image) => (
+              <SwiperSlide
+                key={image.id}
+                className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <span>{hobby.emoji}</span>
-                <span>{hobby.label}</span>
-              </div>
-            ) : null;
-          })}
+                <div className="relative h-full w-full">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover rounded-2xl"
+                    sizes="172px"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-      </div>
 
-      {/* Lifestyle */}
-      <div className="px-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Lifestyle
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {Object.entries(profileData.lifestyle).map(
-            ([categoryKey, optionKey]) => {
-              const details = getLifestyleDetails(categoryKey, optionKey);
-              return details ? (
+        {/* About Me */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            About Me
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.aboutMe.map((item, index) => (
+              <div
+                key={index}
+                className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]"
+              >
+                {item.value}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Looking For */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            I'm Looking for
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.lookingFor.relationshipType && (
+              <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.emoji
+                  }
+                </span>
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.label
+                  }
+                </span>
+              </div>
+            )}
+            {profileData.lookingFor.genderPreference && (
+              <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px]">
+                {profileData.lookingFor.genderPreference}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Hobbies */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Hobbies
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {profileData.hobbies.map((hobbyKey) => {
+              const hobby = getHobbyDetails(hobbyKey);
+              return hobby ? (
                 <div
-                  key={categoryKey}
+                  key={hobbyKey}
                   className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
                 >
-                  <span>{details.icon}</span>
-                  <span>{details.label}</span>
+                  <span>{hobby.emoji}</span>
+                  <span>{hobby.label}</span>
                 </div>
               ) : null;
-            }
-          )}
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Social */}
-      <div className="px-4 pb-4">
-        <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-          My Social Accounts
-        </h1>
-        <div className="flex gap-2">
-          <Image
-            src="/facebook.svg"
-            alt="facebook"
-            width={36}
-            height={36}
-            className="select-none"
-          />
-          <Image
-            src="/instagram.svg"
-            alt="instagram"
-            width={32}
-            height={32}
-            className="select-none"
-          />
+        {/* Lifestyle */}
+        <div className="px-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Lifestyle
+          </h1>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(profileData.lifestyle).map(
+              ([categoryKey, optionKey]) => {
+                const details = getLifestyleDetails(categoryKey, optionKey);
+                return details ? (
+                  <div
+                    key={categoryKey}
+                    className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
+                  >
+                    <span>{details.icon}</span>
+                    <span>{details.label}</span>
+                  </div>
+                ) : null;
+              }
+            )}
+          </div>
+        </div>
+
+        {/* Social */}
+        <div className="px-4 pb-4">
+          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+            My Social Accounts
+          </h1>
+          <div className="flex gap-2">
+            <Image
+              src="/facebook.svg"
+              alt="facebook"
+              width={36}
+              height={36}
+              className="select-none"
+            />
+            <Image
+              src="/instagram.svg"
+              alt="instagram"
+              width={32}
+              height={32}
+              className="select-none"
+            />
+          </div>
         </div>
       </div>
     </div>

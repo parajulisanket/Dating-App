@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 pb-20 pt-[50px]  ">
+      <main className="flex-1   ">
         <MyInfo />
       </main>
     </div>

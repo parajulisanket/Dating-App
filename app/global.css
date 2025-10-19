@@ -13,7 +13,7 @@
   /* Typo fixed, keep alias for compatibility */
   --background-search: #3333331a;
   --backround-search: var(--background-search);
-
+  --background-footer: white;
   --border: oklch(0.922 0 0);
   --font-geist-sans: "Manrope", ui-sans-serif, system-ui;
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -344,7 +344,7 @@ body {
   }
 
   .footer-shell {
-    @apply fixed bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur-sm px-3 pb-6 pt-2;
+    @apply fixed bottom-0 z-100 flex items-center justify-between bg-white  px-3 pb-6 pt-2;
   }
 
   .pill {

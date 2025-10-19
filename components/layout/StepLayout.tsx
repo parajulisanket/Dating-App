@@ -63,7 +63,7 @@ export default function StepLayout({
           <Link
             href={backHref}
             aria-label="Back"
-            className="text-[#F92FA2] p-2 -ml-2 rounded-full"
+            className="text-heading p-2 -ml-2 rounded-full"
           >
             <ChevronLeft size={32} strokeWidth={1.5} />
           </Link>

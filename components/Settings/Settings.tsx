@@ -143,7 +143,7 @@ export const Settings = () => {
       <main className="min-h-screen relative ">
         {/* Header */}
         <div className="border-b border-borderButton ">
-          <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
+          <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
             <Link href="/profile" aria-label="Back" className="rounded-full">
               <ChevronLeft className="" size={24} strokeWidth={1.5} />
             </Link>
@@ -163,7 +163,7 @@ export const Settings = () => {
                 height={52}
                 className="rounded-full object-cover w-[52px] h-[52px]"
               />
-              <div className="flex gap-2 items-center text-[#f9209b] text-[24px] font-bold leading-[36px]">
+              <div className="flex gap-2 items-center text-heading text-[24px] font-bold leading-[36px]">
                 <h1>
                   {userProfile.name}, {userProfile.age}
                 </h1>
@@ -239,7 +239,7 @@ export const Settings = () => {
                   <h3 className="text-[16px] font-bold  mb-1 leading-tight">
                     {item.title}
                   </h3>
-                  <p className="text-[12px] text-neutral-700 leading-[18px]">
+                  <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} leading-[18px]`}>
                     {item.description}
                   </p>
                 </div>

@@ -6,13 +6,16 @@ export const metadata = { title: "Sign Up" };
 
 export default function SignUpPage() {
   return (
-    <PhoneViewport maxWidth={425} className="grid grid-rows-[auto_1fr_auto] bg-background">
+    <PhoneViewport
+      maxWidth={425}
+      className="grid grid-rows-[auto_1fr_auto] bg-background"
+    >
       {/* HEADER */}
       <header className="flex items-center justify-between">
         <Link
           href="/"
           aria-label="Back"
-          className="text-[#f72fa2] p-2 -ml-2 rounded-full"
+          className="text-heading p-2 -ml-2 rounded-full"
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>

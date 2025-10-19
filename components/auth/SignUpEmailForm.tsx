@@ -42,7 +42,7 @@ export default function SignUpEmailForm({
         <Link
           href="/signup"
           aria-label="Back"
-          className="text-[#f72fa2] px-2 -ml-2 rounded-full"
+          className="text-heading px-2 -ml-2 rounded-full"
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>
@@ -109,7 +109,7 @@ export default function SignUpEmailForm({
                 type="checkbox"
                 checked={optIn}
                 onChange={(e) => setOptIn(e.target.checked)}
-                className="peer h-5 w-5 appearance-none rounded border border-pink-400 bg-white
+                className="peer h-5 w-5 appearance-none rounded  bg-white
                      checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors
                      focus:ring-2 focus:ring-inset focus:ring-[#F92FA2] focus:border-transparent"
               />

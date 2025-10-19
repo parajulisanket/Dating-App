@@ -46,7 +46,7 @@ export const Faq = () => {
     >
       <main className="min-h-screen">
         <div className="border-b border-borderButton">
-          <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
+          <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
             <Link
               href="/settings/help-support"
               aria-label="Back"

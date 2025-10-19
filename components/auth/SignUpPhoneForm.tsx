@@ -42,7 +42,7 @@ export default function SignUpPhoneForm({
       if (s !== null && epos !== null) {
         try {
           el.setSelectionRange(s, epos);
-        } catch { }
+        } catch {}
       }
     });
   };
@@ -54,7 +54,7 @@ export default function SignUpPhoneForm({
         <Link
           href="/signup"
           aria-label="Back"
-          className="text-[#f72fa2] px-2 -ml-2 rounded-full"
+          className="text-heading px-2 -ml-2 rounded-full"
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>

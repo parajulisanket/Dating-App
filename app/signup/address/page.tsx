@@ -41,7 +41,7 @@ export default function AddressPage() {
           `Current location (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`
         );
       },
-      () => { },
+      () => {},
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }
@@ -55,7 +55,7 @@ export default function AddressPage() {
           <button
             type="button"
             onClick={useDeviceLocation}
-            className="mb-4 block mx-auto text-[#f72fa2] text-base text-center font-medium underline-offset-2 hover:underline"
+            className="mb-4 block mx-auto text-heading text-base text-center font-medium underline-offset-2 hover:underline"
           >
             Turn on your device location instead.
           </button>
@@ -67,7 +67,7 @@ export default function AddressPage() {
       }
     >
       <form id="address-form" onSubmit={onSubmit} className="space-y-6">
-        {/* ✅ Replaced default <select> with shadcn Select */}
+        {/* replaced default <select> with shadcn Select */}
         <Select onValueChange={setAddress}>
           <SelectTrigger className="w-full !rounded-[16px] px-4 py-[14px] border border-gray-300 !text-[16px]">
             <SelectValue

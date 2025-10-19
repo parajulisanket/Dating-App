@@ -40,7 +40,7 @@ export default function OrientationPage() {
         <button
           type="button"
           onClick={skip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
         >
           Skip
         </button>

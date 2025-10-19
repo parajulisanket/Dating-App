@@ -25,7 +25,7 @@ export default function ZodiacPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -43,7 +43,7 @@ export default function ZodiacPage() {
         <button
           type="button"
           onClick={onSkip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
         >
           Skip
         </button>
@@ -72,12 +72,12 @@ export default function ZodiacPage() {
                   "h-10 w-full rounded-full border px-4",
                   "flex items-center gap-2 justify-start",
                   active
-                    ? theme === 'light'
-                      ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
-                      : 'bg-[#FFFFFF4D] border-white'
-                    : theme === 'light'
-                      ? 'border-neutral-200  '
-                      : 'border-[#FFFFFF4D] ',
+                    ? theme === "light"
+                      ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
+                      : "bg-[#FFFFFF4D] border-white"
+                    : theme === "light"
+                    ? "border-neutral-200  "
+                    : "border-[#FFFFFF4D] ",
                 ].join(" ")}
               >
                 <span className="text-lg">{z.emoji}</span>
@@ -88,7 +88,11 @@ export default function ZodiacPage() {
         </div>
 
         {/* Note */}
-        <p className={`mt-6 text-[15px] leading-6  ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`}>
+        <p
+          className={`mt-6 text-[15px] leading-6  ${
+            theme === "light" ? "text-neutral-700" : "text-neutral-500"
+          }`}
+        >
           Your zodiac sign will be public.{" "}
           <span className="font-bold">You can&apos;t change it later.</span>
         </p>

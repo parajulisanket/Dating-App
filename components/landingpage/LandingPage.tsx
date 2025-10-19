@@ -59,7 +59,7 @@ export default function LandingPage() {
 
           {/* HEADLINE */}
           <h1
-            className="mt-4 text-center font-semibold text-[#F92FA2]"
+            className="mt-4 text-center font-semibold text-heading"
             style={{
               fontSize: "clamp(16px, 4.6vw, 20px)",
               lineHeight: "clamp(22px, 6.2vw, 28px)",
@@ -78,10 +78,11 @@ export default function LandingPage() {
               <span
                 key={i}
                 aria-hidden="true"
-                className={`rounded-full transition-all duration-300 ${i === current
+                className={`rounded-full transition-all duration-300 ${
+                  i === current
                     ? "h-2 w-2 bg-pink-500"
                     : "h-1.5 w-1.5 bg-pink-200"
-                  }`}
+                }`}
               />
             ))}
           </div>

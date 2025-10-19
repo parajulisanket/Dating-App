@@ -117,7 +117,7 @@ export default function LifestylePage() {
         <button
           type="button"
           onClick={skip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2 hover:bg-[#f92fa2]/10 rounded-2xl"
+          className="text-heading text-base font-semibold mt-4 px-2 hover:bg-[#f92fa2]/10 rounded-2xl"
         >
           Skip
         </button>

@@ -12,7 +12,7 @@ export default function LoginPage() {
         <Link
           href="/"
           aria-label="Back"
-          className="text-[#f72fa2] p-2 -ml-2 rounded-full"
+          className="text-heading p-2 -ml-2 rounded-full"
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>

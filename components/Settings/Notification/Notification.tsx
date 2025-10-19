@@ -2,11 +2,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft } from "lucide-react"
+import { useTheme } from 'next-themes'
 
 
 export const Notification = () => {
     const [badges, setBadges] = useState(false)
     const [offers, setOffers] = useState(false);
+    const [bio, setBio] = useState();
+    const { theme } = useTheme()
     const toggleFloatingBadges = () => {
         setBadges(prev => !prev)
     }
@@ -21,7 +24,7 @@ export const Notification = () => {
         <main className='min-h-screen'>
             {/* Header */}
             <div className="border-b border-borderButton">
-                <div className=" px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
+                <div className=" px-4 py-4 flex items-center gap-3 text-heading ml-1">
                     <Link href='/settings' aria-label="Back" className="rounded-full">
                         <ChevronLeft size={24} strokeWidth={1.5} />
                     </Link>

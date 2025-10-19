@@ -8,7 +8,7 @@ export const Header = ({ backHref = "/" }) => {
   return (
     <header className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton ">
       {/* Left: Back button + title */}
-      <div className="flex items-center gap-3 text-[#F92FA2]">
+      <div className="flex items-center gap-3 text-heading">
         <Link href={backHref} aria-label="Back" className="rounded-full">
           <ChevronLeft className="" size={24} strokeWidth={1.5} />
         </Link>
@@ -22,7 +22,7 @@ export const Header = ({ backHref = "/" }) => {
           alt="Settings"
           width={24}
           height={24}
-          className="cursor-pointer "
+          className="cursor-pointer !text-white"
         />
       </Link>
     </header>

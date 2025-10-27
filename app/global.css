@@ -334,7 +334,7 @@ body {
 
 .landing-title,
 .title {
-  @apply text-3xl text-[#F92FA2] font-semibold;
+  @apply text-3xl text-heading font-semibold;
 }
 
 .footer-icon {

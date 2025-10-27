@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import * as React from "react";
 
 type TabKey = "all" | "unread" | "archived";
@@ -14,7 +15,7 @@ export default function MessageFilter({
   className?: string;
 }) {
   const [value, setValue] = React.useState<TabKey>(defaultValue);
-
+  const { theme } = useTheme();
   const select = (v: TabKey) => {
     setValue(v);
     onChange?.(v);
@@ -29,14 +30,17 @@ export default function MessageFilter({
         aria-selected={active}
         onClick={() => select(tab)}
         className={[
-          "inline-flex items-center justify-center ",
-          "px-4 py-2  rounded-4xl ",
-          "text-sm leading-none text-neutral-1000 ",
+          "inline-flex items-center justify-center",
+          "px-4 py-2 rounded-4xl",
+          "text-sm leading-none",
           active
             ? "bg-[#F92FA2] text-white border-transparent font-bold"
-            : " bg-background  border-dark font-medium ",
+            : theme === "light"
+              ? "bg-background border border-neutral-200 text-neutral-1000 font-medium"
+              : " border border-white/40 text-white font-medium",
           "transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB3FA5]/40",
         ].join(" ")}
+
       >
         {label}
       </button>

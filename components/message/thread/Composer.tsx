@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import VoiceRecorder from "@/components/message/thread/VoiceRecorder";
+import { useTheme } from "next-themes";
 
 type Props = {
     onSend: (text: string) => void;
@@ -15,11 +15,18 @@ export default function Composer({ onSend, onSendMedia, onSendAudio }: Props) {
     const [value, setValue] = React.useState("");
     const [focused, setFocused] = React.useState(false);
     const [recOpen, setRecOpen] = React.useState(false);
+    const { theme } = useTheme()
+    const [mounted, setMounted] = React.useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const micRef = React.useRef<HTMLButtonElement | null>(null);
 
     const [portalRoot, setPortalRoot] = React.useState<HTMLElement | null>(null);
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, []);
+
     React.useEffect(() => {
         setPortalRoot(
             document.getElementById("phone-overlay-root") as HTMLElement | null
@@ -50,8 +57,12 @@ export default function Composer({ onSend, onSendMedia, onSendAudio }: Props) {
         e.target.value = "";
     };
 
+    if (!mounted) {
+        return
+    }
+
     return (
-        <div className="sticky bottom-0 bg-white px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] shadow">
+        <div className="sticky bottom-0 bg-background px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] shadow">
             {/* Hidden picker for images/videos */}
             <input
                 ref={fileInputRef}
@@ -63,7 +74,13 @@ export default function Composer({ onSend, onSendMedia, onSendAudio }: Props) {
             />
 
             <div className="flex items-center gap-2">
-                <div className="flex min-w-0 flex-1 items-center rounded-4xl bg-[#3333331A] ">
+                <div
+                    className={[
+                        "flex min-w-0 flex-1 items-center rounded-4xl ",
+                        theme === "light" ? "bg-neutral-200" : "bg-white/20",
+                    ].join(" ")}
+                >
+
                     <button className="text-[#EB3FA5] p-2" aria-label="Emoji">
                         <img src={"/icons/SmileySticker.svg"} alt="" />
                     </button>

@@ -1,4 +1,6 @@
 "use client";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export type Message = {
     id: string;
@@ -14,6 +16,23 @@ export type Message = {
 export default function MessageBubble({ msg }: { msg: Message }) {
     const isMe = msg.from === "me";
     const content = msg.text ?? msg.emojis ?? "";
+    const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Avoid hydration mismatch by not rendering theme-dependent styles until mounted
+    if (!mounted) {
+        return (
+            <div className={`mb-3 flex ${isMe ? "justify-end" : "justify-start"}`}>
+                <div className="max-w-[78%] rounded-2xl px-4 py-3 text-[16px] leading-snug shadow-sm opacity-0">
+                    <div>{content}</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`mb-3 flex ${isMe ? "justify-end" : "justify-start"}`}>
@@ -21,8 +40,10 @@ export default function MessageBubble({ msg }: { msg: Message }) {
                 className={[
                     "max-w-[78%] rounded-2xl px-4 py-3 text-[16px] leading-snug shadow-sm",
                     isMe
-                        ? "font-semibold text-white bg-gradient-to-tl from-[#F92FA2] to-[#CA2CFF] rounded-tr-none"
-                        : "text-[#EB3FA5] bg-[#FCE4F0] font-semibold rounded-tl-none",
+                        ? "font-medium text-white bg-gradient-to-tl from-[#F92FA2] to-[#CA2CFF] rounded-tr-none"
+                        : theme === "light"
+                            ? "text-[#EB3FA5] bg-[#FCE4F0] rounded-tl-none"
+                            : "bg-white/10 rounded-tl-none",
                 ].join(" ")}
             >
                 <div>{content}</div>
@@ -30,13 +51,16 @@ export default function MessageBubble({ msg }: { msg: Message }) {
                     <div
                         className={[
                             "mt-2 text-[12px]",
-                            isMe ? "text-white/90 text-right" : "text-[#EB3FA5]/90",
+                            isMe
+                                ? "text-white/90 text-right"
+                                : theme === "light"
+                                    ? "text-[#EB3FA5]/90"
+                                    : "text-white",
                         ].join(" ")}
                     >
                         {msg.time}
                         {isMe && msg.status && (
                             <span className="ml-2 align-middle">
-                                {/* double check */}
                                 <svg
                                     width="16"
                                     height="16"

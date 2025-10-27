@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { NotificationSheet } from "@/components/sheets/NotificationSheet";
 import { FilterSheet } from "@/components/sheets/FilterSheet";
 import { useTheme } from "next-themes";
-
+import { getSvgColor } from '@/utils/theme';
 type TopBarProps = { className?: string };
 
 export default function TopBar({ className }: TopBarProps) {
@@ -37,13 +37,13 @@ export default function TopBar({ className }: TopBarProps) {
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 flex items-center justify-between",
+          "sticky top-0 z-40 flex items-center justify-between text-heading",
           " ",
           "p-6",
           className
         )}
       >
-        <a href="/" className="title">
+        <a href="/" className="title ">
           LOGO
         </a>
 
@@ -51,17 +51,21 @@ export default function TopBar({ className }: TopBarProps) {
           <button
             aria-label="Notifications"
             onClick={() => openPanel("notif")}
-            className="rounded-full p-2 bg-[#F92FA21A] hover:bg-pink-50"
-          >
-            <img src="/icons/bell.svg" alt="" className="w-[26px] h-[26px]" />
+            className="rounded-full p-2 bg-primary-500/10 "
+          >{
+              theme === 'light' ? <img src="/icons/bell.svg" alt="" className={` w-[26px] h-[26px]`} /> : <img src="/icons/bellDark.svg" alt="" className={` w-[26px] h-[26px] `} />
+            }
+
           </button>
 
           <button
             aria-label="Filters"
             onClick={() => openPanel("filter")}
-            className="rounded-full p-2 bg-[#F92FA21A] hover:bg-pink-50"
+            className="rounded-full p-2 bg-primary-500/10 "
           >
-            <img src="/icons/slider.svg" alt="" className="w-[26px] h-[26px]" />
+            {
+              theme === 'light' ? <img src="/icons/slider.svg" alt="" className={`w-[26px] h-[26px] `} /> : <img src="/icons/sliderDark.svg" alt="" className={`w-[26px] h-[26px] `} />
+            }
           </button>
         </div>
       </header>

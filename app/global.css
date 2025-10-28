@@ -317,11 +317,11 @@ body {
 }
 
 .btn-signup {
-  @apply bg-[#F92FA2] font-medium text-white;
+  @apply bg-[#F92FA2] font-bold text-white;
 }
 
 .btn-login {
-  @apply bg-[#6D4AFF] font-medium text-white;
+  @apply bg-secondary-500 font-bold text-white;
 }
 
 .btn-sm {
@@ -370,7 +370,8 @@ body {
   .pill--active {
     @apply text-white rounded-full border-[1.5px] border-transparent;
 
-    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%) padding-box,
+    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
+        padding-box,
       linear-gradient(135deg, #eb97f3, #fbcfef) border-box;
   }
 
@@ -403,15 +404,20 @@ body {
 @layer utilities {
   .gradient-border-126 {
     border: var(--gb-width, 1.5px) solid transparent;
-    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%) padding-box,
+    background: linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
+        padding-box,
       linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%) border-box;
   }
 
   .gradient-border {
     border: var(--gb-width, 1.5px) solid transparent;
-    background: var(--gb-fill,
-        linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)) padding-box,
-      var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%)) border-box;
+    background: var(
+          --gb-fill,
+          linear-gradient(126.64deg, #ca2cff 0%, #f92fa2 120.26%)
+        )
+        padding-box,
+      var(--gb-ring, linear-gradient(135deg, #eb97f3 0%, #fbcfef 100%))
+        border-box;
   }
 
   /*  Reusable Phone Layout  */
@@ -488,6 +494,7 @@ body {
   .input {
     @apply w-full h-12 rounded-2xl px-5 text-[16px] placeholder:text-neutral-400 bg-white border border-neutral-300 outline-none ring-0;
 
+
     @apply focus:border focus:border-[#F92FA2] focus:ring-inset focus:ring-offset-0 focus-visible:outline-none focus:bg-[#F92FA2]/10;
   }
 } */
@@ -497,18 +504,21 @@ body {
   border: linear-gradient(101.58deg, #7E7E7E 5.24%, #C8C8C8 94.06%); */
 
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #a500dd 4.3%, #d557ff 97.77%) padding-box,
+  background: linear-gradient(130.89deg, #a500dd 4.3%, #d557ff 97.77%)
+      padding-box,
     linear-gradient(101.58deg, #d17eee 5.24%, #f6daff 94.06%) border-box;
 }
 
 .view-profile {
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #f6812e 4.3%, #ffb84c 97.77%) padding-box,
+  background: linear-gradient(130.89deg, #f6812e 4.3%, #ffb84c 97.77%)
+      padding-box,
     linear-gradient(101.58deg, #f4ba92 5.24%, #f4ba92 94.06%) border-box;
 }
 
 .boost-profile {
   @apply border-[1px] border-transparent;
-  background: linear-gradient(130.89deg, #7b2ff7 4.3%, #a26ff5 97.77%) padding-box,
+  background: linear-gradient(130.89deg, #7b2ff7 4.3%, #a26ff5 97.77%)
+      padding-box,
     linear-gradient(101.58deg, #bc96fb 4.3%, #a26ff5 94.06%) padding-box;
 }

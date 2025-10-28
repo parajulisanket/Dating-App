@@ -35,7 +35,7 @@ export const DeleteAccountReasonComponent = () => {
 
                 <div className="p-4">
                     <h2 className='font-bold text-[24px] leading-[36px] '>Help us improve</h2>
-                    <p className='text-[14px] text-justified leading-[21px] text-neutral-800 font-medium'>We totally get it — sometimes things just don’t click. But we’d love to know what made you decide to leave! Your feedback helps us make the app better for everyone (and maybe even win you back someday 😉).</p>
+                    <p className='text-[14px] text-justified leading-[21px] text-neutral-1000 font-medium'>We totally get it — sometimes things just don’t click. But we’d love to know what made you decide to leave! Your feedback helps us make the app better for everyone (and maybe even win you back someday 😉).</p>
 
                 </div>
 

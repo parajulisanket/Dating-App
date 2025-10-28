@@ -81,16 +81,17 @@ const OUT_DISTANCE = 1000;
 export default function Hero() {
   const [stack, setStack] = useState<Person[]>(PEOPLE);
   const [gone, setGone] = useState<SwipeResult[]>([]);
-  const [busy, setBusy] = useState(false); // for disabling buttons during fling
+  const [busy, setBusy] = useState(false);
+
   const topCard = useMemo(() => stack.at(-1) ?? null, [stack]);
 
-  // drag state/refs
   const posX = useRef(0);
   const posY = useRef(0);
   const startX = useRef(0);
   const startY = useRef(0);
   const dragging = useRef(false);
   const animating = useRef(false);
+  const raf = useRef<number | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   const setStyle = (
@@ -100,9 +101,8 @@ export default function Hero() {
     rotate?: number
   ) => {
     if (!el) return;
-    el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${
-      rotate ?? x / 15
-    }deg)`;
+    const rot = rotate ?? x / 15;
+    el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
   };
 
   const resetStyle = (el: HTMLElement | null) => {
@@ -115,7 +115,7 @@ export default function Hero() {
   const fling = (direction: "left" | "right") => {
     if (!topCard || animating.current) return;
     animating.current = true;
-    setBusy(true); // disable buttons during animation
+    setBusy(true);
 
     const el = cardRef.current;
     const x = direction === "right" ? OUT_DISTANCE : -OUT_DISTANCE;
@@ -139,6 +139,11 @@ export default function Hero() {
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (!topCard || animating.current) return;
+    const el = cardRef.current;
+    if (el) {
+      el.style.transition = "";
+      el.style.willChange = "transform";
+    }
     dragging.current = true;
     (e.target as Element).setPointerCapture?.(e.pointerId);
     startX.current = e.clientX;
@@ -151,18 +156,40 @@ export default function Hero() {
     const dy = e.clientY - startY.current;
     posX.current = dx;
     posY.current = dy;
-    setStyle(cardRef.current, dx, dy);
+
+    if (raf.current === null) {
+      raf.current = requestAnimationFrame(() => {
+        setStyle(cardRef.current, posX.current, posY.current);
+        raf.current = null;
+      });
+    }
   };
 
-  const handlePointerUp = () => {
+  const finishDrag = () => {
     if (!topCard) return;
     dragging.current = false;
-    Math.abs(posX.current) > SWIPE_THRESHOLD
-      ? fling(posX.current > 0 ? "right" : "left")
-      : ((posX.current = 0), (posY.current = 0), resetStyle(cardRef.current));
+
+    if (raf.current !== null) {
+      cancelAnimationFrame(raf.current);
+      raf.current = null;
+      setStyle(cardRef.current, posX.current, posY.current);
+    }
+
+    const el = cardRef.current;
+    if (el) el.style.willChange = "";
+
+    if (Math.abs(posX.current) > SWIPE_THRESHOLD) {
+      fling(posX.current > 0 ? "right" : "left");
+    } else {
+      posX.current = 0;
+      posY.current = 0;
+      resetStyle(cardRef.current);
+    }
   };
 
-  // Buttons now animate via fling (same as swipe)
+  const handlePointerUp = () => finishDrag();
+  const handlePointerCancel = () => finishDrag();
+
   const onNope = () => fling("left");
   const onLike = () => fling("right");
 
@@ -177,7 +204,6 @@ export default function Hero() {
 
   const { top, bottom } = useHeaderFooterGaps();
 
-  // Use dvh (or switch to svh if you prefer “small viewport height” behavior)
   const UNIT = "dvh";
   const heroHeight = `calc(100${UNIT} - ${top + bottom}px)`;
 
@@ -188,9 +214,8 @@ export default function Hero() {
       aria-label="Discover feed"
     >
       <div className="h-full w-full flex items-center justify-center px-4">
-        {/* The card container */}
         <div
-          className="relative rounded-[28px] overflow-hidden select-none "
+          className="relative rounded-[28px] overflow-hidden select-none"
           style={{
             width: 380,
             maxWidth: "100%",
@@ -221,8 +246,8 @@ export default function Hero() {
                 onPointerDown={isTop ? handlePointerDown : undefined}
                 onPointerMove={isTop ? handlePointerMove : undefined}
                 onPointerUp={isTop ? handlePointerUp : undefined}
+                onPointerCancel={isTop ? handlePointerCancel : undefined}
               >
-                {/* Device-specific image */}
                 <picture>
                   <source media="(min-width: 1024px)" srcSet={p.imageDesktop} />
                   <Image
@@ -230,57 +255,45 @@ export default function Hero() {
                     alt={p.name}
                     fill
                     priority={isTop}
-                    className="object-cover"
+                    className="object-cover select-none"
                     sizes="393px"
+                    draggable={false}
                   />
                 </picture>
 
-                {/* Top HUD */}
-                <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-20">
-                  <div className="flex items-center gap-2">
-                    <div className="h-1 w-7 rounded-full bg-white/85" />
-                    <div className="h-1 w-7 rounded-full bg-white/45" />
-                    <div className="h-1 w-7 rounded-full bg-white/45" />
-                  </div>
-                  <div className="bg-[#F92FA2] text-white font-medium text-sm px-2 py-1 rounded-full flex items-center gap-1">
-                    <img
-                      src={"/icons/Sparkle.svg"}
-                      alt=""
-                      className="w-4 h-4"
-                    />
-                    <span>67%</span>
-                  </div>
-                </div>
-
-                {/* Name + distance */}
+                {/* Info overlay */}
                 <div className="absolute left-6 right-6 bottom-32 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] z-20">
                   <h2 className="text-[28px] font-bold tracking-wide flex items-center gap-2">
                     {p.name}, {p.age}
-                    <img src={"/icons/verify.svg"} alt="" className="w-8 h-8" />
+                    <img
+                      src={"/icons/verify.svg"}
+                      alt=""
+                      className="w-8 h-8"
+                      draggable={false}
+                    />
                   </h2>
                   <p className="mt-1 text-sm opacity-95 flex items-center gap-1">
-                    <img src={"/icons/MapPin.svg"} alt="" className="w-4 h-4" />
+                    <img
+                      src={"/icons/MapPin.svg"}
+                      alt=""
+                      className="w-4 h-4"
+                      draggable={false}
+                    />
                     {p.distance}
                   </p>
                 </div>
 
-                {/* Gradient overlay */}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#340046] via-transparent to-transparent z-0" />
               </div>
             );
           })}
 
-          {/* Buttons — now animate via fling; disabled while busy */}
+          {/* Buttons */}
           <div
             className="absolute left-0 right-0 flex items-center justify-center z-30 pointer-events-auto"
             style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 18px)" }}
           >
-            <SwipeButtons
-              onUndo={onUndo}
-              onLike={onLike}
-              onNope={onNope}
-              // disabled={busy}
-            />
+            <SwipeButtons onUndo={onUndo} onLike={onLike} onNope={onNope} />
           </div>
         </div>
       </div>

@@ -29,17 +29,21 @@ export default function ThreadHeader({
 
   React.useEffect(() => {
     setMounted(true);
-  })
+  });
   if (!mounted) {
-    return
+    return;
   }
 
   return (
     <>
-      <header className="sticky top-0 z-10 border-b border-borderButton  p-6">
+      <header className="sticky top-0 z-10 border-b border-borderButton bg-background  p-6">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="p-2 -ml-2">
-            <img src={"/icons/CaretLeft.svg"} className={theme === "light" ? "" : "filter invert brightness-0"} alt="Back" />
+            <img
+              src={"/icons/CaretLeft.svg"}
+              className={theme === "light" ? "" : "filter invert brightness-0"}
+              alt="Back"
+            />
           </button>
 
           <Avatar className="h-10 w-10">
@@ -55,8 +59,9 @@ export default function ThreadHeader({
             </div>
             <div className="flex items-center gap-2 text-[14px]">
               <span
-                className={`h-2 w-2 rounded-full ${online ? "bg-[#22C55E]" : "bg-gray-300"
-                  }`}
+                className={`h-2 w-2 rounded-full ${
+                  online ? "bg-[#22C55E]" : "bg-gray-300"
+                }`}
               />
               <span className={online ? "text-neutral-600" : "text-gray-400"}>
                 {online ? "Online" : "Offline"}
@@ -69,19 +74,32 @@ export default function ThreadHeader({
               <img
                 src="/icons/phone.svg"
                 alt=""
-                className={theme === "light" ? "" : "filter invert brightness-0"}
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
               />
-
             </button>
             <button className="p-2" aria-label="Video call">
-              <img src={"/icons/VideoCamera.svg"} className={theme === "light" ? "" : "filter invert brightness-0"} alt="" />
+              <img
+                src={"/icons/VideoCamera.svg"}
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
+                alt=""
+              />
             </button>
             <button
               className="p-2"
               aria-label="More"
               onClick={() => setMenuOpen(true)}
             >
-              <img src={"/icons/DotsThree.svg"} className={theme === "light" ? "" : "filter invert brightness-0"} alt="" />
+              <img
+                src={"/icons/DotsThree.svg"}
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
+                alt=""
+              />
             </button>
           </div>
         </div>

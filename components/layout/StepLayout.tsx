@@ -63,7 +63,7 @@ export default function StepLayout({
           <Link
             href={backHref}
             aria-label="Back"
-            className="text-[#F92FA2] p-2 -ml-2 rounded-full"
+            className="text-heading p-2 -ml-2 rounded-full"
           >
             <ChevronLeft size={32} strokeWidth={1.5} />
           </Link>
@@ -87,11 +87,10 @@ export default function StepLayout({
       {/* Footer (pinned; now stays put even when keyboard opens) */}
       {footer ? (
         <div
-          className="mt-6"
+          className="mt-6 "
           style={{
-            paddingBottom: `calc(max(env(safe-area-inset-bottom, 0px), ${
-              liftFooterWithKeyboard ? kbInset : 0
-            }px) + 8px)`,
+            paddingBottom: `calc(max(env(safe-area-inset-bottom, 0px), ${liftFooterWithKeyboard ? kbInset : 0
+              }px) + 8px)`,
           }}
         >
           {footer}

@@ -37,13 +37,13 @@ export const Privacy = () => {
 
                         <div
                             onClick={toggleActiveStatus}
-                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
-              ${activeStatus ? "bg-primary-500" : "bg-primary-500/10"}
+                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${activeStatus ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
             `}
                         >
                             <div
                                 className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${activeStatus ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+                ${activeStatus ? "translate-x-[20px] bg-white" : "translate-x-0 bg-[#f92fa2]"}
               `}
                             ></div>
                         </div>
@@ -55,13 +55,13 @@ export const Privacy = () => {
 
                         <div
                             onClick={toggleLastActive}
-                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
-              ${lastActive ? "bg-primary-500" : "bg-primary-500/10"}
+                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${lastActive ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
             `}
                         >
                             <div
                                 className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${lastActive ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+                ${lastActive ? "translate-x-[20px] bg-white" : "translate-x-0 bg-[#f92fa2]"}
               `}
                             ></div>
                         </div>
@@ -72,13 +72,13 @@ export const Privacy = () => {
 
                         <div
                             onClick={toggleReadMessage}
-                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
-              ${readMessage ? "bg-primary-500" : "bg-primary-500/10"}
+                            className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${readMessage ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
             `}
                         >
                             <div
                                 className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${readMessage ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+                ${readMessage ? "translate-x-[20px] bg-white" : "translate-x-0 bg-[#f92fa2]"}
               `}
                             ></div>
                         </div>

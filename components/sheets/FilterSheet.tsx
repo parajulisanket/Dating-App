@@ -12,8 +12,8 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
   const [hasBio, setHasBio] = React.useState(true);
 
   const toggleFloatingBadges = () => {
-    setHasBio(prev => !prev)
-  }
+    setHasBio((prev) => !prev);
+  };
 
   const reset = () => {
     setShow(null);
@@ -34,12 +34,12 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       className={cn(
         "rounded-full border px-4 py-1.5 text-sm font-medium transition",
         show === value
-          ? theme === 'light'
-            ? 'bg-primary-500/10 text-primary-500 border-primary-500/40'
-            : 'bg-[#FFFFFF4D] border-white '
-          : theme === 'light'
-            ? ' border-neutral-200 text-neutral-1000'
-            : ' border-neutral-300'
+          ? theme === "light"
+            ? "bg-[#f92fa2]/10 text-primary-500 border-[#f92fa2]/40"
+            : "bg-[#FFFFFF4D] border-white "
+          : theme === "light"
+            ? " border-neutral-200 text-neutral-1000"
+            : " border-neutral-300"
       )}
     >
       {label}
@@ -60,11 +60,11 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       <div>
         <div className="flex justify-between  mb-2">
           <span className="font-bold">Preferred age</span>
-          <span className="text-pink-600 text-sm">
+          <span className={`text- text-sm ${theme === 'light' ? 'text-primary-500' : 'text-white'}`}>
             {age[0]}–{age[1]}
           </span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <input
             type="range"
             min={18}
@@ -87,7 +87,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       <div>
         <div className="flex justify-between  mb-2">
           <span className="font-bold">Preferred distance</span>
-          <span className="text-pink-600 text-sm">{distance} km</span>
+          <span className={`text- text-sm ${theme === 'light' ? 'text-primary-500' : 'text-white'}`}>{distance} km</span>
         </div>
         <input
           type="range"
@@ -103,13 +103,16 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
         <span className=" font-bold">Should have a bio</span>
         <div
           onClick={toggleFloatingBadges}
-          className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
-              ${hasBio ? "bg-primary-500" : "bg-primary-500/10"}
+          className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${hasBio ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
             `}
         >
           <div
             className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${hasBio ? "translate-x-[20px] bg-white" : "translate-x-0 bg-primary-500"}
+                ${hasBio
+                ? "translate-x-[20px] bg-white"
+                : "translate-x-0 bg-[#f92fa2]"
+              }
               `}
           ></div>
         </div>

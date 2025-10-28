@@ -2,7 +2,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
@@ -11,9 +11,13 @@ const OPTIONS = ["Man", "Woman", "All"] as const;
 type Interested = (typeof OPTIONS)[number];
 
 export default function InterestedPage() {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<Interested | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, [])
 
   const isValid = !!selected;
 
@@ -26,6 +30,10 @@ export default function InterestedPage() {
 
   const skip = () => router.push("/signup/hobbies");
 
+  if (!mounted) {
+    return;
+  }
+
   return (
     <StepLayout
       backHref="/signup/orientation"
@@ -34,7 +42,7 @@ export default function InterestedPage() {
         <button
           type="button"
           onClick={skip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
         >
           Skip
         </button>
@@ -58,12 +66,12 @@ export default function InterestedPage() {
                 "w-full h-14 rounded-full border px-6",
                 "flex items-center justify-center text-[18px] font-semibold",
                 active
-                  ? theme === 'light'
-                    ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
-                    : 'bg-[#FFFFFF4D] border-white'
-                  : theme === 'light'
-                    ? 'border-neutral-200  '
-                    : 'border-[#FFFFFF4D] ',
+                  ? theme === "light"
+                    ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
+                    : "bg-[#FFFFFF4D] border-white"
+                  : theme === "light"
+                    ? "border-neutral-200  "
+                    : "border-[#FFFFFF4D] ",
                 "transition-colors",
               ].join(" ")}
             >

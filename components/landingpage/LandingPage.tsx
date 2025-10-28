@@ -59,7 +59,7 @@ export default function LandingPage() {
 
           {/* HEADLINE */}
           <h1
-            className="mt-4 text-center font-semibold text-[#F92FA2]"
+            className="mt-4 text-center font-semibold text-heading"
             style={{
               fontSize: "clamp(16px, 4.6vw, 20px)",
               lineHeight: "clamp(22px, 6.2vw, 28px)",

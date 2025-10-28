@@ -43,7 +43,7 @@ export const Settings = () => {
       <main className="min-h-screen relative">
         {/* Simplified loading structure */}
         <div className="border-b border-neutral-200 ">
-          <div className="bg-white px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
+          <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1">
             {/* Loading skeleton */}
           </div>
         </div>
@@ -201,15 +201,15 @@ export const Settings = () => {
                             </div> */}
                 <div
                   onClick={toggleTheme}
-                  className={`h-6 w-[42px] rounded-full p-1 transition-all duration-300 cursor-pointer  border border-primary-500 flex items-center
-    ${theme === "dark" ? "bg-primary-500" : "bg-primary-500/10"}
+                  className={`h-6 w-[42px] rounded-full p-1 transition-all duration-300 cursor-pointer  border border-[#f92fa2] flex items-center
+    ${theme === "dark" ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
   `}
                 >
                   <div
                     className={`w-4 h-4  rounded-full shadow-md transform transition-transform duration-300
       ${theme === "dark"
                         ? "translate-x-[18px] bg-white"
-                        : "translate-x-0 bg-primary-500"
+                        : "translate-x-0 bg-[#f92fa2]"
                       }
     `}
                   ></div>

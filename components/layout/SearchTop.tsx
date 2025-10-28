@@ -57,13 +57,13 @@ export default function SearchTop({
           className={cn(
             "flex items-center gap-3 w-full",
             "h-12 rounded-full px-4",
-            "bg-[#3333330D] bg-search  text-gray-700 text-neutral-1000"
+            " bg-search text-neutral-1000"
           )}
         >
           <Icon
             size={iconSize}
             strokeWidth={2.5}
-            className={cn("text-gray-500  text-neutral-1000", iconClassName)}
+            className={cn(" text-neutral-1000", iconClassName)}
             aria-hidden="true"
           />
 

@@ -76,7 +76,7 @@ export const Faq = () => {
                       <AccordionTrigger className="p-4 font-bold  !text-[16px]">
                         {faq.question}
                       </AccordionTrigger>
-                      <AccordionContent className="text-[15px] px-2  pb-4 ">
+                      <AccordionContent className="text-[15px] px-2  pb-4 pl-4">
                         {faq.ans}
                       </AccordionContent>
                     </AccordionItem>

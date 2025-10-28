@@ -4,6 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThreadActionSheet from "@/components/message/ThreadActionSheet";
+import { useTheme } from "next-themes";
 
 export default function ThreadHeader({
   slug,
@@ -17,6 +18,8 @@ export default function ThreadHeader({
   online?: boolean;
 }) {
   const router = useRouter();
+  const { theme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
   const displayName = name ?? decodeURIComponent(slug);
 
   // sheet state + toggles
@@ -24,12 +27,23 @@ export default function ThreadHeader({
   const [readReceipts, setReadReceipts] = React.useState(true);
   const [notifications, setNotifications] = React.useState(true);
 
+  React.useEffect(() => {
+    setMounted(true);
+  });
+  if (!mounted) {
+    return;
+  }
+
   return (
     <>
-      <header className="sticky top-0 z-10 border-b border-gray-200 bg-white p-6">
+      <header className="sticky top-0 z-10 border-b border-borderButton bg-background  p-6">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="p-2 -ml-2">
-            <img src={"/icons/CaretLeft.svg"} alt="Back" />
+            <img
+              src={"/icons/CaretLeft.svg"}
+              className={theme === "light" ? "" : "filter invert brightness-0"}
+              alt="Back"
+            />
           </button>
 
           <Avatar className="h-10 w-10">
@@ -40,7 +54,7 @@ export default function ThreadHeader({
           </Avatar>
 
           <div className="leading-tight">
-            <div className="text-[20px] font-bold text-[#111827] capitalize">
+            <div className="text-[18px] font-semibold  capitalize">
               {displayName}
             </div>
             <div className="flex items-center gap-2 text-[14px]">
@@ -49,7 +63,7 @@ export default function ThreadHeader({
                   online ? "bg-[#22C55E]" : "bg-gray-300"
                 }`}
               />
-              <span className={online ? "text-[#10B981]" : "text-gray-400"}>
+              <span className={online ? "text-neutral-600" : "text-gray-400"}>
                 {online ? "Online" : "Offline"}
               </span>
             </div>
@@ -57,17 +71,35 @@ export default function ThreadHeader({
 
           <div className="ml-auto flex items-center gap-[4px] text-[#EB3FA5]">
             <button className="p-2" aria-label="Audio call">
-              <img src={"/icons/phone.svg"} alt="" />
+              <img
+                src="/icons/phone.svg"
+                alt=""
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
+              />
             </button>
             <button className="p-2" aria-label="Video call">
-              <img src={"/icons/VideoCamera.svg"} alt="" />
+              <img
+                src={"/icons/VideoCamera.svg"}
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
+                alt=""
+              />
             </button>
             <button
               className="p-2"
               aria-label="More"
               onClick={() => setMenuOpen(true)}
             >
-              <img src={"/icons/DotsThree.svg"} alt="" />
+              <img
+                src={"/icons/DotsThree.svg"}
+                className={
+                  theme === "light" ? "" : "filter invert brightness-0"
+                }
+                alt=""
+              />
             </button>
           </div>
         </div>

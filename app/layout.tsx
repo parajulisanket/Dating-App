@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
-import { Manrope } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./global.css";
 // import PageTransition from "@/components/PageTransition";
 
-const manrope = Manrope({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-geist-sans",
@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${manrope.variable} antialiased  no-scrollbar`}>
+      <body className={`${dmSans.variable} antialiased  no-scrollbar`}>
         <ThemeProvider
           attribute="class"
           enableSystem={false}

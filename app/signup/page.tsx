@@ -37,10 +37,10 @@ export default function SignUpPage() {
 
       {/* FOOTER (pinned) */}
       <footer className="space-y-2">
-        <Link href="/signup/email" className="btn btn-signup tracking-wide">
+        <Link href="/signup/email" className="btn btn-signup w-full">
           Continue with email
         </Link>
-        <Link href="/signup/phone" className="btn btn-login tracking-wide">
+        <Link href="/signup/phone" className="btn btn-login w-full">
           Use phone number
         </Link>
       </footer>

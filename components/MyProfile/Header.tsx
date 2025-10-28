@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils"; // adjust this import path based on your project structure
-
+import { useTheme } from "next-themes";
+import { getSvgColor } from '@/utils/theme';
 export const Header = ({ backHref = "/" }) => {
+  const { theme } = useTheme();
   return (
     <header className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton ">
       {/* Left: Back button + title */}
@@ -22,7 +24,7 @@ export const Header = ({ backHref = "/" }) => {
           alt="Settings"
           width={24}
           height={24}
-          className="cursor-pointer !text-white"
+          className={getSvgColor(theme)}
         />
       </Link>
     </header>

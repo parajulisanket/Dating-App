@@ -24,7 +24,7 @@ export default function LandingPage() {
       className="grid bg-background grid-rows-[auto_1fr_auto] gap-4"
     >
       {/* HEADER */}
-      <header className="text-center">
+      <header className="text-center ">
         <div className="title">LOGO</div>
       </header>
 
@@ -78,11 +78,10 @@ export default function LandingPage() {
               <span
                 key={i}
                 aria-hidden="true"
-                className={`rounded-full transition-all duration-300 ${
-                  i === current
-                    ? "h-2 w-2 bg-pink-500"
-                    : "h-1.5 w-1.5 bg-pink-200"
-                }`}
+                className={`rounded-full transition-all duration-300 ${i === current
+                  ? "h-2 w-2 bg-pink-500"
+                  : "h-1.5 w-1.5 bg-pink-200"
+                  }`}
               />
             ))}
           </div>

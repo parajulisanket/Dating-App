@@ -91,7 +91,7 @@ export default function ThreadView({ slug }: { slug: string }) {
     };
 
     return (
-        <div className="grid h-[100dvh] grid-rows-[auto,1fr,auto] bg-white no-scrollbar">
+        <div className="grid h-[100dvh] grid-rows-[auto,1fr,auto]  no-scrollbar">
             <ThreadHeader
                 slug={slug}
                 name={meta.name}
@@ -99,7 +99,7 @@ export default function ThreadView({ slug }: { slug: string }) {
                 online={meta.online}
             />
 
-            <ScrollArea className="px-3 py-4 no-scrollbar">
+            <ScrollArea className="px-3 py-4 no-scrollbar ">
                 {messages.map((msg) => {
                     if (msg.type === "divider") {
                         return <DayDivider key={msg.id} label={msg.label!} />;

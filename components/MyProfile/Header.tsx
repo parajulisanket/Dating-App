@@ -2,11 +2,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils"; // adjust this import path based on your project structure
 import { useTheme } from "next-themes";
-import { getSvgColor } from '@/utils/theme';
-export const Header = ({ backHref = "/" }) => {
+// import { getSvgColor } from '@/utils/theme';
+// import { useEffect, useState } from "react";
+export const Header = ({ backHref = "/home" }) => {
   const { theme } = useTheme();
+  // const [mounted, setMounted] = useState(false);
+  // useEffect(() => {
+  //   setMounted(true)
+  // }, []);
   return (
     <header className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton ">
       {/* Left: Back button + title */}
@@ -18,15 +22,29 @@ export const Header = ({ backHref = "/" }) => {
       </div>
 
       {/* Right: Settings Icon */}
+
       <Link href="/settings">
-        <Image
-          src="/settings.svg"
-          alt="Settings"
-          width={24}
-          height={24}
-          className={getSvgColor(theme)}
-        />
+        {
+          theme === 'light' ?
+            <Image
+              src="/settings.svg"
+              alt="Settings"
+              width={24}
+              height={24}
+            />
+            :
+            <Image
+              src="/settingsDark.svg"
+              alt="Settings"
+              width={24}
+              height={24}
+            />
+
+        }
+
       </Link>
+
+
     </header>
   );
 };

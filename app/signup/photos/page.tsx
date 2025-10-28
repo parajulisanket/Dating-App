@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Plus, X } from "lucide-react";
 import StepLayout from "@/components/layout/StepLayout";
 import { useTheme } from "next-themes";
@@ -10,7 +10,10 @@ export default function PhotosPage() {
   const router = useRouter();
   const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  })
   function onPick(i: number, file: File) {
     const url = URL.createObjectURL(file);
     setPhotos((prev) =>
@@ -43,6 +46,8 @@ export default function PhotosPage() {
 
   const skip = () => router.push("/home");
 
+  if (!mounted) return;
+
   return (
     <StepLayout
       backHref="/signup/lifestyle"
@@ -66,9 +71,8 @@ export default function PhotosPage() {
         {photos.map((p, i) => (
           <div
             key={i}
-            className={`relative aspect-[3/4] rounded-xl ${
-              theme === "light" ? "bg-primary-500" : "bg-white/10"
-            } flex items-center justify-center overflow-hidden`}
+            className={`relative aspect-[3/4] rounded-xl ${theme === "light" ? "bg-primary-500/10" : "bg-white/10"
+              } flex items-center justify-center overflow-hidden`}
           >
             {p ? (
               <>

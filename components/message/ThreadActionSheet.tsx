@@ -128,13 +128,12 @@ function ActionItem({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-4 px-6 py-4 text-left active:bg-gray-50"
+      className="flex w-full items-center gap-4 px-6 py-4 text-left active:bg-gray-50 "
     >
       <img src={icon} alt="" className="h-6 w-6 shrink-0" />
       <span
-        className={`text-[16px] font-bold ${
-          destructive ? "" : "text-gray-900"
-        }`}
+        className={`text-[16px] font-bold 
+          }`}
       >
         {label}
       </span>
@@ -154,19 +153,31 @@ function Toggle({
       type="button"
       role="switch"
       aria-checked={checked}
+      //   onClick={() => onChange?.(!checked)}
+      //   className={`relative inline-flex h-6 w-11 items-center rounded-full border transition-colors
+      // ${checked
+      //       ? "bg-[#F92FA2] border-[#F92FA2]"
+      //       : "bg-[#feeaf6] border-[#F92FA2]"
+      //     }
+      // `}
+      // >
+      //   <span
+      //     className={`pointer-events-none absolute left-0 h-5 w-5 rounded-full transition-transform
+      //   ${checked ? "translate-x-5 bg-white" : "translate-x-1 bg-[#F92FA2]"}`}
+      //   />
+
       onClick={() => onChange?.(!checked)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full border transition-colors
-    ${
-      checked
-        ? "bg-[#F92FA2] border-[#F92FA2]"
-        : "bg-[#feeaf6] border-[#F92FA2]"
-    }
-    `}
+      className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${checked ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
+            `}
     >
-      <span
-        className={`pointer-events-none absolute left-0 h-5 w-5 rounded-full transition-transform
-      ${checked ? "translate-x-5 bg-white" : "translate-x-1 bg-[#F92FA2]"}`}
-      />
+      <div
+        className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
+                ${checked ? "translate-x-[20px] bg-white" : "translate-x-0 bg-[#f92fa2]"}
+              `}
+      ></div>
+
+
     </button>
   );
 }
@@ -185,7 +196,7 @@ function ToggleItem({
   return (
     <div className="flex w-full items-center gap-4 px-6 py-4">
       <img src={icon} alt="" className="h-6 w-6 shrink-0" />
-      <span className="text-[16px] text-gray-900 font-bold">{label}</span>
+      <span className="text-[16px]  font-bold">{label}</span>
       <div className="ml-auto">
         <Toggle checked={checked} onChange={onCheckedChange} />
       </div>

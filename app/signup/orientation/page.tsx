@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
@@ -20,6 +20,7 @@ export default function OrientationPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<Orientation | null>(null);
   const [showOnProfile, setShowOnProfile] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   const isValid = !!selected;
 
@@ -31,6 +32,12 @@ export default function OrientationPage() {
   }
 
   const skip = () => router.push("/signup/interested");
+
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+
+  if (!mounted) return;
 
   return (
     <StepLayout
@@ -55,17 +62,16 @@ export default function OrientationPage() {
                   ? () => setShowOnProfile(false)
                   : () => setShowOnProfile(true)
               }
-              className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-primary-500  transition-all duration-300
-              ${showOnProfile ? "bg-primary-500" : "bg-primary-500/10"}
+              className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${showOnProfile ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
             `}
             >
               <div
-                className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform duration-300
-                ${
-                  showOnProfile
+                className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform  duration-300
+                ${showOnProfile
                     ? "translate-x-[20px] bg-white"
-                    : "translate-x-0 bg-primary-500"
-                }
+                    : "translate-x-0 bg-[#f92fa2]"
+                  }
               `}
               ></div>
             </div>
@@ -97,8 +103,8 @@ export default function OrientationPage() {
                     ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
                     : "bg-[#FFFFFF4D] border-white"
                   : theme === "light"
-                  ? "border-neutral-200  "
-                  : "border-[#FFFFFF4D] ",
+                    ? "border-neutral-200  "
+                    : "border-[#FFFFFF4D] ",
                 "transition-colors",
               ].join(" ")}
             >

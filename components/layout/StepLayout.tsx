@@ -87,11 +87,10 @@ export default function StepLayout({
       {/* Footer (pinned; now stays put even when keyboard opens) */}
       {footer ? (
         <div
-          className="mt-6"
+          className="mt-6 "
           style={{
-            paddingBottom: `calc(max(env(safe-area-inset-bottom, 0px), ${
-              liftFooterWithKeyboard ? kbInset : 0
-            }px) + 8px)`,
+            paddingBottom: `calc(max(env(safe-area-inset-bottom, 0px), ${liftFooterWithKeyboard ? kbInset : 0
+              }px) + 8px)`,
           }}
         >
           {footer}

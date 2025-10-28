@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { getSvgColor } from "@/utils/theme";
+import { useEffect, useState } from "react";
 type TopBarProps = {
   className?: string;
   title?: string; // defaults to "Matches"
@@ -22,7 +22,17 @@ export default function TopBar({
   searchHref,
   onSearchClick,
 }: TopBarProps) {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
+  // const theme = localStorage.getItem('app-theme')
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  })
+  if (!mounted) {
+    return (
+      <div className="h-[56px]" />
+    )
+  }
   return (
     <header
       className={cn(
@@ -48,11 +58,10 @@ export default function TopBar({
             type="button"
             aria-label="Search"
             onClick={onSearchClick}
-            className="rounded-full  bg-primary-500/10 "
+            className="rounded-full  bg-primary-500/10 text-heading "
           >
             <Search
-              className={`w-[26px] h-[26px] ${theme === "dark" ? "text-white" : "text-primary-500"
-                }`}
+              className={`w-[26px] h-[26px] `}
               strokeWidth={2}
             />
           </button>

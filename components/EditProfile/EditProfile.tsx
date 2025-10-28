@@ -150,7 +150,7 @@ export const EditProfile = () => {
         {/* Header */}
         <div className="bg-background px-4 py-4 flex items-center gap-3  text-heading border-b border-borderButton">
           <button
-            onClick={() => router.back()}
+            onClick={() => router.push('/profile')}
             aria-label="Back"
             className="rounded-full"
           >
@@ -257,54 +257,64 @@ export const EditProfile = () => {
           <div>
             <div className="flex justify-between">
               <h2 className="edit-title">My Bio</h2>
-              <Link href="/edit-profile/bio">
+              {/* <Link href="/edit-profile/bio">
                 <button className="btn-edit">Edit</button>
-              </Link>
+              </Link> */}
             </div>
-            <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
+             <Link href="/edit-profile/bio">
+              <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
               {formData.bio || ""}
             </div>
+             </Link>
+           
           </div>
 
           {/* Interested In Section */}
           <div>
             <div className="flex justify-between">
               <h2 className="edit-title">I'm interested in</h2>
-              <Link href="edit-profile/interested">
+              {/* <Link href="edit-profile/interested">
                 <button className="btn-edit">Edit</button>
-              </Link>
+              </Link> */}
             </div>
-            <div className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none">
+             <Link href="edit-profile/interested">
+                 <div className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none">
               <span className="py-[14px] px-4 rounded-[200px] border border-capsule-border bg-capsule h-[32px] inline-flex justify-center items-center">
                 {formData.interestedIn || ""}
               </span>
             </div>
+             </Link>
+           
           </div>
 
           {/* Sexual Orientation Section */}
           <div>
             <div className="flex justify-between">
               <h2 className="edit-title">My Sexual Orientation is</h2>
-              <Link href="/edit-profile/sexual-orientation">
+              {/* <Link href="/edit-profile/sexual-orientation">
                 <button className="btn-edit">Edit</button>
-              </Link>
+              </Link> */}
             </div>
-            <div className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none">
+             <Link href="/edit-profile/sexual-orientation">
+                  <div className="w-full border border-neutral-400 h-[56px] rounded-lg p-3 text-[14px] focus:outline-none">
               <span className="py-[14px] px-4 rounded-[200px] border border-capsule-border bg-capsule h-[32px] inline-flex justify-center items-center">
                 {formData.sexualOrientation || ""}
               </span>
             </div>
+             </Link>
+            
           </div>
 
           {/* Hobbies Section */}
           <div>
             <div className="flex justify-between">
               <h2 className="edit-title">My Hobbies are</h2>
-              <Link href="/edit-profile/hobbies">
+              {/* <Link href="/edit-profile/hobbies">
                 <button className="btn-edit">Edit</button>
-              </Link>
+              </Link> */}
             </div>
-            <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
+              <Link href="/edit-profile/hobbies">
+              <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
               <div className="flex gap-2 overflow-x-auto whitespace-nowrap no-scrollbar">
                 {formData.hobbies.length > 0 ? (
                   formData.hobbies.map((hobbyKey) => {
@@ -330,16 +340,19 @@ export const EditProfile = () => {
                 )}
               </div>
             </div>
+              </Link>
+            
           </div>
 
           {/* Social Links Section */}
           <div>
             <div className="flex justify-between">
               <h2 className="edit-title">My Social Links</h2>
-              <Link href="/edit-profile/social-accounts">
+              {/* <Link href="/edit-profile/social-accounts">
                 <button className="btn-edit">Edit</button>
-              </Link>
+              </Link> */}
             </div>
+            
             <div className="space-y-3">
               {formData.socialLinks.map((link) => (
                 <div

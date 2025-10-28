@@ -6,10 +6,11 @@ import { NotificationSheet } from "@/components/sheets/NotificationSheet";
 import { FilterSheet } from "@/components/sheets/FilterSheet";
 import { useTheme } from "next-themes";
 
+
 type TopBarProps = { className?: string };
 
 export default function TopBar({ className }: TopBarProps) {
-  const { resolvedTheme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
@@ -31,50 +32,63 @@ export default function TopBar({ className }: TopBarProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const isDark = resolvedTheme === "dark"; 
+  const isDark = resolvedTheme === "dark";
+
 
   return (
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 flex items-center justify-between text-heading p-6",
+          "sticky top-0 z-40 flex items-center justify-between text-heading p-6 ",
           className
         )}
       >
         <a href="/" className="title">
           LOGO
         </a>
+        {
+          mounted && (
+            <div className="flex items-center gap-3">
+              <button
+                aria-label="Notifications"
+                onClick={() => openPanel("notif")}
+                className="rounded-full p-2 bg-primary-500/10"
+              >
 
-        <div className="flex items-center gap-3">
-          <button
-            aria-label="Notifications"
-            onClick={() => openPanel("notif")}
-            className="rounded-full p-2 bg-primary-500/10"
-          >
-            {/* avoid hydration flicker until mounted */}
-            {mounted && (
-              <img
-                src={isDark ? "/icons/bellDark.svg" : "/icons/Bell.svg"}
-                alt=""
-                className="w-[26px] h-[26px]"
-              />
-            )}
-          </button>
+                {theme === 'light' ? (
+                  <img
+                    src="/icons/bell.svg"
+                    alt=""
+                    className="w-[26px] h-[26px]"
+                  />
+                ) : <img
+                  src="/icons/bellDark.svg"
+                  alt=""
+                  className="w-[26px] h-[26px]"
+                />}
+              </button>
 
-          <button
-            aria-label="Filters"
-            onClick={() => openPanel("filter")}
-            className="rounded-full p-2 bg-primary-500/10"
-          >
-            {mounted && (
-              <img
-                src={isDark ? "/icons/sliderDark.svg" : "/icons/slider.svg"}
-                alt=""
-                className="w-[26px] h-[26px]"
-              />
-            )}
-          </button>
-        </div>
+              <button
+                aria-label="Filters"
+                onClick={() => openPanel("filter")}
+                className="rounded-full p-2 bg-primary-500/10"
+              >
+                {theme === 'light' ? <img
+                  src="/icons/slider.svg"
+                  alt=""
+                  className="w-[26px] h-[26px]"
+                /> :
+                  <img
+                    src="/icons/sliderDark.svg"
+                    alt=""
+                    className="w-[26px] h-[26px]"
+                  />
+                }
+              </button>
+            </div>
+          )
+        }
+
       </header>
 
       {open && (

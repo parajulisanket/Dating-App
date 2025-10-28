@@ -24,7 +24,7 @@ export default function LandingPage() {
       className="grid bg-background grid-rows-[auto_1fr_auto] gap-4"
     >
       {/* HEADER */}
-      <header className="text-center bbb">
+      <header className="text-center ">
         <div className="title">LOGO</div>
       </header>
 

@@ -364,7 +364,7 @@ body {
   }
 
   .pill {
-    @apply inline-flex items-center gap-0.5 rounded-full p-2 ring-1 ring-white/40;
+    @apply inline-flex items-center gap-0.5 rounded-full p-2;
   }
 
   .pill--active {

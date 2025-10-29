@@ -52,7 +52,7 @@ export default function TopBar({ className }: TopBarProps) {
               <button
                 aria-label="Notifications"
                 onClick={() => openPanel("notif")}
-                className="rounded-full p-2 bg-primary-500/10"
+                className="p-2"
               >
 
                 {theme === 'light' ? (
@@ -71,7 +71,7 @@ export default function TopBar({ className }: TopBarProps) {
               <button
                 aria-label="Filters"
                 onClick={() => openPanel("filter")}
-                className="rounded-full p-2 bg-primary-500/10"
+                className=" p-2 "
               >
                 {theme === 'light' ? <img
                   src="/icons/slider.svg"

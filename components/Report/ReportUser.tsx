@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,10 @@ export const ReportUser = () => {
     const { theme } = useTheme()
     const [selectedReason, setSelectedReason] = useState<string>("");
     const [additionalDetails, setAdditionalDetails] = useState<string>("");
+    const [mounted,setMounted]=useState<Boolean>(false);
+    useEffect(()=>{
+        setMounted(true);
+    })
 
     const handleReasonSelect = (reasonId: string) => {
         setSelectedReason(reasonId);
@@ -69,7 +73,8 @@ export const ReportUser = () => {
                     className="h-[120px] w-[120px]"
                 />
                 <h1 className="text-[24px] font-bold  mb-2">Report User</h1>
-                <p className={`text-[14px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'}`}>Help us keep the community safe.</p>
+                {mounted && (<p className={`text-[14px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'}`}>Help us keep the community safe.</p>)}
+                
             </div>
 
             {/* Report Reasons Section */}
@@ -77,22 +82,30 @@ export const ReportUser = () => {
                 <h2 className="text-[16px] font-bold  mb-2 leading-[20px]">
                     Why are you reporting this profile?
                 </h2>
-                <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} mb-4`}>Select an option</p>
+                {mounted && ( <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} mb-4`}>Select an option</p>)}
+               
 
-                <div className="flex flex-wrap gap-2">
+                {mounted && (
+<div className="flex flex-wrap gap-2">
                     {REPORT_REASONS.map((reason) => (
                         <button
                             key={reason.id}
                             onClick={() => handleReasonSelect(reason.id)}
                             className={`px-4 py-2 rounded-full text-[14px] border transition-all ${selectedReason === reason.id
-                                ? "bg-primary-500/10 text-primary-500 border-primary-500/40"
-                                : "  border-neutral-200 text-neutral-1000"
+                                 ? theme === 'light'
+                                            ? 'bg-primary-500/10 text-primary-500 border-primary-500/40'
+                                            : 'bg-[#FFFFFF4D] border-white text-white'
+                                        : theme === 'light'
+                                            ? 'bg-white border-neutral-200 text-neutral-1000'
+                                            : 'bg-transparent border-[#FFFFFF4D] text-white'
                                 }`}
                         >
                             {reason.label}
                         </button>
                     ))}
                 </div>
+                )}
+                
             </div>
 
             {/* Additional Details Section */}

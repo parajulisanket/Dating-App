@@ -15,9 +15,9 @@ export const Header = ({ backHref = "/home" }) => {
     <header className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton ">
       {/* Left: Back button + title */}
       <div className="flex items-center gap-3 text-heading">
-        <Link href={backHref} aria-label="Back" className="rounded-full">
+        {/* <Link href={backHref} aria-label="Back" className="rounded-full">
           <ChevronLeft className="" size={24} strokeWidth={1.5} />
-        </Link>
+        </Link> */}
         <h1 className="text-[16px] leading-[20px] font-bold">Anup</h1>
       </div>
 

@@ -5,7 +5,6 @@ import { ChevronLeft, Check, Eye, EyeOff } from "lucide-react";
 import { FormEvent, useMemo, useState, useRef, useEffect } from "react";
 import PhoneViewport from "@/components/layout/PhoneViewport";
 
-
 export default function SignUpEmailForm({
   onValidSubmit,
   busy = false,
@@ -25,9 +24,7 @@ export default function SignUpEmailForm({
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
-  })
-
-
+  });
 
   const emailOk = useMemo(
     () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
@@ -111,15 +108,15 @@ export default function SignUpEmailForm({
           </div>
 
           {/* Opt-in */}
-          <label className="mt-6 inline-flex items-start gap-3 select-none">
+          <label className="mt-6 inline-flex items-start gap-2 select-none">
             <span className="relative">
               <input
                 type="checkbox"
                 checked={optIn}
                 onChange={(e) => setOptIn(e.target.checked)}
-                className="peer h-5 w-5 appearance-none rounded  bg-white border
+                className="peer h-5 w-5 appearance-none rounded  bg-white border border-primary-500
                      checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors
-                     focus:ring-2 focus:ring-inset focus:ring-[#F92FA2] focus:border-transparent"
+                 "
               />
               {optIn && (
                 <Check

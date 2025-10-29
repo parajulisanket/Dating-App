@@ -27,7 +27,7 @@ export default function SearchTop({
   onSubmit,
   className,
   sticky = true,
-  autoFocus = true,
+  autoFocus = false,
   Icon = SearchIcon,
   iconSize = 22,
   iconClassName,

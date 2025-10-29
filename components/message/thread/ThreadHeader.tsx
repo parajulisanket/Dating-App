@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThreadActionSheet from "@/components/message/ThreadActionSheet";
 import { useTheme } from "next-themes";
-
+import BlockUserDialog from "@/components/UserProfile/BlockUserDialog";
 export default function ThreadHeader({
   slug,
   name,
@@ -26,6 +26,7 @@ export default function ThreadHeader({
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [readReceipts, setReadReceipts] = React.useState(true);
   const [notifications, setNotifications] = React.useState(true);
+   const [isBlockActive, setIsBlockActive] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
@@ -131,14 +132,20 @@ export default function ThreadHeader({
           console.log("Delete conversations");
         }}
         onReport={() => {
+          router.push('/user-profile/7/report')
           setMenuOpen(false);
           console.log("Report user");
         }}
         onBlock={() => {
           setMenuOpen(false);
+          setIsBlockActive(true);
           console.log("Block user");
         }}
       />
+       <BlockUserDialog
+                      isBlockActive={isBlockActive}
+                      onClose={() => setIsBlockActive(false)}
+                  />
     </>
   );
 }

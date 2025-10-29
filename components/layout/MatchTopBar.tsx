@@ -58,7 +58,7 @@ export default function TopBar({
             type="button"
             aria-label="Search"
             onClick={onSearchClick}
-            className="rounded-full  bg-primary-500/10 text-heading "
+            className=" text-heading "
           >
             <Search
               className={`w-[26px] h-[26px] `}
@@ -69,7 +69,7 @@ export default function TopBar({
           <Link
             href={searchHref || "/search"}
             aria-label="Search"
-            className="rounded-full p-2  bg-primary-500/10 "
+            className=" p-2 "
           >
             <Search
               className={`w-[26px] h-[26px] ${theme === "dark" ? "text-white" : "text-primary-500"

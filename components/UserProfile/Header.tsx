@@ -5,22 +5,24 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils"; // adjust this import path based on your project structure
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 interface HeaderProps {
     onMenuClick: () => void;
 }
 export const Header = ({ onMenuClick }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const router=useRouter()
     return (
         <>
             <header
                 className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton " >
                 {/* Left: Back button + title */}
-                <div className="flex items-center gap-3 text-[#F92FA2]">
-                    <Link href='/home' aria-label="Back" className="rounded-full">
-                        <ChevronLeft className="" size={24} strokeWidth={1.5} />
-                    </Link>
-                    <h1 className="text-[16px] leading-[20px] font-bold">Anup</h1>
-                </div>
+                 <div className="flex items-center gap-3 text-heading">
+        <div onClick={()=>router.back()} aria-label="Back" className="rounded-full">
+          <ChevronLeft className="" size={24} strokeWidth={1.5} />
+        </div>
+        <h1 className="text-[16px] leading-[20px] font-bold">Katrina</h1>
+      </div>
 
                 <button onClick={onMenuClick}>
                     <Image
@@ -28,15 +30,9 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
                         alt="Menu"
                         width={24}
                         height={24}
-                        className="cursor-pointer "
+                        className="cursor-pointer dark:filter dark:invert dark:brightness-0"
                     />
                 </button>
-
-
-
-
-
-
             </header>
 
         </>

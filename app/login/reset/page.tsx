@@ -84,12 +84,12 @@ export default function ResetPasswordPage() {
 
         {/* Logout all checkbox */}
         <label className="inline-flex items-center gap-2 select-none relative mt-2">
-          <span className="relative">
+          <span className="relative ">
             <input
               type="checkbox"
               checked={logoutAll}
               onChange={(e) => setLogoutAll(e.target.checked)}
-              className="mt-1 peer h-4 w-4 appearance-none rounded  bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
+              className="mt-1 peer h-4 w-4 appearance-none rounded border border-primary-500 bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
             />
             {logoutAll && (
               <Check

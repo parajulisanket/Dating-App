@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import emoji from "@/assets/emojis/emoji"
+import { useTheme } from "next-themes";
 
 // Types
 interface RelationshipOption {
@@ -222,6 +223,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
   const HEADER_H = 48;
   const FOOTER_H = 0;
   const containerHeight = `calc(100svh - ${HEADER_H + FOOTER_H}px)`;
+  const {theme}=useTheme()
 
   return (
     <div
@@ -247,8 +249,8 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                 className="cursor-pointer rounded-full object-cover h-[80px] w-[80px]"
               />
 
-              <div className="flex flex-col h-[57px] ">
-                <div className="flex gap-2 items-center text-[#f9209b] text-[24px] font-bold leading-[36px]">
+              <div className="flex flex-col h-[57px] text-heading ">
+                <div className="flex gap-2 items-center  text-[24px] font-bold leading-[36px]">
                   <h1>{profileData.name}, {profileData.age}</h1>
                   {profileData.isVerified && (
                     <Image
@@ -260,14 +262,25 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                     />
                   )}
                 </div>
-                <div className="flex text-[#fa51b1] items-center gap-1">
-                  <Image
-                    src="/icons/location.svg"
-                    alt="location"
-                    width={16}
-                    height={16}
-                    className="h-4 w-4"
-                  />
+                <div className="flex text-[#fa51b1] dark:text-neutral-400 items-center gap-1">
+                 {
+                                  theme === 'light' ? <> <Image
+                                    src="/icons/location.svg"
+                                    alt="location"
+                                    width={16}
+                                    height={16}
+                                    // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
+                                    className={`h-4 w-4 `}
+                                  /></> :
+                                    <Image
+                                      src="/icons/locationDark.svg"
+                                      alt="location"
+                                      width={16}
+                                      height={16}
+                                      // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
+                                      className={`h-4 w-4 `}
+                                    />
+                                }
                   <p className="text-[14px]">{profileData.location}, {profileData.distance}</p>
                 </div>
               </div>

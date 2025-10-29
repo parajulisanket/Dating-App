@@ -9,13 +9,16 @@ import { useTheme } from "next-themes";
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const router = useRouter();
   const params = useSearchParams();
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
 
   const [d, setD] = useState<string[]>(["", "", "", "", "", ""]);
-  const refs = Array.from({ length: 6 }, () => useRef<HTMLInputElement>(null));
+  // stable refs array for the 6 inputs (avoid calling hooks in a loop)
+  const refs = useRef<Array<HTMLInputElement | null>>(
+    Array.from({ length: 6 }, () => null)
+  );
 
   const code = useMemo(() => d.join(""), [d]);
   const valid = code.length === 6;
@@ -29,16 +32,16 @@ export default function VerifyPage() {
       .toUpperCase()
       .slice(0, 1);
     setAt(i, c);
-    if (c && i < 5) refs[i + 1].current?.focus();
+    if (c && i < 5) refs.current[i + 1]?.focus();
   };
 
   const onKeyDown = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !d[i] && i > 0) {
       setAt(i - 1, "");
-      refs[i - 1].current?.focus();
+      refs.current[i - 1]?.focus();
     }
-    if (e.key === "ArrowLeft" && i > 0) refs[i - 1].current?.focus();
-    if (e.key === "ArrowRight" && i < 5) refs[i + 1].current?.focus();
+    if (e.key === "ArrowLeft" && i > 0) refs.current[i - 1]?.focus();
+    if (e.key === "ArrowRight" && i < 5) refs.current[i + 1]?.focus();
   };
 
   const onPaste = (e: React.ClipboardEvent<HTMLFormElement>) => {
@@ -49,8 +52,8 @@ export default function VerifyPage() {
     if (!text) return;
     e.preventDefault();
     const chars = text.slice(0, 6).split("");
-    setD((prev) => prev.map((_, i) => chars[i] ?? ""));
-    refs[Math.min(chars.length, 5)].current?.focus();
+    setD(() => Array.from({ length: 6 }, (_, i) => chars[i] ?? ""));
+    refs.current[Math.min(chars.length, 5)]?.focus();
   };
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
@@ -93,7 +96,11 @@ export default function VerifyPage() {
         onPaste={onPaste}
         className="space-y-6"
       >
-        <p className={`text-[16px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`}>
+        <p
+          className={`text-[16px] ${
+            theme === "light" ? "text-neutral-700" : "text-neutral-500"
+          }`}
+        >
           Enter verification code we sent to{" "}
           <span className="font-semibold">{emailFromQuery}</span>.
         </p>
@@ -102,7 +109,9 @@ export default function VerifyPage() {
           {d.map((v, i) => (
             <input
               key={i}
-              ref={refs[i]}
+              ref={(el) => {
+                refs.current[i] = el;
+              }}
               value={v}
               onChange={(e) => onChange(i, e.target.value)}
               onKeyDown={(e) => onKeyDown(i, e)}

@@ -35,7 +35,7 @@ export const PrivacyPolicy = () => {
     >
       {" "}
       <main className="min-h-screen">
-        <div className="border-b border-borderButton">
+        <div className="border-b border-borderButton sticky top-0">
           <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
             <Link
               href="/settings/help-support"

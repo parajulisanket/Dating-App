@@ -1,5 +1,5 @@
-import TopBar from "@/components/layout/TopBar";
-import FooterBar from "@/components/layout/FooterBar";
+// import TopBar from "@/components/layout/TopBar";
+// import FooterBar from "@/components/layout/FooterBar";
 import { Header } from "@/components/MyProfile/Header";
 import { MyInfo } from "@/components/MyProfile/MyInfo";
 export default function HomePage() {

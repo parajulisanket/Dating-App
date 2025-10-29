@@ -32,11 +32,10 @@ export default function PhoneViewport({
     >
       <main
         className={cn(
-          "w-full",
+          "w-full", //aspect-[9/19.5]
           bg,
-          "overflow-hidden", // no scroll inside either
-          "h-[100svh]", // stable height on mobile
-          "shadow-xl"
+          "overflow-hidden",
+          "h-[100svh]"
         )}
         style={{ maxWidth }}
       >
@@ -57,4 +56,4 @@ export default function PhoneViewport({
       </main>
     </div>
   );
-} 
+}

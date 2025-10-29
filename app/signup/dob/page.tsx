@@ -48,7 +48,7 @@ export default function DobPage() {
       titleClassName="title"
       // Subtitle matches style (darker copy with bold emphasis)
       subtitle={
-        <p className="text-[16px] leading-6 text-neutral-700">
+        <p className="{` ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`} leading-6 text-[16px] ">
           Your age not birthdate will be public.
           <span className="font-semibold">
             {" "}
@@ -68,13 +68,7 @@ export default function DobPage() {
           inputMode="numeric"
           placeholder="DD / MM / YYYY"
           maxLength={14}
-          className="
-            w-full h-14 rounded-[20px]
-            border border-neutral-300
-            px-5 text-[16px]
-            placeholder:text-neutral-400
-            focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10
-          "
+          className="input"
           value={dob}
           onChange={(e) => onDobChange(e.target.value)}
         />

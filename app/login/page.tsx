@@ -1,42 +1,47 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import PhoneViewport from "@/components/layout/PhoneViewport";
 
-export const metadata = {
-  title: "Log In",
-};
+export const metadata = { title: "Log In" };
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
-    <div className="w-full flex justify-center">
-      <main className="w-full max-w-[390px] min-h-screen flex flex-col px-5 pt-10 pb-8">
-        {/* Top bar */}
-        <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            aria-label="Back"
-            className="text-[#f72fa2] p-2 -ml-2 rounded-full"
-          >
-            <ChevronLeft size={35} strokeWidth={2} />
-          </Link>
-          <h1 className="title">Log In</h1>
-          <span className="w-7" />
-        </div>
+    <PhoneViewport maxWidth={425} className="grid grid-rows-[auto_1fr_auto]">
+      {/* HEADER */}
+      <header className="flex items-center justify-between">
+        <Link
+          href="/"
+          aria-label="Back"
+          className="text-heading p-2 -ml-2 rounded-full"
+        >
+          <ChevronLeft size={32} strokeWidth={1.5} />
+        </Link>
+        <h1 className="title">Log In</h1>
+        {/* spacer to balance the back button */}
+        <span className="w-8" />
+      </header>
 
-        {/* Big circle / placeholder */}
-        <div className="flex-grow flex items-center justify-center">
-          <div className="h-[280px] w-[280px] rounded-full bg-[#E2B3F7]" />
-        </div>
+      {/* CONTENT (non-scrollable; auto-centers) */}
+      <section className="flex items-center justify-center overflow-hidden">
+        {/* Circle scales by device height; never causes scroll */}
+        <div
+          className="rounded-full bg-[#E2B3F7]"
+          style={{
+            width: "clamp(180px, 40svh, 320px)",
+            height: "clamp(180px, 40svh, 320px)",
+          }}
+        />
+      </section>
 
-        {/* CTAs */}
-        <div className="space-y-3">
-          <Link href="/login/email" className="btn btn-signup">
-            Log In
-          </Link>
-          <Link href="/signup" className="btn btn-login">
-            Create an Account
-          </Link>
-        </div>
-      </main>
-    </div>
+      {/* FOOTER (pinned, tight spacing) */}
+      <footer className="space-y-2">
+        <Link href="/login/email" className="btn btn-signup tracking-wide">
+          Log In
+        </Link>
+        <Link href="/signup" className="btn btn-login tracking-wide">
+          Create an Account
+        </Link>
+      </footer>
+    </PhoneViewport>
   );
 }

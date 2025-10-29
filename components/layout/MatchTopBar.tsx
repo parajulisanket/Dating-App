@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { ChevronLeft, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 type TopBarProps = {
   className?: string;
   title?: string; // defaults to "Matches"
@@ -21,20 +22,30 @@ export default function TopBar({
   searchHref,
   onSearchClick,
 }: TopBarProps) {
+  const { theme } = useTheme();
+  // const theme = localStorage.getItem('app-theme')
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  })
+  if (!mounted) {
+    return (
+      <div className="h-[56px]" />
+    )
+  }
   return (
     <header
       className={cn(
         "sticky top-0 z-40",
         "flex items-center justify-between",
-        "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60",
-        "p-6",
+        "p-4",
         className
       )}
     >
       {/* Left: chevron + title */}
       <div className="flex items-center gap-3">
         <Link href={backHref} aria-label="Back" className="rounded-full ">
-          <ChevronLeft className="text-[#F92FA2]" size={35} strokeWidth={1.5} />
+          <ChevronLeft className="text-heading" size={35} strokeWidth={1.5} />
         </Link>
 
         <h1 className="title">{title}</h1>
@@ -47,17 +58,24 @@ export default function TopBar({
             type="button"
             aria-label="Search"
             onClick={onSearchClick}
-            className="rounded-full  bg-[#F92FA21A] hover:bg-pink-50"
+            className="rounded-full  bg-primary-500/10 text-heading "
           >
-            <Search className="text-[#F92FA2]" size={26} strokeWidth={2} />
+            <Search
+              className={`w-[26px] h-[26px] `}
+              strokeWidth={2}
+            />
           </button>
         ) : (
           <Link
             href={searchHref || "/search"}
             aria-label="Search"
-            className="rounded-full p-2 bg-[#F92FA21A] hover:bg-pink-50"
+            className="rounded-full p-2  bg-primary-500/10 "
           >
-            <Search className="text-[#F92FA2]" size={26} strokeWidth={2} />
+            <Search
+              className={`w-[26px] h-[26px] ${theme === "dark" ? "text-white" : "text-primary-500"
+                }`}
+              strokeWidth={2}
+            />
           </Link>
         ))}
     </header>

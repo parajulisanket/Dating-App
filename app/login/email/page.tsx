@@ -41,16 +41,14 @@ export default function LoginEmailPage() {
         </NextButton>
       }
     >
-      <form id="login-email-form" onSubmit={onSubmit} className="space-y-4">
+      <form id="login-email-form" onSubmit={onSubmit} className="space-y-4 ">
         {/* Email */}
         <input
           type="email"
           autoComplete="email"
           inputMode="email"
           placeholder="Enter your email address"
-          className="w-full h-12 rounded-2xl border border-neutral-300 px-5 text-[15px]
-                     placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                     focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+          className="input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -61,9 +59,7 @@ export default function LoginEmailPage() {
             type={showPwd ? "text" : "password"}
             autoComplete="current-password"
             placeholder="Enter your password"
-            className="w-full h-12 rounded-2xl border border-neutral-300 px-5 pr-12 text-[15px]
-                       placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                       focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+            className="input"
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
           />
@@ -84,7 +80,7 @@ export default function LoginEmailPage() {
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="mt-1 peer h-4 w-4 appearance-none rounded border border-pink-400 bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
+                className="mt-1 peer h-4 w-4 appearance-none rounded border border-primary-500 bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
               />
               {remember && (
                 <Check
@@ -94,7 +90,7 @@ export default function LoginEmailPage() {
                 />
               )}
             </span>
-            <span className="text-sm leading-5 text-neutral-500 tracking-wide">
+            <span className="text-sm  text-neutral-500 tracking-wide">
               Remember me
             </span>
           </label>

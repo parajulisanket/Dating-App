@@ -43,9 +43,7 @@ export default function NamePage() {
         <input
           type="text"
           placeholder="Enter your first name"
-          className="w-full h-12 rounded-2xl border border-neutral-300 px-5 text-[15px]
-                     placeholder:text-neutral-400 focus:outline-none focus:ring-2
-                     focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10"
+          className="input"
           value={first}
           onChange={(e) => setFirst(e.target.value)}
         />

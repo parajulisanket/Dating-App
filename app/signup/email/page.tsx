@@ -37,6 +37,8 @@ export default function EmailPage() {
       if (!res.ok) throw new Error(await res.text());
       router.push("/signup/verify");
     } catch (e) {
+      // Log the error for debugging and surface a friendly message to the user
+      console.error("Failed to start signup:", e);
       alert("Failed to start signup. Please try again.");
     } finally {
       setBusy(false);

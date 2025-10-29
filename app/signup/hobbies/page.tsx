@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 const HOBBIES = [
   { key: "football", label: "Football", emoji: "⚽" },
@@ -24,6 +25,7 @@ const HOBBIES = [
 ];
 
 export default function HobbiesPage() {
+  const { theme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -63,7 +65,7 @@ export default function HobbiesPage() {
         <button
           type="button"
           onClick={skip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
         >
           Skip
         </button>
@@ -90,8 +92,12 @@ export default function HobbiesPage() {
               className={[
                 "h-10 rounded-full border flex items-center justify-center gap-2 text-sm tracking-wide",
                 active
-                  ? "border-[#F92FA2] bg-[#F92FA2]/10 text-[#F92FA2] font-medium"
-                  : "border-neutral-300 text-neutral-800 bg-white",
+                  ? theme === "light"
+                    ? "bg-primary-500/10 text-primary-500 border-primary-500/40"
+                    : "bg-[#FFFFFF4D] border-white "
+                  : theme === "light"
+                  ? " border-neutral-200 text-neutral-1000"
+                  : " border-neutral-300",
               ].join(" ")}
             >
               <span>{h.emoji}</span>

@@ -1,14 +1,28 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 export default function AddressPage() {
   const router = useRouter();
   const [address, setAddress] = useState("");
+
+  const locations = [
+    { key: "Kathmandu, Nepal", value: "Kathmandu, Nepal" },
+    { key: "Pokhara, Nepal", value: "Pokhara, Nepal" },
+    { key: "Biratnagar, Nepal", value: "Biratnagar, Nepal" },
+    { key: "Dallas, USA", value: "Dallas, USA" },
+    { key: "Other", value: "Other" },
+  ];
 
   const isValid = address.trim().length > 0;
 
@@ -41,7 +55,7 @@ export default function AddressPage() {
           <button
             type="button"
             onClick={useDeviceLocation}
-            className="mb-4 block mx-auto text-[#f72fa2] text-base text-center font-medium underline-offset-2 hover:underline"
+            className="mb-4 block mx-auto text-heading text-base text-center font-medium underline-offset-2 hover:underline"
           >
             Turn on your device location instead.
           </button>
@@ -53,33 +67,26 @@ export default function AddressPage() {
       }
     >
       <form id="address-form" onSubmit={onSubmit} className="space-y-6">
-        <div className="relative">
-          <select
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className={[
-              "w-full h-14 rounded-2xl border border-neutral-300",
-              "pl-5 pr-12 text-[16px] bg-white appearance-none",
-              "focus:outline-none focus:ring-2 focus:ring-[#F92FA2] focus:bg-[#F92FA2]/10",
-              address ? "text-neutral-900" : "text-neutral-500",
-            ].join(" ")}
-          >
-            <option value="" disabled>
-              Select your address
-            </option>
-            <option value="Kathmandu, Nepal">Kathmandu, Nepal</option>
-            <option value="Pokhara, Nepal">Pokhara, Nepal</option>
-            <option value="Biratnagar, Nepal">Biratnagar, Nepal</option>
-            <option value="Dallas, USA">Dallas, USA</option>
-            <option value="Other">Other</option>
-          </select>
-
-          {/* Custom Chevron */}
-          <ChevronDown
-            size={20}
-            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500"
-          />
-        </div>
+        {/* replaced default <select> with shadcn Select */}
+        <Select onValueChange={setAddress}>
+          <SelectTrigger className="w-full !rounded-[16px] px-4 py-[14px] border border-gray-300 !text-[16px]">
+            <SelectValue
+              placeholder="Select your address"
+              className={address ? "text-neutral-900" : "text-neutral-500"}
+            />
+          </SelectTrigger>
+          <SelectContent className="border border-neutral-200 !rounded-2xl">
+            {locations.map((location) => (
+              <SelectItem
+                key={location.key}
+                value={location.value}
+                className="cursor-pointer"
+              >
+                {location.value}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </form>
     </StepLayout>
   );

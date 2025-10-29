@@ -1,10 +1,10 @@
-// app/signup/orientation/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 const OPTIONS = [
   "Heterosexual",
@@ -16,9 +16,11 @@ const OPTIONS = [
 type Orientation = (typeof OPTIONS)[number];
 
 export default function OrientationPage() {
+  const { theme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<Orientation | null>(null);
   const [showOnProfile, setShowOnProfile] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   const isValid = !!selected;
 
@@ -31,6 +33,12 @@ export default function OrientationPage() {
 
   const skip = () => router.push("/signup/interested");
 
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+
+  if (!mounted) return;
+
   return (
     <StepLayout
       backHref="/signup/relationship"
@@ -39,7 +47,7 @@ export default function OrientationPage() {
         <button
           type="button"
           onClick={skip}
-          className="text-[#F92FA2] text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
         >
           Skip
         </button>
@@ -47,27 +55,26 @@ export default function OrientationPage() {
       footer={
         <>
           {/* Toggle row */}
-          <label className="mb-4 flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setShowOnProfile((v) => !v)}
-              aria-pressed={showOnProfile}
-              className={[
-                "relative h-8 w-14 rounded-full border",
+          <label className="mb-4 flex items-center justify-center gap-2">
+            <div
+              onClick={
                 showOnProfile
-                  ? "border-[#F92FA2] bg-[#F92FA2]/20"
-                  : "border-[#F92FA2] bg-white",
-              ].join(" ")}
+                  ? () => setShowOnProfile(false)
+                  : () => setShowOnProfile(true)
+              }
+              className={` flex items-center h-6 w-[42px] rounded-full p-[2px] cursor-pointer border border-[#f92fa2]  transition-all duration-300
+              ${showOnProfile ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
+            `}
             >
-              <span
-                className={[
-                  "absolute top-1/2 -translate-y-1/2 h-6 w-6 rounded-full transition-all",
-                  showOnProfile
-                    ? "left-[calc(100%-1.75rem)] bg-[#F92FA2]"
-                    : "left-2 bg-white border border-[#F92FA2]",
-                ].join(" ")}
-              />
-            </button>
+              <div
+                className={`h-[16px] w-[16px] rounded-full  shadow-md transition-transform  duration-300
+                ${showOnProfile
+                    ? "translate-x-[20px] bg-white"
+                    : "translate-x-0 bg-[#f92fa2]"
+                  }
+              `}
+              ></div>
+            </div>
             <span className="text-[16px] text-neutral-800">
               Show my orientation in my profile.
             </span>
@@ -92,8 +99,12 @@ export default function OrientationPage() {
                 "w-full h-14 rounded-full border px-6",
                 "flex items-center justify-center text-[18px] font-semibold",
                 active
-                  ? "border-[#F92FA2] bg-[#F92FA2]/10 text-[#F92FA2]"
-                  : "border-neutral-300 text-neutral-800 bg-white",
+                  ? theme === "light"
+                    ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
+                    : "bg-[#FFFFFF4D] border-white"
+                  : theme === "light"
+                    ? "border-neutral-200  "
+                    : "border-[#FFFFFF4D] ",
                 "transition-colors",
               ].join(" ")}
             >

@@ -27,7 +27,7 @@ export default function SearchTop({
   onSubmit,
   className,
   sticky = true,
-  autoFocus = true,
+  autoFocus = false,
   Icon = SearchIcon,
   iconSize = 22,
   iconClassName,
@@ -47,8 +47,8 @@ export default function SearchTop({
     <header
       className={cn(
         sticky && "sticky top-0 z-30",
-        "bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70",
-        "p-6",
+        // "bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-background",
+        "p-4",
         className
       )}
     >
@@ -57,13 +57,13 @@ export default function SearchTop({
           className={cn(
             "flex items-center gap-3 w-full",
             "h-12 rounded-full px-4",
-            "bg-[#3333330D] text-gray-700"
+            " bg-search text-neutral-1000"
           )}
         >
           <Icon
             size={iconSize}
             strokeWidth={2.5}
-            className={cn("text-gray-500", iconClassName)}
+            className={cn(" text-neutral-1000", iconClassName)}
             aria-hidden="true"
           />
 

@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
-import "./globals.css";
+import { ThemeProvider } from "next-themes";
+import { DM_Sans } from "next/font/google";
+import "./global.css";
+// import PageTransition from "@/components/PageTransition";
 
-const manrope = Manrope({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-geist-sans",
@@ -25,26 +27,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${manrope.variable} antialiased  `}>
-        {/* Desktop centering frame */}
-        <div className="min-h-dvh w-full flex justify-center">
-          {/* Phone-sized canvas */}
-          <div
-            className="
-              w-full max-w-[393px]
-              bg-white min-h-dvh
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${dmSans.variable} antialiased  no-scrollbar`}>
+        <ThemeProvider
+          attribute="class"
+          enableSystem={false}
+          defaultTheme="light"
+          storageKey="app-theme"
+          disableTransitionOnChange={false}
+        >
+          <div className="min-h-dvh w-full flex justify-center ">
+            <div
+              className="
+              w-full max-w-[425px] 
+              bg-background text-neutral-1000 min-h-dvh
+              relative overflow-hidden  
             "
-          >
-            {/* Inner scroller so the “phone” scrolls, not the page */}
-            <div className="min-h-dvh overflow-y-auto">{children}</div>
+            >
+              <div className="min-h-dvh overflow-y-auto ">
+                {/* <PageTransition> */}
+                {children}
+                {/* </PageTransition> */}
+              </div>
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-
-// shadow-none sm:shadow-xl
-// sm:rounded-[32px] sm:my-5 sm:overflow-hidden
-// border-2 border-transparent sm:border-black

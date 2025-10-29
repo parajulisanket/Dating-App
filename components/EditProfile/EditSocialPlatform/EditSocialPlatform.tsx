@@ -1,0 +1,158 @@
+"use client";
+
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { ProfileFormData } from "@/types/profile";
+import icons from "@/assets/icons/icons";
+
+export const EditSocialPlatform = ({ backHref = "/edit-profile" }) => {
+    const [formData, setFormData] = useState<ProfileFormData>({
+        profilePicture: { url: "/nobita.png" },
+        images: [
+            { id: 1, url: "/profile1.jpg" },
+            { id: 2, url: "/profile2.jpg" },
+            { id: 3, url: "/profile3.jpg" },
+            { id: 4, url: "/profile1.jpg" },
+            { id: 5, url: "/profile2.jpg" },
+            { id: 6, url: "/profile3.jpg" },
+        ],
+        bio: "It is a long established fact that a reader will be distracted by the readable content.",
+        interestedIn: "woman",
+        sexualOrientation: "heterosexual",
+        hobbies: ["football", "exercising", "art"],
+        socialLinks: [
+            { id: 1, platform: "facebook", username: "Socialmedia/facebookUser" },
+            { id: 2, platform: "instagram", username: "Socialmedia/instaUser" },
+            { id: 3, platform: "x", username: "Socialmedia/xUser" },
+        ],
+    });
+
+    const [selectedPlatform, setSelectedPlatform] = useState("");
+    const [username, setUsername] = useState("");
+
+    const socialPlatformOptions = [
+        { value: "facebook", label: "Facebook", icon: icons.facebookOrg },
+        { value: "instagram", label: "Instagram", icon: icons.instagramOrg },
+        { value: "x", label: "X", icon: icons.XOrg },
+    ];
+
+    // When user selects a platform
+    const handleSelectPlatform = (value: string) => {
+        setSelectedPlatform(value);
+        const found = formData.socialLinks.find((link) => link.platform === value);
+        setUsername(found ? found.username : "");
+    };
+
+    // Handle username change
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
+    };
+
+    // Handle save (ready for backend integration)
+    const handleSave = async () => {
+        if (!selectedPlatform || !username) return;
+
+        const updatedLinks = formData.socialLinks.map((link) =>
+            link.platform === selectedPlatform
+                ? { ...link, username }
+                : link
+        );
+
+        const updatedData = { ...formData, socialLinks: updatedLinks };
+        setFormData(updatedData);
+
+        // ✅ Example: ready for backend API integration
+        try {
+            const res = await fetch("/api/social-links", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    platform: selectedPlatform,
+                    username,
+                }),
+            });
+
+            if (!res.ok) throw new Error("Failed to save social link");
+            alert("Social link saved successfully!");
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong!");
+        }
+    };
+
+    return (
+        <main className="min-h-screen bg-background flex flex-col">
+            {/* Header */}
+            <div className=" px-4 py-4 flex items-center gap-3 text-heading border-b border-borderButton">
+                <Link href={backHref} aria-label="Back" className="rounded-full">
+                    <ChevronLeft size={24} strokeWidth={1.5} />
+                </Link>
+                <h1 className="text-[20px] font-semibold">Add Social Link</h1>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+                <Select onValueChange={handleSelectPlatform}>
+                    <SelectTrigger className="w-full !rounded-[16px] px-4 py-[14px] border border-gray-300 !text-[16px]">
+                        <SelectValue placeholder="Select Social Platform" />
+                    </SelectTrigger>
+                    <SelectContent className="border border-neutral-200 !rounded-2xl ">
+                        {socialPlatformOptions.map((option) => (
+                            <SelectItem
+                                key={option.value}
+                                value={option.value}
+                                className="cursor-pointer"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Image
+                                        src={option.icon}
+                                        alt="icon"
+                                        height={24}
+                                        width={24}
+                                        className="size-[24px]"
+                                    />
+                                    <span >{option.label}</span>
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    disabled={!selectedPlatform}
+                    className="input !h-[52px]"
+                />
+            </div>
+
+            <div className=" pb-8">
+                <div className="max-w-[425px] mx-auto px-4 py-3 ">
+                    <button
+                        onClick={handleSave}
+                        disabled={!selectedPlatform || !username}
+                        className={`w-full h-[52px] rounded-full text-[16px] font-semibold transition-colors ${!selectedPlatform || !username
+                            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                            : "bg-primary-500 text-white hover:bg-primary-700 active:bg-[#D01080]"
+                            }`}
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+
+
+        </main>
+    );
+};

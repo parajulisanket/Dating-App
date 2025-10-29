@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 type Option = { key: string; emoji: string; label: string };
 
@@ -17,6 +18,7 @@ const OPTIONS: Option[] = [
 ];
 
 export default function RelationshipPage() {
+  const { theme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
@@ -38,7 +40,7 @@ export default function RelationshipPage() {
       }
     >
       <form id="relationship-form" onSubmit={onSubmit}>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 bg-background">
           {OPTIONS.map((o) => {
             const active = selected === o.key;
             return (
@@ -52,13 +54,17 @@ export default function RelationshipPage() {
                   "px-3 py-4 text-center",
                   "min-h-[118px] flex flex-col items-center justify-center",
                   active
-                    ? "border-[#F92FA2] bg-[#F92FA2]/10"
-                    : "border-neutral-300",
+                    ? theme === 'light'
+                      ? 'bg-primary-500/10 border-primary-500/40 text-primary-500'
+                      : 'bg-[#FFFFFF4D] border-white'
+                    : theme === 'light'
+                      ? 'border-neutral-200  '
+                      : 'border-[#FFFFFF4D] ',
                   "transition-colors",
                 ].join(" ")}
               >
                 <div className="text-[28px] leading-none">{o.emoji}</div>
-                <div className="mt-2 text-[15px] font-medium text-neutral-800 whitespace-pre-line">
+                <div className="mt-2 text-[15px] font-medium text-neutral-1000 whitespace-pre-line">
                   {o.label}
                 </div>
               </button>

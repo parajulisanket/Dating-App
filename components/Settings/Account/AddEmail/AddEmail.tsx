@@ -25,7 +25,7 @@ export const AddEmailComponent = () => {
 
                 <div className="p-4">
                     <h2 className='font-bold text-[24px] leading-[36px] '>Add your email address</h2>
-                    <p className='text-[14px] text-justified leading-[21px] text-neutral-800 font-medium'>Keep your account secure and make sure you never miss an important update. Enter your new email address below — we’ll send you a quick verification link to confirm the change..</p>
+                    <p className='text-[14px] text-justified leading-[21px] text-neutral-1000 font-medium'>Keep your account secure and make sure you never miss an important update. Enter your new email address below — we’ll send you a quick verification link to confirm the change..</p>
 
                 </div>
 

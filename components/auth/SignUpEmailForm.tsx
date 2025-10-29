@@ -108,7 +108,7 @@ export default function SignUpEmailForm({
           </div>
 
           {/* Opt-in */}
-          <label className="mt-6 inline-flex items-start gap-3 select-none">
+          <label className="mt-6 inline-flex items-start gap-2 select-none">
             <span className="relative">
               <input
                 type="checkbox"

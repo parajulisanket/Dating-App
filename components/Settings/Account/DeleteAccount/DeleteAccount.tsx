@@ -28,7 +28,7 @@ export const DeleteAccountComponent = () => {
                 </div>
 
                 <div className="p-4">
-                    <p className='text-[14px] text-justified leading-[21px] text-neutral-800 font-medium'>Deleting your account will permanently remove your profile, matches, messages, and all related data. This action can’t be undone.</p>
+                    <p className='text-[14px] text-justified leading-[21px] text-neutral-1000 font-medium'>Deleting your account will permanently remove your profile, matches, messages, and all related data. This action can’t be undone.</p>
 
                 </div>
 

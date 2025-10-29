@@ -140,9 +140,9 @@ export const Settings = () => {
       }}
     >
       {" "}
-      <main className="min-h-screen relative ">
+      <main className="min-h-screen relative  ">
         {/* Header */}
-        <div className="border-b border-borderButton ">
+        <div className="border-b border-borderButton sticky top-0 bg-background">
           <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
             <Link href="/profile" aria-label="Back" className="rounded-full">
               <ChevronLeft className="" size={24} strokeWidth={1.5} />

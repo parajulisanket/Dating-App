@@ -148,11 +148,11 @@ export const EditProfile = () => {
     >
       <main className="min-h-screen">
         {/* Header */}
-        <div className="bg-background px-4 py-4 flex items-center gap-3  text-heading border-b border-borderButton">
+        <div className="bg-background px-4 py-4 flex items-center gap-3  text-heading border-b border-borderButton sticky top-0 z-10">
           <button
             onClick={() => router.push('/profile')}
             aria-label="Back"
-            className="rounded-full"
+            className="rounded-full active:bg-primary-500/20"
           >
             <ChevronLeft size={24} strokeWidth={1.5} />
           </button>
@@ -193,7 +193,7 @@ export const EditProfile = () => {
               onChange={handleFileInputChange}
             />
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3 z-0">
               <AnimatePresence mode="popLayout">
                 {formData.images.map((image, index) => (
                   <motion.div
@@ -240,7 +240,7 @@ export const EditProfile = () => {
                       //     />
                       //   </svg>
                       // </button>
-                      <div onClick={() => handleAddClick(index)} className="relative aspect-[3/4] rounded-xl bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer border border-white">
+                      <div onClick={() => handleAddClick(index)} className={`relative aspect-[3/4] rounded-xl bg-primary-500/10 dark:bg-white/10 flex items-center justify-center`}>
                         <div className="h-12 w-12 rounded-full flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500">
                           <Plus size={28} className="text-white" />
                         </div>

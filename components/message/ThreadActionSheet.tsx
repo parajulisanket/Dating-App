@@ -45,7 +45,7 @@ export default function ThreadActionSheet({
     <SheetContent
       side="bottom"
       className="
-        fixed bottom-0
+        sticky bottom-0
         !left-1/2 -translate-x-1/2
         w-full max-w-[425px]          
         rounded-t-[32px] p-0 pb-6

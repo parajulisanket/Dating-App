@@ -43,7 +43,7 @@ export const BottomSheetMenu = ({
 
     const handleReport = () => {
         console.log("Report user");
-        router.push('repo')
+        router.push('7/report')
         onClose();
     };
 
@@ -77,7 +77,7 @@ export const BottomSheetMenu = ({
                                 height={52}
                                 className="rounded-full object-cover w-[52px] h-[52px]"
                             />
-                            <div className="flex gap-2 items-center text-[#f9209b] text-[24px] font-bold leading-[36px]">
+                            <div className="flex gap-2 items-center text-heading text-[24px] font-bold leading-[36px]">
                                 <h1>{userName}, {userAge}</h1>
                                 {isVerified && (
                                     <Image

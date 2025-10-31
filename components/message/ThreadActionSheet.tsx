@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 
 type ThreadActionSheetProps = {
   open: boolean;
@@ -21,6 +22,7 @@ type ThreadActionSheetProps = {
 export default function ThreadActionSheet({
   open,
   onOpenChange,
+  portalRoot,
   onViewProfile,
   onSearch,
   onImages,
@@ -45,16 +47,16 @@ export default function ThreadActionSheet({
 
   if (!open) return null;
 
-  return (
+  const sheetContent = (
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/50 animate-in fade-in-0 duration-300"
+        className="fixed  inset-0 z-50 bg-black/40 animate-in fade-in-0 duration-300"
         onClick={() => onOpenChange(false)}
       />
 
       {/* Sheet Content */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-[425px] animate-in slide-in-from-bottom duration-300">
+      <div className="absolute bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
         <div className="rounded-t-[32px] bg-background p-0 pb-6 shadow-lg">
           <div className="sr-only">
             <h2>Thread actions</h2>
@@ -111,6 +113,10 @@ export default function ThreadActionSheet({
       </div>
     </>
   );
+
+  // If portalRoot is provided, render within that container
+  // Otherwise, render normally (fallback to document.body)
+  return portalRoot ? createPortal(sheetContent, portalRoot) : sheetContent;
 }
 
 function ActionItem({
@@ -154,7 +160,11 @@ function Toggle({
     >
       <div
         className={`h-[16px] w-[16px] rounded-full shadow-md transition-transform duration-300
-          ${checked ? "translate-x-[20px] bg-white" : "translate-x-0 bg-[#f92fa2]"}
+          ${
+            checked
+              ? "translate-x-[20px] bg-white"
+              : "translate-x-0 bg-[#f92fa2]"
+          }
         `}
       />
     </button>

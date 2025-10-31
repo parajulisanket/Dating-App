@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { BadgeCheck, MoreHorizontal, MapPin } from "lucide-react";
 import React from "react";
+import { MoreHorizontal } from "lucide-react";
 
 type Match = {
   id: string;
@@ -85,72 +85,177 @@ const FOOTER_H = 68;
 const containerHeight = `calc(100dvh - ${HEADER_H + FOOTER_H}px)`;
 
 export default function MatchListings() {
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState<Match | null>(null);
+
+  const openSheet = (m: Match) => {
+    setSelected(m);
+    setOpen(true);
+  };
+  const closeSheet = () => setOpen(false);
+
+  // Close on ESC
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <div
-      className="no-scrollbar scroll-smooth pb-16  h-[calc(100svh-116px)] md:max-h-[776.54px]"
-      style={{
-        // height: containerHeight,
-        WebkitOverflowScrolling: "touch",
-        overscrollBehaviorY: "contain",
-        overflowY: "auto",
-      }}
-    >
-      {" "}
-      <section className="px-4 ">
-        <div className="grid grid-cols-2 gap-4">
-          {DATA.map((m) => (
-            <article
-              key={m.id}
-              className="relative rounded-[16px] overflow-hidden  bg-neutral-200"
-            >
-              {/* image section */}
-              <div className="relative aspect-[3/4] w-full">
-                <Image
-                  src={m.image}
-                  alt={m.name}
-                  fill
-                  priority={true}
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 200px"
-                />
-              </div>
-
-              {/* top-right menu */}
-              <button
-                aria-label="Card menu"
-                className="absolute right-4 top-3  text-white 
-                         flex items-center justify-center "
+    <>
+      <div
+        className="no-scrollbar scroll-smooth pb-16 h-[calc(100svh-116px)] md:max-h-[776.54px]"
+        style={{
+          // height: containerHeight,
+          WebkitOverflowScrolling: "touch",
+          overscrollBehaviorY: "contain",
+          overflowY: "auto",
+        }}
+      >
+        <section className="px-4">
+          <div className="grid grid-cols-2 gap-4">
+            {DATA.map((m) => (
+              <article
+                key={m.id}
+                className="relative overflow-hidden rounded-[16px] bg-neutral-200"
               >
-                <MoreHorizontal size={20} />
-              </button>
+                {/* image */}
+                <div className="relative aspect-[3/4] w-full">
+                  <Image
+                    src={m.image}
+                    alt={m.name}
+                    fill
+                    priority={true}
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 200px"
+                  />
+                </div>
 
-              {/* text overlay */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0">
-                <div className="absolute inset-0  bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
-                {/* content */}
-                <div className="relative  p-2 text-white">
-                  <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
-                    <span className="truncate">
-                      {m.name}, {m.age}
-                    </span>
-                    {m.verified && (
+                {/* top-right menu */}
+                <button
+                  aria-label="Card menu"
+                  onClick={() => openSheet(m)}
+                  className="absolute right-4 top-3 flex items-center justify-center text-white"
+                >
+                  <MoreHorizontal size={20} />
+                </button>
+
+                {/* text overlay */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
+                  <div className="relative p-2 text-white">
+                    <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
+                      <span className="truncate">
+                        {m.name}, {m.age}
+                      </span>
+                      {m.verified && (
+                        <img
+                          src={"/icons/verify.svg"}
+                          alt=""
+                          className="w-4 h-4"
+                        />
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-sm font-semibold">
                       <img
-                        src={"/icons/verify.svg"}
+                        src={"/icons/MapPin.svg"}
                         alt=""
                         className="w-4 h-4"
                       />
-                    )}
+                      <span>{m.distanceKm} Km</span>
+                    </div>
                   </div>
-                  <div className=" flex items-center gap-1.5 text-sm font-semibold">
-                    <img src={"/icons/MapPin.svg"} alt="" className="w-4 h-4" />
-                    <span>{m.distanceKm} Km</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* Bottom Sheet */}
+      {open && selected && (
+        <div className="absolute inset-0 z-1000">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/50" onClick={closeSheet} />
+          {/* Sheet panel */}
+          <div className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-[425px]">
+            <div className="rounded-t-[32px] bg-background p-4 shadow-xl">
+              <div className="mb-3 flex items-center justify-center"></div>
+
+              {/* Pink profile card */}
+              <div className="rounded-2xl border border-[#F92FA233] dark:bg-white/10 dark:border-white/10 bg-[#FEE9F5] p-3">
+                <div className="flex items-center gap-3">
+                  {/* avatar */}
+                  <div className="h-10 w-10 overflow-hidden rounded-full shrink-0">
+                    <Image
+                      src={selected.image}
+                      alt={`${selected.name} avatar`}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 object-cover"
+                    />
+                  </div>
+
+                  {/* text block */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[20px] font-extrabold leading-none text-heading">
+                        {selected.name}, {selected.age}
+                      </span>
+                      {selected.verified && (
+                        <img
+                          src="/icons/verify.svg"
+                          alt="Verified"
+                          className="h-5 w-5"
+                        />
+                      )}
+                    </div>
+
+                    <div className="mt-1 flex items-center gap-1.5 text-heading">
+                      <img
+                        src="/icons/location.svg"
+                        alt=""
+                        className="h-4 w-4 dark:filter dark:invert dark:brightness-0"
+                      />
+                      <span className="text-sm font-semibold">
+                        {selected.distanceKm}km
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
+
+              {/* Actions */}
+              <div className="mt-4 space-y-1">
+                <button
+                  className="flex w-full items-center gap-2 py-3 text-left font-bold text-neutral-1000 "
+                  onClick={() => {
+                    closeSheet();
+                  }}
+                >
+                  <img src={"/icons/XCircle.svg"} alt="" className="w-7 h-7" />
+                  Unmatch
+                </button>
+
+                <button
+                  className="flex w-full items-center gap-2 py-3 text-left font-bold text-neutral-1000 "
+                  onClick={() => {
+                    closeSheet();
+                  }}
+                >
+                  <img
+                    src={"/icons/ChatCircleDots Stroke.svg"}
+                    alt=""
+                    className="w-7 h-7"
+                  />
+                  Message
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
-    </div>
+      )}
+    </>
   );
 }

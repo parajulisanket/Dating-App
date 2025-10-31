@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import BlockUserDialog from "./BlockUserDialog";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
 interface BottomSheetMenuProps {
-    isOpen: boolean;
+    // isOpen: boolean;
     onClose: () => void;
     userName: string;
     userAge: number;
@@ -19,7 +19,7 @@ interface BottomSheetMenuProps {
 
 export const BottomSheetMenu = ({
     id,
-    isOpen,
+    // isOpen,
     onClose,
     userName,
     userAge,
@@ -32,7 +32,7 @@ export const BottomSheetMenu = ({
     const handleBlock = () => {
         console.log("Block user");
         setIsBlockActive(true);
-        onClose();
+        // onClose();
     };
 
     const handleMuteNotifications = () => {
@@ -47,29 +47,31 @@ export const BottomSheetMenu = ({
         onClose();
     };
 
-    return (
-        <>
-            {isOpen && (
-                <>
-                    {/* Backdrop */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        className="fixed inset-0 bg-black/40 z-50"
-                    />
+    const handleDialogClose=()=>{
+        setIsBlockActive(false);
+        onClose();
+    }
 
+    return (
+                <>
                     {/* Bottom Sheet */}
+                  <AnimatePresence>
+                {isBlockActive && (
+                    <BlockUserDialog
+                        isBlockActive={isBlockActive}
+                        onClose={handleDialogClose}
+                    />
+                )}
+            </AnimatePresence>
                     <motion.div
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type:"spring", damping: 100, stiffness: 1000 }}
-                        className="fixed bottom-0 md:bottom-[calc((100svh-897px)/2)] md:rounded-4xl left-0 right-0 bg-background rounded-t-3xl z-50 h-[306px] max-w-[425px] mx-auto "
+                        className=" z-50 bottom-0 pt-[1px]  md:rounded-4xl left-0 right-0 bg-background rounded-t-3xl  h-[306px] max-w-[425px] mx-auto no-scrollbar"
                     >
                         {/* User Info Header */}
-                        <div className=" rounded-3xl bg-primary-100 border border-primary-200 p-4 mx-4 mt-4 flex items-center gap-3 ">
+                        <div className=" rounded-3xl bg-primary-100 border border-primary-200 p-4  mx-4 mt-4 flex items-center gap-3 ">
                             <Image
                                 src='/profile1.jpg'
                                 alt={userName}
@@ -133,15 +135,6 @@ export const BottomSheetMenu = ({
                             </button>
                         </div>
                     </motion.div>
-                </>
-            )}
-            <BlockUserDialog
-                isBlockActive={isBlockActive}
-                onClose={() => setIsBlockActive(false)}
-            />
         </>
-
-
-
     );
 };

@@ -21,7 +21,7 @@ export function VerificationDocument() {
         return
     }
     return (
-        <main className="min-h-screen flex flex-col justify-between ">
+        <main className="relative h-screen  flex flex-col justify-between max-h-[897.222px] max-md:max-h-dvh ">
             <div>
                 <div className="px-4 py-4 flex items-center justify-end">
                     <button aria-label="Close" className="text-heading" onClick={() => router.push('/verification')}>
@@ -57,7 +57,7 @@ export function VerificationDocument() {
                 </div>
             </div>
 
-            <div className=" pb-8">
+            <div className="absolute bottom-0 w-full pb-8">
                 <div className="max-w-[425px] mx-auto px-4 py-3 ">
                     <Link href=''>
                         <button

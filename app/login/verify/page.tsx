@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, FormEvent } from "react";
-import StepLayout from "@/components/layout/StepLayout";
-import NextButton from "@/components/ui/NextButton";
+import { ChevronLeft } from "lucide-react";
 
 const RESEND_SECONDS = 60;
 
@@ -14,7 +14,6 @@ export default function VerifyEmailPage() {
 
   // 6-digit code boxes
   const [d, setD] = useState<string[]>(["", "", "", "", "", ""]);
-  // stable array of input element refs
   const refs = useRef<Array<HTMLInputElement | null>>(
     Array.from({ length: 6 }, () => null)
   );
@@ -59,76 +58,106 @@ export default function VerifyEmailPage() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!valid) return;
-
-    // TODO: call your Django /auth/verify endpoint
-    await new Promise((r) => setTimeout(r, 300)); // mock
+    await new Promise((r) => setTimeout(r, 300)); // mock verify
     router.push("/login/reset");
   }
 
   async function resend() {
     if (sec > 0) return;
-    // TODO: call your backend to re-send code to `email`
-    await new Promise((r) => setTimeout(r, 300)); // mock
+    await new Promise((r) => setTimeout(r, 300)); // mock resend
     setSec(RESEND_SECONDS);
   }
 
   return (
-    <StepLayout
-      backHref="/login/email"
-      title="Verify Email"
-      subtitle={
-        <p className="text-[15px] leading-6 text-neutral-600">
-          Enter verification code we sent to{" "}
-          <span className="text-[#F92FA2] font-semibold">{email}</span>.
-        </p>
-      }
-      footer={
-        <>
-          <NextButton form="verify-form" disabled={!valid}>
+    <div className="flex min-h-svh items-center justify-center ">
+      <div
+        className="
+          w-full max-w-[425px] min-h-svh
+          grid grid-rows-[auto_1fr_auto]
+          bg-background overflow-hidden
+        "
+      >
+        {/* HEADER */}
+        <header className="flex flex-col items-start px-4 pt-6">
+          <Link
+            href="/login/forgot"
+            aria-label="Back"
+            className="text-heading px-2 -ml-2 rounded-full"
+          >
+            <ChevronLeft size={32} strokeWidth={1.5} />
+          </Link>
+        </header>
+
+        {/* CONTENT */}
+        <main className="px-4">
+          <h1 className="title mt-4 leading-10 text-left">Verify Email</h1>
+          <p className="mt-2 text-[15px] leading-6 text-neutral-600">
+            Enter verification code we sent to{" "}
+            <span className="text-[#F92FA2] font-semibold">{email}</span>.
+          </p>
+
+          <form
+            id="verify-form"
+            onSubmit={onSubmit}
+            onPaste={onPaste}
+            className="mt-5 space-y-4"
+          >
+            <div className="grid grid-cols-6 gap-2 max-w-[360px]">
+              {d.map((v, i) => (
+                <input
+                  key={i}
+                  ref={(el) => {
+                    refs.current[i] = el;
+                  }}
+                  value={v}
+                  onChange={(e) => onChange(i, e.target.value)}
+                  onKeyDown={(e) => onKeyDown(i, e)}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={1}
+                  className="
+                  h-12 w-12 text-center text-lg
+                  rounded-2xl border border-neutral-300 bg-background
+                  focus:outline-none focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
+                "
+                />
+              ))}
+            </div>
+          </form>
+        </main>
+
+        {/* FOOTER */}
+        <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+          <button
+            type="submit"
+            onClick={() =>
+              (
+                document.querySelector("#verify-form") as HTMLFormElement | null
+              )?.requestSubmit()
+            }
+            disabled={!valid}
+            className={
+              valid
+                ? "btn btn-signup w-full"
+                : "btn w-full bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
+            }
+          >
             Verify
-          </NextButton>
+          </button>
+
           <button
             type="button"
             onClick={resend}
             disabled={sec > 0}
             className={[
-              "mt-3 w-full text-center text-sm font-bold",
+              "w-full text-center text-sm font-bold",
               sec > 0 ? "text-[#f92fa2] cursor-not-allowed" : "text-[#F92FA2]",
             ].join(" ")}
           >
             {sec > 0 ? `Resend Code (${sec} Sec)` : "Resend Code"}
           </button>
-        </>
-      }
-    >
-      <form
-        id="verify-form"
-        onSubmit={onSubmit}
-        onPaste={onPaste}
-        className="space-y-6"
-      >
-        <div className="grid grid-cols-6 gap-2 max-w-[360px]">
-          {d.map((v, i) => (
-            <input
-              key={i}
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              value={v}
-              onChange={(e) => onChange(i, e.target.value)}
-              onKeyDown={(e) => onKeyDown(i, e)}
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              maxLength={1}
-              className="
-                h-12 w-12 sm:w-12 text-center text-lg
-                rounded-2xl border border-neutral-300 bg-background
-                focus:outline-none focus:border focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
-              "
-            />
-          ))}
-        </div>
-      </form>
-    </StepLayout>
+        </footer>
+      </div>
+    </div>
   );
 }

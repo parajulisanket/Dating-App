@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
-import StepLayout from "@/components/layout/StepLayout";
+import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
@@ -14,7 +15,6 @@ export default function NamePage() {
     e.preventDefault();
     if (!valid) return;
 
-    // Save to backend if API is set, otherwise mock and continue
     if (API) {
       await fetch(`${API}/signup/session`, {
         method: "PUT",
@@ -30,30 +30,49 @@ export default function NamePage() {
   };
 
   return (
-    <StepLayout
-      backHref="/signup/verify"
-      title="What is your name?"
-      footer={
-        <NextButton disabled={!valid} form="name-form">
-          Next
-        </NextButton>
-      }
-    >
-      <form id="name-form" onSubmit={submit} className="space-y-3">
-        <input
-          type="text"
-          placeholder="Enter your first name"
-          className="input"
-          value={first}
-          onChange={(e) => setFirst(e.target.value)}
-        />
+    <div className="min-h-svh flex items-center justify-center bg-background">
+      <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
+        {/* HEADER: pink back chevron (top-left) */}
+        <header className="flex flex-col items-start px-4 pt-6">
+          <Link
+            href="/signup/verify"
+            aria-label="Back"
+            className="text-heading px-2 -ml-2 rounded-full"
+          >
+            <ChevronLeft size={32} strokeWidth={1.5} />
+          </Link>
+        </header>
 
-        <p className="pt-1 text-[15px] leading-6 text-neutral-600">
-          This name will appear in your profile.
-          <br />
-          <span className="font-semibold">You can’t change it later.</span>
-        </p>
-      </form>
-    </StepLayout>
+        {/* CONTENT: title, input, helper text */}
+        <main className="px-4">
+          <h1 className="title mt-4  leading-10 text-left">
+            What is your name?
+          </h1>
+
+          <form id="name-form" onSubmit={submit} className="mt-4 space-y-3">
+            <input
+              type="text"
+              placeholder="Enter your first name"
+              className="input h-12 rounded-2xl"
+              value={first}
+              onChange={(e) => setFirst(e.target.value)}
+            />
+
+            <p className="pt-1 text-[15px] leading-6 text-neutral-600">
+              This name will appear in your profile.
+              <br />
+              <span className="font-semibold">You can’t change it later.</span>
+            </p>
+          </form>
+        </main>
+
+        {/* FOOTER: pill button at bottom (inside view) */}
+        <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+          <NextButton className="w-full" disabled={!valid} form="name-form">
+            Next
+          </NextButton>
+        </footer>
+      </div>
+    </div>
   );
 }

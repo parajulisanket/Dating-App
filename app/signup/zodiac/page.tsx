@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
-import StepLayout from "@/components/layout/StepLayout";
+import { useState, FormEvent, useEffect } from "react";
+import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
@@ -23,9 +23,14 @@ const ZODIACS = [
 
 export default function ZodiacPage() {
   const router = useRouter();
+  const { theme } = useTheme();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
-  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -33,70 +38,89 @@ export default function ZodiacPage() {
     router.push("/signup/gender");
   }
 
-  const onSkip = () => router.push("/signup/gender");
+  function onSkip() {
+    router.push("/signup/gender");
+  }
 
   return (
-    <StepLayout
-      backHref="/signup/address"
-      title="What is your zodiac sign?"
-      rightNode={
+    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
+      {/* HEADER */}
+      <header className="flex items-center justify-between px-4 pt-6 pb-2">
+        <button
+          onClick={() => router.push("/signup/address")}
+          aria-label="Back"
+          className="text-heading px-2 -ml-2 rounded-full"
+        >
+          <ChevronLeft size={32} strokeWidth={1.5} />
+        </button>
+
         <button
           type="button"
           onClick={onSkip}
-          className="text-heading text-base font-semibold mt-4 px-2  hover:border hover:rounded-2xl hover:bg-[#f92fa2]/10"
+          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
         >
           Skip
         </button>
-      }
-      footer={
-        <NextButton disabled={!isValid} form="zodiac-form">
+      </header>
+
+      {/* CONTENT */}
+      <main className="px-4">
+        <h1 className="title mt-4 leading-10 text-left">
+          What is your zodiac <br /> sign?
+        </h1>
+        {mounted && (
+          <form
+            id="zodiac-form"
+            onSubmit={onSubmit}
+            className="flex flex-col flex-1 space-y-4"
+          >
+            {/* Grid of zodiac buttons */}
+            <div className="grid grid-cols-2 gap-3 mt-5">
+              {ZODIACS.map((z) => {
+                const active = selected === z.key;
+                return (
+                  <button
+                    key={z.key}
+                    type="button"
+                    onClick={() => setSelected(z.key)}
+                    className={[
+                      "h-10 w-full rounded-full border px-4",
+                      "flex items-center gap-2 justify-start text-[15px] transition-all",
+                      active
+                        ? theme === "light"
+                          ? "bg-pink-100 border-pink-400 text-pink-600"
+                          : "bg-white/20 border-white text-white"
+                        : theme === "light"
+                        ? "border-neutral-300 text-neutral-1000"
+                        : "border-white/30 text-white/80",
+                    ].join(" ")}
+                  >
+                    <span className="text-lg">{z.emoji}</span>
+                    <span>{z.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Info text */}
+            <p
+              className={`mt-2 text-[15px] leading-6 ${
+                theme === "light" ? "text-neutral-700" : "text-neutral-400"
+              }`}
+            >
+              Your zodiac sign will be public.{" "}
+              <span className="font-bold">You can’t change it later.</span>
+            </p>
+          </form>
+        )}
+      </main>
+
+      {/* FOOTER */}
+      <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+        <NextButton disabled={!isValid} form="zodiac-form" className="w-full">
           Next
         </NextButton>
-      }
-    >
-      <form
-        id="zodiac-form"
-        onSubmit={onSubmit}
-        className="flex flex-col flex-1"
-      >
-        {/* Two-column grid of pills */}
-        <div className="grid grid-cols-2 gap-3">
-          {ZODIACS.map((z) => {
-            const active = selected === z.key;
-            return (
-              <button
-                key={z.key}
-                type="button"
-                onClick={() => setSelected(z.key)}
-                className={[
-                  "h-10 w-full rounded-full border px-4",
-                  "flex items-center gap-2 justify-start",
-                  active
-                    ? theme === "light"
-                      ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
-                      : "bg-[#FFFFFF4D] border-white"
-                    : theme === "light"
-                    ? "border-neutral-200  "
-                    : "border-[#FFFFFF4D] ",
-                ].join(" ")}
-              >
-                <span className="text-lg">{z.emoji}</span>
-                <span className="text-[15px]">{z.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Note */}
-        <p
-          className={`mt-6 text-[15px] leading-6  ${
-            theme === "light" ? "text-neutral-700" : "text-neutral-500"
-          }`}
-        >
-          Your zodiac sign will be public.{" "}
-          <span className="font-bold">You can&apos;t change it later.</span>
-        </p>
-      </form>
-    </StepLayout>
+      </footer>
+    </div>
   );
 }

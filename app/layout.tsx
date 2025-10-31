@@ -31,8 +31,8 @@ export default function RootLayout({
       <body className={`${dmSans.variable} antialiased  no-scrollbar`}>
         <ThemeProvider
           attribute="class"
-          enableSystem={false}
-          defaultTheme="light"
+          enableSystem={true}
+          defaultTheme="system"
           storageKey="app-theme"
           disableTransitionOnChange={false}
         >

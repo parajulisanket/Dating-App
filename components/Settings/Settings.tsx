@@ -131,7 +131,7 @@ export const Settings = () => {
 
   return (
     <div
-      className="no-scrollbar scroll-smooth  max-md:h-[calc(100svh-116px)] md:max-h-[897.22px] "
+      className="no-scrollbar scroll-smooth   max-md:h-[calc(100svh-116px)] md:max-h-[897.22px] "
       style={{
         height: containerHeight,
         WebkitOverflowScrolling: "touch",
@@ -140,7 +140,7 @@ export const Settings = () => {
       }}
     >
       {" "}
-      <main className="min-h-screen relative  ">
+      <main className=" relative  ">
         {/* Header */}
         <div className="border-b border-borderButton sticky top-0 bg-background">
           <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
@@ -152,7 +152,7 @@ export const Settings = () => {
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 ">
           {/* User Profile Card */}
           <div className="px-4 pb-4">
             <div className="bg-primary-100 rounded-2xl p-4 flex items-center gap-3 border-[1px] border-roundSection">

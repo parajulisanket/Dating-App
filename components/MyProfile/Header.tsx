@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+// import { ChevronLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 // import { getSvgColor } from '@/utils/theme';
 // import { useEffect, useState } from "react";
@@ -24,27 +24,17 @@ export const Header = ({ backHref = "/home" }) => {
       {/* Right: Settings Icon */}
 
       <Link href="/settings">
-        {
-          theme === 'light' ?
-            <Image
-              src="/settings.svg"
-              alt="Settings"
-              width={24}
-              height={24}
-            />
-            :
-            <Image
-              src="/settingsDark.svg"
-              alt="Settings"
-              width={24}
-              height={24}
-            />
-
-        }
-
+        {theme === "light" ? (
+          <Image src="/settings.svg" alt="Settings" width={24} height={24} />
+        ) : (
+          <Image
+            src="/settingsDark.svg"
+            alt="Settings"
+            width={24}
+            height={24}
+          />
+        )}
       </Link>
-
-
     </header>
   );
 };

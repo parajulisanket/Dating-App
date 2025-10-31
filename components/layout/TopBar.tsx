@@ -6,7 +6,6 @@ import { NotificationSheet } from "@/components/sheets/NotificationSheet";
 import { FilterSheet } from "@/components/sheets/FilterSheet";
 import { useTheme } from "next-themes";
 
-
 type TopBarProps = { className?: string };
 
 export default function TopBar({ className }: TopBarProps) {
@@ -34,7 +33,6 @@ export default function TopBar({ className }: TopBarProps) {
 
   const isDark = resolvedTheme === "dark";
 
-
   return (
     <>
       <header
@@ -46,56 +44,56 @@ export default function TopBar({ className }: TopBarProps) {
         <a href="/" className="title">
           LOGO
         </a>
-        {
-          mounted && (
-            <div className="flex items-center gap-3">
-              <button
-                aria-label="Notifications"
-                onClick={() => openPanel("notif")}
-                className="p-2"
-              >
-
-                {theme === 'light' ? (
-                  <img
-                    src="/icons/bell.svg"
-                    alt=""
-                    className="w-[26px] h-[26px]"
-                  />
-                ) : <img
+        {mounted && (
+          <div className="flex items-center gap-3">
+            <button
+              aria-label="Notifications"
+              onClick={() => openPanel("notif")}
+              className="p-2"
+            >
+              {theme === "light" ? (
+                <img
+                  src="/icons/bell.svg"
+                  alt=""
+                  className="w-[26px] h-[26px]"
+                />
+              ) : (
+                <img
                   src="/icons/bellDark.svg"
                   alt=""
                   className="w-[26px] h-[26px]"
-                />}
-              </button>
+                />
+              )}
+            </button>
 
-              <button
-                aria-label="Filters"
-                onClick={() => openPanel("filter")}
-                className=" p-2 "
-              >
-                {theme === 'light' ? <img
+            <button
+              aria-label="Filters"
+              onClick={() => openPanel("filter")}
+              className=" p-2 "
+            >
+              {theme === "light" ? (
+                <img
                   src="/icons/slider.svg"
                   alt=""
                   className="w-[26px] h-[26px]"
-                /> :
-                  <img
-                    src="/icons/sliderDark.svg"
-                    alt=""
-                    className="w-[26px] h-[26px]"
-                  />
-                }
-              </button>
-            </div>
-          )
-        }
-
+                />
+              ) : (
+                <img
+                  src="/icons/sliderDark.svg"
+                  alt=""
+                  className="w-[26px] h-[26px]"
+                />
+              )}
+            </button>
+          </div>
+        )}
       </header>
 
       {open && (
         <div className="absolute inset-0 z-[200]">
           <div
             className={cn(
-              "absolute inset-0 bg-black/40 transition-opacity duration-200",
+              "fixed inset-0 bg-black/40 transition-opacity duration-200",
               animateIn ? "opacity-100" : "opacity-0"
             )}
             onClick={closePanel}

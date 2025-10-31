@@ -9,7 +9,7 @@ export const Verification = () => {
     const { theme } = useTheme();
     return (
         <>
-            <main className='min-h-screen flex flex-col justify-between'>
+            <main className='h-screen flex flex-col justify-between max-h-[897.222px] max-md:max-h-dvh'>
                 <div className="">
                     <div className="bg-background px-4 py-4 flex items-center gap-3 text-[#F92FA2] ml-1 ">
 

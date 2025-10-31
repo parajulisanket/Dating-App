@@ -61,7 +61,7 @@ export const DeleteAccountReasonComponent = () => {
                 </div>
 
                 <div
-                    className="fixed bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
+                    className="absolute bottom-0 left-0 right-0  max-w-[425px] mx-auto pb-10 "
                 >
                     <div className="max-w-[425px] mx-auto px-4 py-3 ">
                         <button

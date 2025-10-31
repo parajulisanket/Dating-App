@@ -1,9 +1,9 @@
-// app/signup/dob/page.tsx
 "use client";
 
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
-import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
 
 export default function DobPage() {
@@ -41,38 +41,52 @@ export default function DobPage() {
   }
 
   return (
-    <StepLayout
-      backHref="/signup"
-      // Bigger heading like the screenshot
-      title="What is your date of birth?"
-      titleClassName="title"
-      // Subtitle matches style (darker copy with bold emphasis)
-      subtitle={
-        <p className="{` ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-500'}`} leading-6 text-[16px] ">
+    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
+      {/* HEADER */}
+
+      <header className="flex flex-col items-start px-4 pt-6">
+        <Link
+          href="/signup/name"
+          aria-label="Back"
+          className="text-heading px-2 -ml-2 rounded-full"
+        >
+          <ChevronLeft size={32} strokeWidth={1.5} />
+        </Link>
+      </header>
+
+      {/* MAIN CONTENT */}
+      <main className="px-4">
+        <h1 className="title mt-4  leading-10 text-left">
+          What is your date <br />
+          of birth?
+        </h1>
+        <p className="mt-3 text-[16px] leading-6 text-neutral-700">
           Your age not birthdate will be public.
           <span className="font-semibold">
             {" "}
             You can’t change your birthday later.
           </span>
         </p>
-      }
-      footer={
-        <NextButton disabled={!isValid} form="dob-form">
+
+        <form id="dob-form" onSubmit={onSubmit} className="mt-6 space-y-4">
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="DD / MM / YYYY"
+            maxLength={14}
+            className="input h-12 rounded-2xl"
+            value={dob}
+            onChange={(e) => onDobChange(e.target.value)}
+          />
+        </form>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+        <NextButton disabled={!isValid} form="dob-form" className="w-full">
           Next
         </NextButton>
-      }
-    >
-      <form id="dob-form" onSubmit={onSubmit} className="space-y-4">
-        <input
-          type="text"
-          inputMode="numeric"
-          placeholder="DD / MM / YYYY"
-          maxLength={14}
-          className="input"
-          value={dob}
-          onChange={(e) => onDobChange(e.target.value)}
-        />
-      </form>
-    </StepLayout>
+      </footer>
+    </div>
   );
 }

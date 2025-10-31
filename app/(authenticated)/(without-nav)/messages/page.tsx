@@ -11,7 +11,7 @@ export default function MessagesPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col ">
       <SearchTop />
       <main className="flex-1">
         <ActiveMessage />
@@ -19,7 +19,7 @@ export default function MessagesPage() {
 
         <ChatList onOpenChat={(slug) => router.push(`/messages/${slug}`)} />
       </main>
-      <div className="fixed bottom-0 max-w-[425px] w-dvw">
+      <div className="fixed md:absolute bottom-0 max-w-[425px] w-dvw">
         <FooterBar />
       </div>
     </div>

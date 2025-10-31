@@ -131,7 +131,7 @@ export const Settings = () => {
 
   return (
     <div
-      className="no-scrollbar scroll-smooth "
+      className="no-scrollbar scroll-smooth  max-md:h-[calc(100svh-116px)] md:max-h-[897.22px] "
       style={{
         height: containerHeight,
         WebkitOverflowScrolling: "touch",
@@ -249,7 +249,7 @@ export const Settings = () => {
 
           {/* Logout Button */}
           <div className=" bottom-4 ">
-            <div className="pt-8 pb-6 flex justify-center ">
+            <div className="pt-8 md:pt-4 pb-6 flex justify-center ">
               <button
                 onClick={handleLogout}
                 className="btn-logout text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"

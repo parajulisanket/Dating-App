@@ -198,7 +198,7 @@ function ChatList({ items, loading = false, onOpenChat }: ChatListProps) {
 
   const data: ChatItem[] =
     items ??
-    Array.from({ length: 14 }).map((_, i) => ({
+    Array.from({ length: 9 }).map((_, i) => ({
       id: String(i + 1),
       name: "Smarika",
       avatar: "/images/Shristima.jpg",
@@ -220,11 +220,11 @@ function ChatList({ items, loading = false, onOpenChat }: ChatListProps) {
   return (
     <div
       ref={hostRef}
-      className="chatlist-host relative"
-      style={{
-        height:
-          "calc(100svh - var(--ftr,0px) - var(--chatTop,0px) - env(safe-area-inset-bottom,0px))",
-      }}
+      className="chatlist-host relative h-[calc(100svh-116px)] md:max-h-[627.32px]  "
+      // style={{
+      //   height:
+      //     "calc(100svh - var(--ftr,0px) - var(--chatTop,0px) - env(safe-area-inset-bottom,0px))",
+      // }}
     >
       <div className="h-full  overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] no-scrollbar">
         {loading

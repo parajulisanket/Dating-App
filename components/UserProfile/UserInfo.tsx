@@ -227,9 +227,9 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
   return (
     <div
-      className="no-scrollbar scroll-smooth"
+      className="no-scrollbar scroll-smooth h-[calc(100svh-48px)] md:max-h-[850px]"
       style={{
-        height: containerHeight,
+        // height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
         overflowY: "auto",

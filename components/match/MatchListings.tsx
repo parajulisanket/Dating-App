@@ -105,9 +105,9 @@ export default function MatchListings() {
   return (
     <>
       <div
-        className="no-scrollbar scroll-smooth pb-16"
+        className="no-scrollbar scroll-smooth pb-16 h-[calc(100svh-116px)] md:max-h-[776.54px]"
         style={{
-          height: containerHeight,
+          // height: containerHeight,
           WebkitOverflowScrolling: "touch",
           overscrollBehaviorY: "contain",
           overflowY: "auto",
@@ -175,7 +175,7 @@ export default function MatchListings() {
 
       {/* Bottom Sheet */}
       {open && selected && (
-        <div className="fixed inset-0 z-1000">
+        <div className="absolute inset-0 z-1000">
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/50" onClick={closeSheet} />
           {/* Sheet panel */}

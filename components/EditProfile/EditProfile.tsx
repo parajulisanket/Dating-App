@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Plus } from "lucide-react";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emoji from "@/assets/emojis/emoji";
 
@@ -71,7 +71,10 @@ export const EditProfile = () => {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
+  const [mounted,setMounted]=useState(false)
+  useEffect(()=>{
+    setMounted(true);
+  })
   const [formData, setFormData] = useState<ProfileFormData>({
     profilePicture: { url: "/nobita.png" },
     images: [
@@ -134,13 +137,12 @@ export const EditProfile = () => {
     }));
   };
 
-  const containerHeight = `calc(100dvh)`;
 
   return (
     <div
-      className="no-scrollbar scroll-smooth"
+      className="no-scrollbar scroll-smooth  h-[calc(100dvh)] md:max-h-[897px]"
       style={{
-        height: containerHeight,
+        // height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
         overflowY: "auto",

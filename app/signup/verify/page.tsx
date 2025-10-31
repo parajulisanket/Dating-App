@@ -1,8 +1,8 @@
 "use client";
-
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 import { useMemo, useRef, useState, FormEvent } from "react";
-import StepLayout from "@/components/layout/StepLayout";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
@@ -15,7 +15,6 @@ export default function VerifyPage() {
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
 
   const [d, setD] = useState<string[]>(["", "", "", "", "", ""]);
-  // stable refs array for the 6 inputs (avoid calling hooks in a loop)
   const refs = useRef<Array<HTMLInputElement | null>>(
     Array.from({ length: 6 }, () => null)
   );
@@ -60,7 +59,6 @@ export default function VerifyPage() {
     e.preventDefault();
     if (!valid) return;
 
-    // Mock flow if backend not set
     if (!API) {
       await new Promise((r) => setTimeout(r, 300));
       router.push("/signup/name");
@@ -73,6 +71,7 @@ export default function VerifyPage() {
       credentials: "include",
       body: JSON.stringify({ code }),
     });
+
     if (!res.ok) {
       alert("Invalid/expired code");
       return;
@@ -81,53 +80,68 @@ export default function VerifyPage() {
   };
 
   return (
-    <StepLayout
-      backHref="/signup"
-      title="Verify Email"
-      footer={
-        <NextButton disabled={!valid} form="verify-form">
-          Verify
-        </NextButton>
-      }
-    >
-      <form
-        id="verify-form"
-        onSubmit={submit}
-        onPaste={onPaste}
-        className="space-y-6"
-      >
-        <p
-          className={`text-[16px] ${
-            theme === "light" ? "text-neutral-700" : "text-neutral-500"
-          }`}
-        >
-          Enter verification code we sent to{" "}
-          <span className="font-semibold">{emailFromQuery}</span>.
-        </p>
+    <div className="min-h-svh flex items-center justify-center bg-background">
+      {/* PHONE VIEW */}
+      <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
+        {/* HEADER: back chevron only (top-left) */}
+        <header className="flex flex-col items-start px-4 pt-6">
+          <Link
+            href="/signup/email"
+            aria-label="Back"
+            className="text-heading px-2 -ml-2 rounded-full"
+          >
+            <ChevronLeft size={32} strokeWidth={1.5} />
+          </Link>
+        </header>
 
-        <div className="flex gap-3 ">
-          {d.map((v, i) => (
-            <input
-              key={i}
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              value={v}
-              onChange={(e) => onChange(i, e.target.value)}
-              onKeyDown={(e) => onKeyDown(i, e)}
-              inputMode="text"
-              autoComplete="one-time-code"
-              maxLength={1}
-              className="
-                w-[45px] h-[45px]
-                md:w-[50px] md:h-[50px] text-center text-lg
-                rounded-2xl border border-neutral-300 bg-background
-                focus:outline-none focus:border focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
-              "
-            />
-          ))}
-        </div>
-      </form>
-    </StepLayout>
+        {/* CONTENT: left-aligned title, text, and inputs */}
+        <main className="px-4">
+          <form id="verify-form" onSubmit={submit} onPaste={onPaste}>
+            <h1 className="title mt-4 leading-10 text-left">Verify Email</h1>
+
+            <p
+              className={`mt-3 text-[16px] ${
+                theme === "light" ? "text-neutral-600" : "text-neutral-400"
+              }`}
+            >
+              Enter verification code we sent to{" "}
+              <span className="font-semibold text-neutral-700">
+                {emailFromQuery}
+              </span>
+              .
+            </p>
+
+            <div className="mt-6 flex gap-3">
+              {d.map((v, i) => (
+                <input
+                  key={i}
+                  ref={(el) => {
+                    refs.current[i] = el;
+                  }}
+                  value={v}
+                  onChange={(e) => onChange(i, e.target.value)}
+                  onKeyDown={(e) => onKeyDown(i, e)}
+                  inputMode="text"
+                  autoComplete="one-time-code"
+                  maxLength={1}
+                  className="
+                    w-[50px] h-[50px]
+                    text-center text-lg rounded-2xl border border-neutral-300 bg-background
+                    focus:outline-none focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
+                  "
+                />
+              ))}
+            </div>
+          </form>
+        </main>
+
+        {/* FOOTER: button inside phone, pinned at bottom */}
+        <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+          <NextButton disabled={!valid} form="verify-form" className="w-full">
+            Verify
+          </NextButton>
+        </footer>
+      </div>
+    </div>
   );
 }

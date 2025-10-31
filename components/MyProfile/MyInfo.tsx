@@ -204,9 +204,9 @@ export const MyInfo = () => {
   const containerHeight = `calc(100svh - ${HEADER_H + FOOTER_H}px)`;
   return (
     <div
-      className="no-scrollbar scroll-smooth"
+      className="no-scrollbar scroll-smooth h-[calc(100svh-116px)] md:max-h-[776.54px]"
       style={{
-        height: containerHeight,
+        // height: '897.22px',
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
         overflowY: "auto",

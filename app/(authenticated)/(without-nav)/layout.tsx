@@ -6,7 +6,7 @@ export default function WithoutNavLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div>
+        <div className=''>
             {children}
 
         </div>

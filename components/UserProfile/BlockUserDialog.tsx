@@ -41,8 +41,8 @@ export default function BlockUserDialog({ isBlockActive, onClose }: BlockUserPro
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
-                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 bg-background rounded-t-3xl z-50  mx-auto w-[425px] h-[343px] p-4"
+                         transition={{ type:"spring", damping: 100, stiffness: 1000 }}
+                        className="fixed bottom-0 md:bottom-[calc((100svh-897px)/2)] rounded-b-4xl left-0 right-0 bg-background rounded-t-3xl z-50  mx-auto w-[425px] h-[343px] p-4"
                     >
                         <div className="z-50   mx-auto pb-4">
                             {/* Profile Image */}

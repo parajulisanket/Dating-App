@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
-import StepLayout from "@/components/layout/StepLayout";
+import { ChevronLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 
 type Choice = { key: string; label: string };
@@ -91,7 +91,6 @@ export default function LifestylePage() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: send answers
     router.push("/signup/photos");
   };
 
@@ -99,105 +98,120 @@ export default function LifestylePage() {
   const skip = () => router.push("/signup/photos");
 
   return (
-    <StepLayout
-      backHref="/signup/hobbies"
-      title="What are your lifestyle choices?"
-      titleClassName="title"
-      subtitle={
-        <p
-          className={`text-[15px] ${
-            theme === "light" ? "text-neutral-1000" : "text-neutral-500"
-          } leading-6 }`}
+    /* KEY: fix height + allow shrink */
+    <div className="w-full max-w-[425px] h-svh min-h-0 grid grid-rows-[auto_1fr] bg-background">
+      {/* HEADER (sticky optional) */}
+      <header className="flex items-center justify-between px-4 pt-6 pb-2 sticky top-0 bg-background z-10">
+        <button
+          onClick={() => router.push("/signup/hobbies")}
+          aria-label="Back"
+          className="text-heading px-2 -ml-2 rounded-full"
         >
-          Let everyone know about your lifestyle to get a
-          <br /> better match.
-        </p>
-      }
-      rightNode={
+          <ChevronLeft size={32} strokeWidth={1.5} />
+        </button>
         <button
           type="button"
           onClick={skip}
-          className="text-heading text-base font-semibold mt-4 px-2 hover:bg-[#f92fa2]/10 rounded-2xl"
+          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
         >
           Skip
         </button>
-      }
-      /* No footer: the Next button is part of the scrollable content at the end */
-    >
-      {/* Scrollable middle content; keeps footer area empty */}
-      <div className="h-full min-h-0 overflow-y-auto no-scrollbar -mr-2 pr-2">
-        <form id="lifestyle-form" onSubmit={onSubmit} className="space-y-6">
-          {QUESTIONS.map((q, idx) => (
-            <section
-              key={q.key}
-              className={[
-                "pt-5",
-                idx === 0 ? "" : "border-t border-neutral-200",
-              ].join(" ")}
-            >
-              {/* Heading */}
-              <h2 className="text-[18px] font-medium text-neutral flex items-center gap-2">
-                <span aria-hidden>{q.icon}</span>
-                <span>{q.title}</span>
-              </h2>
+      </header>
 
-              {/* Two-column options */}
-              <div className="mt-3 grid grid-cols-2 gap-y-3 gap-x-6">
-                {q.options.map((opt) => {
-                  const active = answers[q.key] === opt.key;
-                  return (
-                    <button
-                      key={opt.key}
-                      type="button"
-                      onClick={() => onPick(q.key, opt.key)}
-                      className="flex items-center gap-2 text-[15px] text-neutral"
-                      aria-pressed={active}
-                    >
-                      {/* custom radio */}
-                      <span
-                        className={[
-                          "inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border transition-colors",
-                          active ? "border-[#F92FA2]" : "border-neutral-400",
-                        ].join(" ")}
-                        aria-hidden
+      {/* CONTENT: title/subtitle fixed, FORM SCROLLS */}
+      {/* KEY: let the second row shrink so its child can scroll */}
+      <main className="px-4 pr-3 grid grid-rows-[auto_1fr] min-h-0">
+        {/* Fixed intro (not scrollable) */}
+        <div>
+          <h1 className="title mt-4 leading-10 text-left">
+            What are your lifestyle choices?
+          </h1>
+          <p
+            className={`mt-2 text-[15px] leading-6 ${
+              theme === "light" ? "text-neutral-1000" : "text-neutral-500"
+            }`}
+          >
+            Let everyone know about your lifestyle to get a
+            <br /> better match.
+          </p>
+        </div>
+
+        {/* Scrollable form only */}
+        {/* KEY: min-h-0 + overflow-y-auto; add iOS momentum scrolling */}
+        <div
+          className="min-h-0 overflow-y-auto no-scrollbar mt-5"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
+          <form id="lifestyle-form" onSubmit={onSubmit} className="space-y-6">
+            {QUESTIONS.map((q, idx) => (
+              <section
+                key={q.key}
+                className={[
+                  "pt-5",
+                  idx === 0 ? "" : "border-t border-neutral-200",
+                ].join(" ")}
+              >
+                <h2 className="text-[18px] font-medium text-neutral flex items-center gap-2">
+                  <span aria-hidden>{q.icon}</span>
+                  <span>{q.title}</span>
+                </h2>
+
+                <div className="mt-3 grid grid-cols-2 gap-y-3 gap-x-6">
+                  {q.options.map((opt) => {
+                    const active = answers[q.key] === opt.key;
+                    return (
+                      <button
+                        key={opt.key}
+                        type="button"
+                        onClick={() => onPick(q.key, opt.key)}
+                        className="flex items-center gap-2 text-[15px] text-neutral"
+                        aria-pressed={active}
                       >
                         <span
                           className={[
-                            "h-[10px] w-[10px] rounded-full transition-colors",
-                            active ? "bg-[#F92FA2]" : "bg-transparent",
+                            "inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border transition-colors",
+                            active ? "border-[#F92FA2]" : "border-neutral-400",
                           ].join(" ")}
-                        />
-                      </span>
-                      <span>{opt.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+                          aria-hidden
+                        >
+                          <span
+                            className={[
+                              "h-[10px] w-[10px] rounded-full transition-colors",
+                              active ? "bg-[#F92FA2]" : "bg-transparent",
+                            ].join(" ")}
+                          />
+                        </span>
+                        <span>{opt.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
 
-          {/* Next button at the end of the scrollable area */}
-          <div
-            className="pt-4"
-            style={{
-              paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)",
-            }}
-          >
-            <button
-              type="submit"
-              form="lifestyle-form"
-              disabled={!allAnswered}
-              className={
-                allAnswered
-                  ? "btn btn-signup"
-                  : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
-              }
+            {/* Next at end of scroll area */}
+            <div
+              className="pt-6 pb-8"
+              style={{
+                paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 20px)",
+              }}
             >
-              Next
-            </button>
-          </div>
-        </form>
-      </div>
-    </StepLayout>
+              <button
+                type="submit"
+                form="lifestyle-form"
+                disabled={!allAnswered}
+                className={
+                  allAnswered
+                    ? "btn btn-signup w-full"
+                    : "btn w-full bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
+                }
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
   );
 }

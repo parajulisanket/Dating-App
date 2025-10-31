@@ -10,12 +10,11 @@ interface HeaderProps {
     onMenuClick: () => void;
 }
 export const Header = ({ onMenuClick }: HeaderProps) => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router=useRouter()
     return (
         <>
             <header
-                className="sticky top-0 px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton " >
+                className="sticky top-0 rounded-t-4xl px-6 h-[48px] bg-background z-40 flex items-center justify-between  border-b border-b-borderButton " >
                 {/* Left: Back button + title */}
                  <div className="flex items-center gap-3 text-heading">
         <div onClick={()=>router.back()} aria-label="Back" className="rounded-full">

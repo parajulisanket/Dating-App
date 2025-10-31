@@ -204,94 +204,105 @@ export default function Hero() {
 
   const { top, bottom } = useHeaderFooterGaps();
 
-  const UNIT = "dvh";
-  const heroHeight = `calc(100${UNIT} - ${top + bottom}px)`;
+  // const heroHeight = `calc(100vh - ${top + bottom}px)`;
+  const heroHeight = `615px`;
 
   return (
     <section
-      className="fixed inset-x-0 mb-6 z-10"
-      style={{ top, bottom }}
+      className=" w-full z-10  h-[calc(100svh-175px)] md:max-h-[716.54px]  flex items-center justify-center max-md:px-4"
+      style={{ 
+        // height: heroHeight,
+        marginTop: `0px`,
+        marginBottom: `${bottom}px`
+      }}
       aria-label="Discover feed"
     >
-      <div className="h-full w-full flex items-center justify-center px-4">
+      <div className="h-full w-full flex items-center justify-center  ">
         <div
           className="relative rounded-[28px] overflow-hidden select-none"
           style={{
             width: 380,
             maxWidth: "100%",
-            height: heroHeight,
-            touchAction: "none",
+            height: "100%",
+            // maxHeight: "min(800px, 100%)",
+            touchAction: "pan-y",
           }}
         >
-          {stack.map((p, i) => {
-            const isTop = i === stack.length - 1;
-            const depth = i - (stack.length - 2);
+          {/* Card Stack Container */}
+          <div className="absolute inset-0">
+            {stack.map((p, i) => {
+              const isTop = i === stack.length - 1;
+              const depth = i - (stack.length - 2);
 
-            return (
-              <div
-                key={p.id}
-                ref={isTop ? cardRef : null}
-                className={`absolute inset-0 rounded-[28px] overflow-hidden ${
-                  isTop ? "will-change-transform touch-none" : ""
-                }`}
-                style={{
-                  transform: isTop
-                    ? undefined
-                    : `scale(${0.985 + depth * 0.01}) translateY(${
-                        Math.abs(depth) * 12
-                      }px)`,
-                  opacity: isTop ? 1 : 0.9,
-                  zIndex: i,
-                }}
-                onPointerDown={isTop ? handlePointerDown : undefined}
-                onPointerMove={isTop ? handlePointerMove : undefined}
-                onPointerUp={isTop ? handlePointerUp : undefined}
-                onPointerCancel={isTop ? handlePointerCancel : undefined}
-              >
-                <picture>
-                  <source media="(min-width: 1024px)" srcSet={p.imageDesktop} />
-                  <Image
-                    src={p.imageMobile}
-                    alt={p.name}
-                    fill
-                    priority={isTop}
-                    className="object-cover select-none"
-                    sizes="393px"
-                    draggable={false}
-                  />
-                </picture>
-
-                {/* Info overlay */}
-                <div className="absolute left-6 right-6 bottom-32 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] z-20">
-                  <h2 className="text-[28px] font-bold tracking-wide flex items-center gap-2">
-                    {p.name}, {p.age}
-                    <img
-                      src={"/icons/verify.svg"}
-                      alt=""
-                      className="w-8 h-8"
+              return (
+                <div
+                  key={p.id}
+                  ref={isTop ? cardRef : null}
+                  className="absolute inset-0 rounded-[28px] overflow-hidden"
+                  style={{
+                    transform: isTop
+                      ? undefined
+                      : `scale(${0.985 + depth * 0.01}) translateY(${
+                          Math.abs(depth) * 12
+                        }px)`,
+                    opacity: isTop ? 1 : 0.9,
+                    zIndex: i,
+                    touchAction: isTop ? "none" : "auto",
+                  }}
+                  onPointerDown={isTop ? handlePointerDown : undefined}
+                  onPointerMove={isTop ? handlePointerMove : undefined}
+                  onPointerUp={isTop ? handlePointerUp : undefined}
+                  onPointerCancel={isTop ? handlePointerCancel : undefined}
+                >
+                  {/* Image */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={p.imageMobile}
+                      alt={p.name}
+                      fill
+                      priority={isTop}
+                      className="object-cover select-none"
+                      sizes="(max-width: 1024px) 393px, 393px"
                       draggable={false}
                     />
-                  </h2>
-                  <p className="mt-1 text-sm opacity-95 flex items-center gap-1">
-                    <img
-                      src={"/icons/MapPin.svg"}
-                      alt=""
-                      className="w-4 h-4"
-                      draggable={false}
-                    />
-                    {p.distance}
-                  </p>
+                  </div>
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#340046] via-transparent to-transparent" />
+
+                  {/* Info overlay */}
+                  <div className="absolute left-6 right-6 bottom-32 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] z-10">
+                    <h2 className="text-[28px] font-bold tracking-wide flex items-center gap-2">
+                      {p.name}, {p.age}
+                      <img
+                        src={"/icons/verify.svg"}
+                        alt=""
+                        className="w-8 h-8"
+                        draggable={false}
+                      />
+                    </h2>
+                    <p className="mt-1 text-sm opacity-95 flex items-center gap-1">
+                      <img
+                        src={"/icons/MapPin.svg"}
+                        alt=""
+                        className="w-4 h-4"
+                        draggable={false}
+                      />
+                      {p.distance}
+                    </p>
+                  </div>
                 </div>
-
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#340046] via-transparent to-transparent z-0" />
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
 
           {/* Buttons */}
           <div
-            className="absolute left-0 right-0 flex items-center justify-center z-30 pointer-events-auto"
-            style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 18px)" }}
+            className="absolute left-0 right-0 flex items-center justify-center z-30"
+            style={{ 
+              bottom: `calc(env(safe-area-inset-bottom, 0px) + 18px)`,
+              pointerEvents: "auto"
+            }}
           >
             <SwipeButtons onUndo={onUndo} onLike={onLike} onNope={onNope} />
           </div>

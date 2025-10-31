@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { div } from "framer-motion/client";
 // Types for backend integration
 interface ReportData {
     reportedUserId: string;
@@ -62,7 +63,8 @@ export const ReportUser = () => {
     };
 
     return (
-        <main className="min-h-screen  flex flex-col items-center px-6 py-8">
+       
+        <main className="relative  flex flex-col items-center px-6 py-8  h-[calc(100svh-48px)] md:max-h-[850px]">
             {/* Icon and Header */}
             <div className=" mb-8 flex-col flex items-center ">
                 <Image
@@ -122,7 +124,7 @@ export const ReportUser = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="w-full max-w-md space-y-3 mt-auto">
+            <div className="w-full max-w-md space-y-3 mt-auto absolute bottom-0 px-4 bg-background ">
                 <button
                     onClick={handleSubmitReport}
                     className="w-full bg-gradient-to-r from-[#f9209b] to-[#ff6b9d] text-white py-3 rounded-full text-[16px] font-semibold hover:shadow-lg transition-shadow"
@@ -137,5 +139,7 @@ export const ReportUser = () => {
                 </button>
             </div>
         </main>
+ 
+        
     );
 };

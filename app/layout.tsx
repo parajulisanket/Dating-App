@@ -36,11 +36,11 @@ export default function RootLayout({
           storageKey="app-theme"
           disableTransitionOnChange={false}
         >
-          <div className="min-h-dvh w-full flex justify-center ">
+          <div className="min-h-dvh w-full flex items-center justify-center  ">
             <div
               className="
               w-full max-w-[425px] 
-              bg-background text-neutral-1000 min-h-dvh
+              bg-background text-neutral-1000 md:max-h-[897.222px]  rounded-4xl
               relative overflow-hidden  
             "
             >

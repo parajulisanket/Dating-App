@@ -11,11 +11,13 @@ export default function ThreadHeader({
   name,
   avatar = "/images/Shristima.jpg",
   online = true,
+  portalContainer,
 }: {
   slug: string;
   name?: string;
   avatar?: string;
   online?: boolean;
+  portalContainer?:HTMLElement |null;
 }) {
   const router = useRouter();
   const { theme } = useTheme();
@@ -37,7 +39,7 @@ export default function ThreadHeader({
 
   return (
     <>
-      <header className="sticky top-0 z-10 border-b border-borderButton bg-background  p-6">
+      <header className="   border-b border-borderButton bg-background h-[90px]  p-6">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="p-2 -ml-2">
             <img
@@ -107,9 +109,12 @@ export default function ThreadHeader({
       </header>
 
       {/* Bottom sheet */}
-      <ThreadActionSheet
+      <div className="sticky bottom-4 rounded-b-4xl">
+        <ThreadActionSheet
+      
         open={menuOpen}
         onOpenChange={setMenuOpen}
+        portalRoot={portalContainer}
         readReceipts={readReceipts}
         notifications={notifications}
         onToggleReadReceipts={setReadReceipts}
@@ -146,6 +151,8 @@ export default function ThreadHeader({
                       isBlockActive={isBlockActive}
                       onClose={() => setIsBlockActive(false)}
                   />
+      </div>
+      
     </>
   );
 }

@@ -87,9 +87,9 @@ const containerHeight = `calc(100dvh - ${HEADER_H + FOOTER_H}px)`;
 export default function MatchListings() {
   return (
     <div
-      className="no-scrollbar scroll-smooth pb-16 "
+      className="no-scrollbar scroll-smooth pb-16  h-[calc(100svh-116px)] md:max-h-[776.54px]"
       style={{
-        height: containerHeight,
+        // height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
         overflowY: "auto",

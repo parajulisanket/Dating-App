@@ -360,7 +360,7 @@ body {
   }
 
   .footer-shell {
-    @apply fixed bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur-sm px-3 pb-6 pt-2;
+    @apply fixed md:absolute bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur-sm px-3 pb-6 pt-2;
   }
 
   .pill {

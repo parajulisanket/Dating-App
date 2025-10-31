@@ -62,7 +62,7 @@ export default function Composer({ onSend, onSendMedia, onSendAudio }: Props) {
     }
 
     return (
-        <div className="sticky bottom-0 bg-background px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] shadow">
+        <div className=" bg-background sticky bottom-0 px-3 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] shadow">
             {/* Hidden picker for images/videos */}
             <input
                 ref={fileInputRef}

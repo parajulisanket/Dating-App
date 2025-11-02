@@ -50,7 +50,7 @@ export default function OrientationPage() {
         <button
           type="button"
           onClick={skip}
-          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
+          className="text-heading text-base font-semibold active:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
         >
           Skip
         </button>

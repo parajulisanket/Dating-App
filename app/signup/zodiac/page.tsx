@@ -23,7 +23,7 @@ const ZODIACS = [
 
 export default function ZodiacPage() {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
   const [mounted, setMounted] = useState(false);
@@ -87,10 +87,10 @@ export default function ZodiacPage() {
                       "h-10 w-full rounded-full border px-4",
                       "flex items-center gap-2 justify-start text-[15px] transition-all",
                       active
-                        ? theme === "light"
+                        ? resolvedTheme === "light"
                           ? "bg-pink-100 border-pink-400 text-pink-600"
                           : "bg-white/20 border-white text-white"
-                        : theme === "light"
+                        : resolvedTheme === "light"
                         ? "border-neutral-300 text-neutral-1000"
                         : "border-white/30 text-white/80",
                     ].join(" ")}
@@ -101,7 +101,6 @@ export default function ZodiacPage() {
                 );
               })}
             </div>
-
             {/* Info text */}
             <p
               className={`mt-2 text-[15px] leading-6 ${

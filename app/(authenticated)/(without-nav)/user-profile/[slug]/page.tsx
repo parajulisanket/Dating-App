@@ -3,14 +3,23 @@ import { Header } from "@/components/UserProfile/Header";
 import { UserInfo } from "@/components/UserProfile/UserInfo";
 import { useState } from "react";
 import { BottomSheetMenu } from "@/components/UserProfile/BottomSheet";
-import { div } from "framer-motion/client";
+import { AnimatePresence, motion } from "framer-motion";
 
 type UserPageProps = {
   params: {
     id: string;
   };
 };
-
+export const slideUpVariants = {
+  hidden: { y: "100%" },
+  visible: { y: 0 },
+  exit: { y: "100%" },
+};
+export const fadeVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 export default function UserPage({ params }: UserPageProps) {
   const { id } = params;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,24 +34,42 @@ export default function UserPage({ params }: UserPageProps) {
       </main>
 
       {/* Bottom Sheet Portal */}
-      {isMenuOpen && (
-        <div className="absolute bottom-0 w-full z-50">
-          <div
-            onClick={() => setIsMenuOpen(false)}
-            className="fixed bg-black/40 -z-40 inset-0"
-          ></div>
-          <div onClick={(e) => e.stopPropagation()} className="">
-            <BottomSheetMenu
-              id={id}
-              onClose={() => setIsMenuOpen(false)}
-              userName="Shreya"
-              userAge={24}
-              userImage="/profile1.jpg"
-              isVerified={true}
-            />
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Backdrop - Sibling 1 */}
+            <motion.div
+              onClick={() => setIsMenuOpen(false)}
+              variants={fadeVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+              className="fixed bg-black/40 inset-0 z-40"
+            ></motion.div>
+
+            {/* Bottom Sheet Container - Sibling 2 */}
+            <motion.div
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="absolute bottom-0 w-full z-50"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <BottomSheetMenu
+                id={id}
+                onClose={() => setIsMenuOpen(false)}
+                userName="Shreya"
+                userAge={24}
+                userImage="/profile1.jpg"
+                isVerified={true}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 // import { getSvgColor } from '@/utils/theme';
 // import { useEffect, useState } from "react";
 export const Header = ({ backHref = "/home" }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   // const [mounted, setMounted] = useState(false);
   // useEffect(() => {
   //   setMounted(true)
@@ -23,8 +23,8 @@ export const Header = ({ backHref = "/home" }) => {
 
       {/* Right: Settings Icon */}
 
-      <Link href="/settings">
-        {theme === "light" ? (
+      <Link className="click-effect" href="/settings">
+        {resolvedTheme === "light" ? (
           <Image src="/settings.svg" alt="Settings" width={24} height={24} />
         ) : (
           <Image

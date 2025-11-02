@@ -45,13 +45,13 @@ export default function TopBar({ className }: TopBarProps) {
           LOGO
         </a>
         {mounted && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ">
             <button
               aria-label="Notifications"
               onClick={() => openPanel("notif")}
-              className="p-2"
+              className="p-2 click-effect "
             >
-              {theme === "light" ? (
+              {resolvedTheme === "light" ? (
                 <img
                   src="/icons/bell.svg"
                   alt=""
@@ -69,9 +69,9 @@ export default function TopBar({ className }: TopBarProps) {
             <button
               aria-label="Filters"
               onClick={() => openPanel("filter")}
-              className=" p-2 "
+              className=" p-2 click-effect"
             >
-              {theme === "light" ? (
+              {resolvedTheme === "light" ? (
                 <img
                   src="/icons/slider.svg"
                   alt=""

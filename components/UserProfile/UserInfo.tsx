@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import emoji from "@/assets/emojis/emoji"
+import emoji from "@/assets/emojis/emoji";
 import { useTheme } from "next-themes";
 
 // Types
@@ -163,18 +163,21 @@ const LIFESTYLE: LifestyleCategory[] = [
 
 // Helper functions to get emoji and labels from keys
 const getRelationshipType = (key: string): RelationshipOption | undefined => {
-  return RELATIONSHIP_OPTIONS.find(option => option.key === key);
+  return RELATIONSHIP_OPTIONS.find((option) => option.key === key);
 };
 
 const getHobbyDetails = (key: string): Hobby | undefined => {
-  return HOBBIES.find(hobby => hobby.key === key);
+  return HOBBIES.find((hobby) => hobby.key === key);
 };
 
-const getLifestyleDetails = (categoryKey: string, optionKey: string): { icon: string; label: string } | null => {
-  const category = LIFESTYLE.find(item => item.key === categoryKey);
+const getLifestyleDetails = (
+  categoryKey: string,
+  optionKey: string
+): { icon: string; label: string } | null => {
+  const category = LIFESTYLE.find((item) => item.key === categoryKey);
   if (!category) return null;
 
-  const option = category.options.find(opt => opt.key === optionKey);
+  const option = category.options.find((opt) => opt.key === optionKey);
   return option ? { icon: category.icon, label: option.label } : null;
 };
 
@@ -202,17 +205,16 @@ export const UserInfo = ({ id }: UserInfoProps) => {
     ],
     lookingFor: {
       relationshipType: "serious", // Backend sends only the key
-      genderPreference: "Woman"
+      genderPreference: "Woman",
     },
     hobbies: ["football", "exercising", "art"], // Backend sends only keys
     lifestyle: {
-      drink: "never",      // Backend sends only keys
+      drink: "never", // Backend sends only keys
       smoke: "never",
       diet: "nonveg",
       travel: "love_exploring",
-      pets: "love_pets"
+      pets: "love_pets",
     },
-
   };
 
   const images: ImageData[] = [
@@ -223,7 +225,7 @@ export const UserInfo = ({ id }: UserInfoProps) => {
   const HEADER_H = 48;
   const FOOTER_H = 0;
   const containerHeight = `calc(100svh - ${HEADER_H + FOOTER_H}px)`;
-  const {theme}=useTheme()
+  const { resolvedTheme } = useTheme();
 
   return (
     <div
@@ -251,7 +253,9 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
               <div className="flex flex-col h-[57px] text-heading ">
                 <div className="flex gap-2 items-center  text-[24px] font-bold leading-[36px]">
-                  <h1>{profileData.name}, {profileData.age}</h1>
+                  <h1>
+                    {profileData.name}, {profileData.age}
+                  </h1>
                   {profileData.isVerified && (
                     <Image
                       src="/icons/verified.svg"
@@ -263,25 +267,31 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                   )}
                 </div>
                 <div className="flex text-[#fa51b1] dark:text-neutral-400 items-center gap-1">
-                 {
-                                  theme === 'light' ? <> <Image
-                                    src="/icons/location.svg"
-                                    alt="location"
-                                    width={16}
-                                    height={16}
-                                    // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
-                                    className={`h-4 w-4 `}
-                                  /></> :
-                                    <Image
-                                      src="/icons/locationDark.svg"
-                                      alt="location"
-                                      width={16}
-                                      height={16}
-                                      // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
-                                      className={`h-4 w-4 `}
-                                    />
-                                }
-                  <p className="text-[14px]">{profileData.location}, {profileData.distance}</p>
+                  {resolvedTheme === "light" ? (
+                    <>
+                      {" "}
+                      <Image
+                        src="/icons/location.svg"
+                        alt="location"
+                        width={16}
+                        height={16}
+                        // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
+                        className={`h-4 w-4 `}
+                      />
+                    </>
+                  ) : (
+                    <Image
+                      src="/icons/locationDark.svg"
+                      alt="location"
+                      width={16}
+                      height={16}
+                      // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
+                      className={`h-4 w-4 `}
+                    />
+                  )}
+                  <p className="text-[14px]">
+                    {profileData.location}, {profileData.distance}
+                  </p>
                 </div>
               </div>
             </div>
@@ -321,21 +331,17 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                   className="select-none"
                 />
               </button>
-
-
             </div>
           </div>
         </div>
 
         {/* Image Gallery Section */}
         <div className="px-4">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Images</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            My Images
+          </h1>
 
-          <Swiper
-            spaceBetween={5}
-            slidesPerView={"auto"}
-            className=""
-          >
+          <Swiper spaceBetween={5} slidesPerView={"auto"} className="">
             {images.map((image) => (
               <SwiperSlide
                 key={image.id}
@@ -357,7 +363,9 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
         {/* About Me Section */}
         <div className="px-4 ">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">About me</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            About me
+          </h1>
           <div className="flex flex-wrap gap-2">
             {profileData.aboutMe.map((item, index) => (
               <div
@@ -372,12 +380,24 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
         {/* I'm Looking for Section */}
         <div className="px-4">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">I'm Looking for</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            I'm Looking for
+          </h1>
           <div className="flex flex-wrap gap-2">
             {profileData.lookingFor.relationshipType && (
               <div className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2">
-                <span>{getRelationshipType(profileData.lookingFor.relationshipType)?.emoji}</span>
-                <span>{getRelationshipType(profileData.lookingFor.relationshipType)?.label}</span>
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.emoji
+                  }
+                </span>
+                <span>
+                  {
+                    getRelationshipType(profileData.lookingFor.relationshipType)
+                      ?.label
+                  }
+                </span>
               </div>
             )}
             {profileData.lookingFor.genderPreference && (
@@ -390,7 +410,9 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
         {/* My Hobbies Section */}
         <div className="px-4">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Hobbies</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            My Hobbies
+          </h1>
           <div className="flex flex-wrap gap-2">
             {profileData.hobbies.map((hobbyKey) => {
               const hobby = getHobbyDetails(hobbyKey);
@@ -407,7 +429,6 @@ export const UserInfo = ({ id }: UserInfoProps) => {
                       alt="emoji"
                       className="size-[20px]"
                     />
-
                   </span>
                   <span>{hobby.label}</span>
                 </div>
@@ -418,25 +439,31 @@ export const UserInfo = ({ id }: UserInfoProps) => {
 
         {/* My Lifestyle Section */}
         <div className="px-4 ">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Lifestyle</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            My Lifestyle
+          </h1>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(profileData.lifestyle).map(([categoryKey, optionKey]) => {
-              const details = getLifestyleDetails(categoryKey, optionKey);
-              return details ? (
-                <div
-                  key={categoryKey}
-                  className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
-                >
-                  <span>{details.icon}</span>
-                  <span>{details.label}</span>
-                </div>
-              ) : null;
-            })}
+            {Object.entries(profileData.lifestyle).map(
+              ([categoryKey, optionKey]) => {
+                const details = getLifestyleDetails(categoryKey, optionKey);
+                return details ? (
+                  <div
+                    key={categoryKey}
+                    className="px-4 py-2 bg-capsule border border-capsule-border rounded-full text-[14px] flex items-center gap-2"
+                  >
+                    <span>{details.icon}</span>
+                    <span>{details.label}</span>
+                  </div>
+                ) : null;
+              }
+            )}
           </div>
         </div>
 
         <div className="px-4 pb-4">
-          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">My Social Accounts</h1>
+          <h1 className="text-[16px] leading-[20px] tracking-[0px] pb-2 font-bold">
+            My Social Accounts
+          </h1>
           <div className="flex gap-2">
             <Image
               src="/facebook.svg"
@@ -456,6 +483,5 @@ export const UserInfo = ({ id }: UserInfoProps) => {
         </div>
       </main>
     </div>
-
   );
 };

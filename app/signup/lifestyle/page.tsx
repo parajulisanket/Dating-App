@@ -99,7 +99,7 @@ export default function LifestylePage() {
 
   return (
     /* KEY: fix height + allow shrink */
-    <div className="w-full max-w-[425px] h-svh min-h-0 grid grid-rows-[auto_1fr] bg-background">
+    <div className="w-full max-w-[425px] h-screen max-h-dvh md:max-h-[897.22px]  grid grid-rows-[auto_1fr] bg-background">
       {/* HEADER (sticky optional) */}
       <header className="flex items-center justify-between px-4 pt-6 pb-2 sticky top-0 bg-background z-10">
         <button
@@ -112,7 +112,7 @@ export default function LifestylePage() {
         <button
           type="button"
           onClick={skip}
-          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
+          className="text-heading text-base font-semibold active:click-effect rounded-xl px-3 py-1 transition-colors"
         >
           Skip
         </button>

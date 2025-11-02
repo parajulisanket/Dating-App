@@ -111,7 +111,7 @@ export default function VerifyPage() {
               .
             </p>
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-6 flex gap-3 ">
               {d.map((v, i) => (
                 <input
                   key={i}
@@ -125,7 +125,7 @@ export default function VerifyPage() {
                   autoComplete="one-time-code"
                   maxLength={1}
                   className="
-                    w-[50px] h-[50px]
+                    w-[49px] h-[49px]
                     text-center text-lg rounded-2xl border border-neutral-300 bg-background
                     focus:outline-none focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
                   "

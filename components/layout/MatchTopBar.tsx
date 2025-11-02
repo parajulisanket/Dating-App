@@ -22,16 +22,14 @@ export default function TopBar({
   searchHref,
   onSearchClick,
 }: TopBarProps) {
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   // const theme = localStorage.getItem('app-theme')
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true)
-  })
+    setMounted(true);
+  });
   if (!mounted) {
-    return (
-      <div className="h-[56px]" />
-    )
+    return <div className="h-[56px]" />;
   }
   return (
     <header
@@ -60,10 +58,7 @@ export default function TopBar({
             onClick={onSearchClick}
             className=" text-heading "
           >
-            <Search
-              className={`w-[26px] h-[26px] `}
-              strokeWidth={2}
-            />
+            <Search className={`w-[26px] h-[26px] `} strokeWidth={2} />
           </button>
         ) : (
           <Link
@@ -72,8 +67,9 @@ export default function TopBar({
             className=" p-2 "
           >
             <Search
-              className={`w-[26px] h-[26px] ${theme === "dark" ? "text-white" : "text-primary-500"
-                }`}
+              className={`w-[26px] h-[26px] ${
+                resolvedTheme === "dark" ? "text-white" : "text-primary-500"
+              }`}
               strokeWidth={2}
             />
           </Link>

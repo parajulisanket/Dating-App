@@ -58,7 +58,7 @@ export default function NamePage() {
               onChange={(e) => setFirst(e.target.value)}
             />
 
-            <p className="pt-1 text-[15px] leading-6 text-neutral-600">
+            <p className="pt-1 text-[16px] leading-6 text-neutral-600">
               This name will appear in your profile.
               <br />
               <span className="font-semibold">You can’t change it later.</span>

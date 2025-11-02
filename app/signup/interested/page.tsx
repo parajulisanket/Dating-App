@@ -10,7 +10,7 @@ const OPTIONS = ["Man", "Woman", "All"] as const;
 type Interested = (typeof OPTIONS)[number];
 
 export default function InterestedPage() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<Interested | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -60,7 +60,7 @@ export default function InterestedPage() {
         <form
           id="interested-form"
           onSubmit={onSubmit}
-          className="space-y-4 mt-5"
+          className="space-y-4 mt-8"
         >
           {OPTIONS.map((opt) => {
             const active = selected === opt;
@@ -74,10 +74,10 @@ export default function InterestedPage() {
                   "w-full h-14 rounded-full border px-6",
                   "flex items-center justify-center text-[18px] font-semibold transition-colors",
                   active
-                    ? theme === "light"
+                    ? resolvedTheme === "light"
                       ? "bg-pink-100 border-pink-400 text-pink-600"
                       : "bg-white/30 border-white text-white"
-                    : theme === "light"
+                    : resolvedTheme === "light"
                     ? "border-neutral-300 text-neutral-1000"
                     : "border-white/30 text-white/80",
                 ].join(" ")}

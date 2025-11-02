@@ -118,7 +118,7 @@ export default function ThreadView({ slug }: { slug: string }) {
         />
       </div>
 
-      <ScrollArea className="px-3 py-4 no-scrollbar h-[calc(100svh-116px)] md:max-h-[730.22px]">
+      <ScrollArea className="px-3  py-4 no-scrollbar h-[calc(100svh-116px)] md:max-h-[730.22px]">
         {messages.map((msg) => {
           if (msg.type === "divider") {
             return <DayDivider key={msg.id} label={msg.label!} />;

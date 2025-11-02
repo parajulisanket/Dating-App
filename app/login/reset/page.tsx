@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useMemo, FormEvent } from "react";
+import { useState, useEffect, useMemo, FormEvent } from "react";
 import { Check, Eye, EyeOff, ChevronLeft } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -16,6 +17,12 @@ export default function ResetPasswordPage() {
 
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const { resolvedTheme } = useTheme();
 
   const valid = useMemo(
     () => pwd.length >= 6 && pwd === confirmPwd,
@@ -55,49 +62,50 @@ export default function ResetPasswordPage() {
         <main className="px-4">
           <h1 className="title mt-4 leading-10 text-left">Reset Password</h1>
 
-          <form id="reset-form" onSubmit={onSubmit} className="mt-5 space-y-4">
-            {/* New Password */}
-            <div className="relative">
-              <input
-                type={showPwd ? "text" : "password"}
-                autoComplete="new-password"
-                placeholder="New password"
-                className="input"
-                value={pwd}
-                onChange={(e) => setPwd(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPwd((s) => !s)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
-                aria-label={showPwd ? "Hide password" : "Show password"}
-              >
-                {showPwd ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
-            </div>
+          <form id="reset-form" onSubmit={onSubmit} className="mt-8">
+            <div className="space-y-4">
+              {/* New Password */}
+              <div className="relative">
+                <input
+                  type={showPwd ? "text" : "password"}
+                  autoComplete="new-password"
+                  placeholder="New password"
+                  className="input"
+                  value={pwd}
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd((s) => !s)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
+                  aria-label={showPwd ? "Hide password" : "Show password"}
+                >
+                  {showPwd ? <Eye size={20} /> : <EyeOff size={20} />}
+                </button>
+              </div>
 
-            {/* Confirm Password */}
-            <div className="relative">
-              <input
-                type={showConfirm ? "text" : "password"}
-                autoComplete="new-password"
-                placeholder="Confirm password"
-                className="input"
-                value={confirmPwd}
-                onChange={(e) => setConfirmPwd(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm((s) => !s)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
-                aria-label={showConfirm ? "Hide password" : "Show password"}
-              >
-                {showConfirm ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
+              {/* Confirm Password */}
+              <div className="relative">
+                <input
+                  type={showConfirm ? "text" : "password"}
+                  autoComplete="new-password"
+                  placeholder="Confirm password"
+                  className="input"
+                  value={confirmPwd}
+                  onChange={(e) => setConfirmPwd(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm((s) => !s)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
+                  aria-label={showConfirm ? "Hide password" : "Show password"}
+                >
+                  {showConfirm ? <Eye size={20} /> : <EyeOff size={20} />}
+                </button>
+              </div>
             </div>
-
-            {/* Logout all checkbox */}
-            <label className="inline-flex items-center gap-2 select-none mt-2">
+            {/* check label */}
+            <label className="mt-4 inline-flex items-start gap-2 select-none">
               <span className="relative">
                 <input
                   type="checkbox"
@@ -113,9 +121,15 @@ export default function ResetPasswordPage() {
                   />
                 )}
               </span>
-              <span className="text-sm text-neutral-600">
+              <p
+                className={`-mt-0.5 text-[13px] leading-6 ${
+                  resolvedTheme === "light"
+                    ? "text-neutral-600"
+                    : "text-neutral-500"
+                }`}
+              >
                 Log out of all devices.
-              </span>
+              </p>
             </label>
           </form>
         </main>

@@ -28,9 +28,9 @@ export default function TopBar({
   useEffect(() => {
     setMounted(true);
   });
-  if (!mounted) {
-    return <div className="h-[56px]" />;
-  }
+  // if (!mounted) {
+  //   return <div className="h-[56px]" />;
+  // }
   return (
     <header
       className={cn(
@@ -42,15 +42,17 @@ export default function TopBar({
     >
       {/* Left: chevron + title */}
       <div className="flex items-center gap-3">
-        <Link href={backHref} aria-label="Back" className="rounded-full ">
+        {/* <Link href={backHref} aria-label="Back" className="rounded-full ">
           <ChevronLeft className="text-heading" size={35} strokeWidth={1.5} />
-        </Link>
+        </Link> */}
 
         <h1 className="title">{title}</h1>
       </div>
 
       {/* Right: Search */}
+
       {showSearch &&
+        mounted &&
         (onSearchClick ? (
           <button
             type="button"

@@ -117,6 +117,7 @@ export const Settings = () => {
 
   const handleLogout = () => {
     console.log("Logging out...");
+    router.push("/");
     // TODO: Call logout API
     // Clear local storage/cookies
     // Redirect to login page
@@ -263,7 +264,7 @@ export const Settings = () => {
             <div className="pt-8 md:pt-4 pb-6 flex justify-center ">
               <button
                 onClick={handleLogout}
-                className="btn-logout text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
+                className="btn-logout cursor-pointer text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
               >
                 <Image
                   src="/icons/logout.svg"

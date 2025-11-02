@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col h-screen max:md:min-h-dvh bg-background max-h-[897.222px] max-md:max-h-dvh ">
       {/* HEADER */}
-      <header className="flex items-center justify-between w-full px-4 pt-6 pb-4">
+      <header className="flex items-center justify-between px-4 pt-6 pb-2">
         <Link
           href="/"
           aria-label="Back"
@@ -16,7 +16,7 @@ export default function LoginPage() {
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>
-        <h1 className="title text-lg font-bold text-heading">Log In</h1>
+        <h1 className="title  text-heading">Log In</h1>
         {/* spacer to balance the back button */}
         <span className="w-8" />
       </header>

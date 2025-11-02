@@ -132,16 +132,16 @@ export default function MatchListings() {
   }, [open]);
 
   return (
-    <>
-      <div
-        className="no-scrollbar scroll-smooth pb-16 h-[calc(100svh-116px)] md:max-h-[776.54px]"
-        style={{
-          // height: containerHeight,
-          WebkitOverflowScrolling: "touch",
-          overscrollBehaviorY: "contain",
-          overflowY: "auto",
-        }}
-      >
+    <section
+      className="no-scrollbar max-md:h-100dvh  scroll-smooth py-4 max-h-[calc(100dvh-146px)] md:max-h-[776.54px]"
+      style={{
+        // height: containerHeight,
+        WebkitOverflowScrolling: "touch",
+        overscrollBehaviorY: "contain",
+        overflowY: "auto",
+      }}
+    >
+      <div>
         <section className="px-4">
           <div className="grid grid-cols-2 gap-4">
             {DATA.map((m) => (
@@ -177,7 +177,7 @@ export default function MatchListings() {
 
                 {/* text overlay */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#570074] to-transparent " />
                   <div className="relative p-2 text-white">
                     <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
                       <span className="truncate">
@@ -232,7 +232,7 @@ export default function MatchListings() {
 
               {/* Sheet panel */}
               <motion.div
-                className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-[425px] z-1000 "
+                className="fixed md:absolute  inset-x-0 bottom-0 mx-auto w-full max-w-[425px] z-1000 "
                 onClick={(e) => e.stopPropagation()}
                 variants={slideUpVariants}
                 initial="hidden"
@@ -332,6 +332,6 @@ export default function MatchListings() {
           </>
         )}
       </AnimatePresence>
-    </>
+    </section>
   );
 }

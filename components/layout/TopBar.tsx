@@ -90,7 +90,7 @@ export default function TopBar({ className }: TopBarProps) {
       </header>
 
       {open && (
-        <div className="absolute inset-0 z-[200]">
+        <div className="absolute inset-0 z-[200] bbb">
           <div
             className={cn(
               "fixed inset-0 bg-black/40 transition-opacity duration-200",
@@ -100,7 +100,7 @@ export default function TopBar({ className }: TopBarProps) {
           />
           <div
             className={cn(
-              "absolute bottom-0 left-0 right-0 w-full rounded-t-3xl bg-background shadow-xl p-6",
+              "absolute max-md:fixed bottom-0 left-0 right-0 w-full rounded-t-3xl bg-background shadow-xl p-6",
               "transition-transform duration-200",
               animateIn ? "translate-y-0" : "translate-y-full"
             )}

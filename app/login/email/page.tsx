@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent, useMemo } from "react";
+import { useState, useEffect, FormEvent, useMemo } from "react";
 import { Check, Eye, EyeOff, ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 export default function LoginEmailPage() {
   const router = useRouter();
@@ -11,7 +12,13 @@ export default function LoginEmailPage() {
   const [pwd, setPwd] = useState("");
   const [remember, setRemember] = useState(true);
   const [showPwd, setShowPwd] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const { resolvedTheme } = useTheme();
   const valid = useMemo(
     () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && pwd.length >= 6,
     [email, pwd]
@@ -55,7 +62,7 @@ export default function LoginEmailPage() {
           <form
             id="login-email-form"
             onSubmit={onSubmit}
-            className="mt-5 space-y-4"
+            className="mt-8 space-y-4"
           >
             {/* Email */}
             <input
@@ -89,7 +96,7 @@ export default function LoginEmailPage() {
             </div>
 
             {/* Remember + Forgot row */}
-            <div className="mt-2 flex items-center justify-between">
+            <div className="mt-4 flex items-center justify-between">
               <label className="inline-flex items-center gap-2 select-none">
                 <span className="relative">
                   <input
@@ -101,19 +108,25 @@ export default function LoginEmailPage() {
                   {remember && (
                     <Check
                       size={16}
-                      className="absolute left-0 top-0.5 text-white"
+                      className="absolute left-0 top-0.5 text-white pointer-events-none"
                       strokeWidth={2}
                     />
                   )}
                 </span>
-                <span className="text-[17px] text-neutral-500">
+                <p
+                  className={`-mt-0.5 text-[13px] leading-6 ${
+                    resolvedTheme === "light"
+                      ? "text-neutral-600"
+                      : "text-neutral-500"
+                  }`}
+                >
                   Remember me
-                </span>
+                </p>
               </label>
 
               <Link
                 href="/login/forgot"
-                className="text-[#F92FA2] text-[17px] font-semibold"
+                className="text-primary-500 text-[16px] font-semibold"
               >
                 Forgot Password?
               </Link>

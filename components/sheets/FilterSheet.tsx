@@ -28,6 +28,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
   const Chip = ({
     label,
     value,
+    
   }: {
     label: string;
     value: "man" | "woman" | "all";

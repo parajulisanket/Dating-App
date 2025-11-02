@@ -25,7 +25,7 @@ export default function UserPage({ params }: UserPageProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="max-md:min-h-screen max-h-[897.22px] flex flex-col relative ">
+    <div className="max-md:min-h-dvh max-h-[897.22px] flex flex-col relative ">
       <div className="sticky top-0 rounded-t-4xl bg-background z-40">
         <Header setIsMenuOpen={setIsMenuOpen} />
       </div>
@@ -55,7 +55,7 @@ export default function UserPage({ params }: UserPageProps) {
               animate="visible"
               exit="exit"
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="absolute bottom-0 w-full z-50"
+              className="absolute  bottom-0 w-full z-50"
               onClick={(e) => e.stopPropagation()}
             >
               <BottomSheetMenu

@@ -7,15 +7,15 @@ export default function SignUpPage() {
   return (
     <div className="flex flex-col h-screen max:md:min-h-dvh bg-background max-h-[897.222px] max-md:max-h-dvh ">
       {/* HEADER */}
-      <header className="flex items-center justify-between w-full px-4 pt-6 pb-4">
+      <header className="flex items-center justify-between px-4 pt-6 pb-2">
         <Link
           href="/"
           aria-label="Back"
-          className="text-heading p-2 -ml-2 rounded-full"
+          className="text-heading px-2 -ml-2 rounded-full"
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>
-        <h1 className="title text-lg font-bold text-heading">Sign Up</h1>
+        <h1 className="title text-heading">Sign Up</h1>
         <span className="w-8" />
       </header>
 

@@ -13,7 +13,7 @@ export default function GenderPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<Gender | null>(null);
   const isValid = !!selected;
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -35,7 +35,7 @@ export default function GenderPage() {
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </button>
-        <span className="w-8" /> {/* spacer */}
+        <span className="w-8" />
       </header>
 
       {/* CONTENT */}
@@ -43,32 +43,32 @@ export default function GenderPage() {
         <h1 className="title mt-4 leading-10 text-left">
           What is your gender?
         </h1>
-        {mounted && (
-          <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-5">
-            {GENDERS.map((g) => {
-              const active = selected === g;
-              return (
-                <button
-                  key={g}
-                  type="button"
-                  onClick={() => setSelected(g)}
-                  className={[
-                    "w-full h-14 rounded-full border px-6 flex items-center justify-center text-[18px] font-semibold transition-all",
-                    active
-                      ? theme === "light"
-                        ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
-                        : "bg-[#FFFFFF4D] border-white"
-                      : theme === "light"
-                      ? "border-neutral-200  "
-                      : "border-[#FFFFFF4D] ",
-                  ].join(" ")}
-                >
-                  {g}
-                </button>
-              );
-            })}
-          </form>
-        )}
+
+        <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-8">
+          {GENDERS.map((g) => {
+            const active = selected === g;
+            return (
+              <button
+                key={g}
+                type="button"
+                onClick={() => setSelected(g)}
+                className={[
+                  "w-full h-14 rounded-full border px-6",
+                  "flex items-center justify-center text-[18px] font-semibold transition-colors",
+                  active
+                    ? resolvedTheme === "light"
+                      ? "bg-pink-100 border-pink-400 text-pink-600"
+                      : "bg-white/30 border-white text-white"
+                    : resolvedTheme === "light"
+                    ? "border-neutral-300 text-neutral-1000"
+                    : "border-white/30 text-white/80",
+                ].join(" ")}
+              >
+                {g}
+              </button>
+            );
+          })}
+        </form>
       </main>
 
       {/* FOOTER */}

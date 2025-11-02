@@ -3,13 +3,18 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useMemo, useState, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 export default function DobPage() {
   const router = useRouter();
   const [dob, setDob] = useState("");
-
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  });
   function onDobChange(v: string) {
     const digits = v.replace(/\D/g, "").slice(0, 8);
     let out = digits;
@@ -60,15 +65,8 @@ export default function DobPage() {
           What is your date <br />
           of birth?
         </h1>
-        <p className="mt-3 text-[16px] leading-6 text-neutral-700">
-          Your age not birthdate will be public.
-          <span className="font-semibold">
-            {" "}
-            You can’t change your birthday later.
-          </span>
-        </p>
 
-        <form id="dob-form" onSubmit={onSubmit} className="mt-6 space-y-4">
+        <form id="dob-form" onSubmit={onSubmit} className="mt-8">
           <input
             type="text"
             inputMode="numeric"
@@ -79,6 +77,21 @@ export default function DobPage() {
             onChange={(e) => onDobChange(e.target.value)}
           />
         </form>
+        {mounted && (
+          <p
+            className={`mt-4 text-[16px] ${
+              resolvedTheme === "light"
+                ? "text-neutral-700"
+                : "text-neutral-500"
+            }`}
+          >
+            Your age not birthdate will be public.{""}
+            <span className="font-semibold">
+              {" "}
+              You can’t change your birthday later.
+            </span>
+          </p>
+        )}
       </main>
 
       {/* FOOTER */}

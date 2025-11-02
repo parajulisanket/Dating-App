@@ -1,14 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useMemo, FormEvent } from "react";
+import { useState, useEffect, useMemo, FormEvent } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const { resolvedTheme } = useTheme();
   const valid = useMemo(
     () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
     [email]
@@ -45,12 +51,21 @@ export default function ForgotPasswordPage() {
         {/* CONTENT */}
         <main className="px-4">
           <h1 className="title mt-4 leading-10 text-left">Forgot Password?</h1>
-          <p className="mt-2 text-[15px] leading-6 text-neutral-500">
-            Enter your registered email to get password
-            <br /> reset code.
-          </p>
 
-          <form id="forgot-form" onSubmit={onSubmit} className="mt-6 space-y-4">
+          {mounted && (
+            <p
+              className={`mt-4 text-[16px] leading-6 ${
+                resolvedTheme === "light"
+                  ? "text-neutral-700"
+                  : "text-neutral-500"
+              }`}
+            >
+              Enter your registered email to get password
+              <br /> reset code.
+            </p>
+          )}
+
+          <form id="forgot-form" onSubmit={onSubmit} className="mt-8 ">
             <input
               type="email"
               inputMode="email"

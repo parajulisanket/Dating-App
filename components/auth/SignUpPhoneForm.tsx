@@ -71,7 +71,7 @@ export default function SignUpPhoneForm({
         </header>
 
         {/* FORM */}
-        <section className="overflow-y-auto px-4 mt-4">
+        <section className="overflow-y-auto px-4 mt-8">
           <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
             <div className="space-y-4">
               {/* Phone input */}

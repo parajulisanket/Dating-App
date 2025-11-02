@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const RESEND_SECONDS = 60;
 
@@ -11,6 +12,14 @@ export default function VerifyEmailPage() {
   const router = useRouter();
   const params = useSearchParams();
   const email = params.get("email") ?? "youremail@gmail.com";
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const { resolvedTheme } = useTheme();
 
   // 6-digit code boxes
   const [d, setD] = useState<string[]>(["", "", "", "", "", ""]);
@@ -91,16 +100,22 @@ export default function VerifyEmailPage() {
         {/* CONTENT */}
         <main className="px-4">
           <h1 className="title mt-4 leading-10 text-left">Verify Email</h1>
-          <p className="mt-2 text-[15px] leading-6 text-neutral-600">
+          <p
+            className={`text-[16px] leading-6 ${
+              resolvedTheme === "light"
+                ? "text-neutral-700"
+                : "text-neutral-500"
+            }`}
+          >
             Enter verification code we sent to{" "}
-            <span className="text-[#F92FA2] font-semibold">{email}</span>.
+            <span className="text-neutral-700 font-semibold">{email}</span>.
           </p>
 
           <form
             id="verify-form"
             onSubmit={onSubmit}
             onPaste={onPaste}
-            className="mt-5 space-y-4"
+            className="mt-8 "
           >
             <div className="grid grid-cols-6 gap-2 max-w-[360px]">
               {d.map((v, i) => (

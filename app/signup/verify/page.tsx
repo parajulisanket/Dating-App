@@ -2,14 +2,18 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { useMemo, useRef, useState, FormEvent } from "react";
+import { useMemo, useRef, useState, FormEvent, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  });
   const router = useRouter();
   const params = useSearchParams();
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
@@ -83,8 +87,8 @@ export default function VerifyPage() {
     <div className="min-h-svh flex items-center justify-center bg-background">
       {/* PHONE VIEW */}
       <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
-        {/* HEADER: back chevron only (top-left) */}
-        <header className="flex flex-col items-start px-4 pt-6">
+        {/* HEADER: back chevron only  */}
+        <header className="flex flex-col items-start px-4 pt-6 ">
           <Link
             href="/signup/email"
             aria-label="Back"
@@ -99,19 +103,20 @@ export default function VerifyPage() {
           <form id="verify-form" onSubmit={submit} onPaste={onPaste}>
             <h1 className="title mt-4 leading-10 text-left">Verify Email</h1>
 
-            <p
-              className={`mt-3 text-[16px] ${
-                theme === "light" ? "text-neutral-600" : "text-neutral-400"
-              }`}
-            >
-              Enter verification code we sent to{" "}
-              <span className="font-semibold text-neutral-700">
-                {emailFromQuery}
-              </span>
-              .
-            </p>
+            {mounted && (
+              <p
+                className={`mt-2 text-[16px] ${
+                  resolvedTheme === "light"
+                    ? "text-neutral-700"
+                    : "text-neutral-500"
+                }`}
+              >
+                Enter verification code we sent to{" "}
+                <span className="font-semibold ">{emailFromQuery}</span>.
+              </p>
+            )}
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-8 flex gap-2">
               {d.map((v, i) => (
                 <input
                   key={i}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -83,7 +83,11 @@ const QUESTIONS: Question[] = [
 
 export default function LifestylePage() {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  });
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const onPick = (qKey: string, value: string) =>
@@ -99,7 +103,7 @@ export default function LifestylePage() {
 
   return (
     /* KEY: fix height + allow shrink */
-    <div className="w-full max-w-[425px] h-svh min-h-0 grid grid-rows-[auto_1fr] bg-background">
+    <div className="w-full max-w-[425px] h-screen max-h-dvh md:max-h-[897.22px]  grid grid-rows-[auto_1fr] bg-background">
       {/* HEADER (sticky optional) */}
       <header className="flex items-center justify-between px-4 pt-6 pb-2 sticky top-0 bg-background z-10">
         <button
@@ -119,30 +123,33 @@ export default function LifestylePage() {
       </header>
 
       {/* CONTENT: title/subtitle fixed, FORM SCROLLS */}
-      {/* KEY: let the second row shrink so its child can scroll */}
+
       <main className="px-4 pr-3 grid grid-rows-[auto_1fr] min-h-0">
-        {/* Fixed intro (not scrollable) */}
         <div>
           <h1 className="title mt-4 leading-10 text-left">
             What are your lifestyle choices?
           </h1>
-          <p
-            className={`mt-2 text-[15px] leading-6 ${
-              theme === "light" ? "text-neutral-1000" : "text-neutral-500"
-            }`}
-          >
-            Let everyone know about your lifestyle to get a
-            <br /> better match.
-          </p>
+
+          {mounted && (
+            <p
+              className={`mt-2 text-[16px] leading-6 ${
+                resolvedTheme === "light"
+                  ? "text-neutral-700"
+                  : "text-neutral-500"
+              }`}
+            >
+              Let everyone know about your lifestyle to get a
+              <br /> better match.
+            </p>
+          )}
         </div>
 
         {/* Scrollable form only */}
-        {/* KEY: min-h-0 + overflow-y-auto; add iOS momentum scrolling */}
         <div
-          className="min-h-0 overflow-y-auto no-scrollbar mt-5"
+          className="min-h-0 overflow-y-auto no-scrollbar mt-8"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
-          <form id="lifestyle-form" onSubmit={onSubmit} className="space-y-6">
+          <form id="lifestyle-form" onSubmit={onSubmit} className="space-y-4">
             {QUESTIONS.map((q, idx) => (
               <section
                 key={q.key}

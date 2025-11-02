@@ -143,7 +143,7 @@ export default function MatchListings() {
 
                 {/* text overlay */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#570074] to-transparent backdrop-blur-[2px]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#570074] to-transparent " />
                   <div className="relative p-2 text-white">
                     <div className="flex items-center gap-1 text-[18px] font-bold leading-tight drop-shadow">
                       <span className="truncate">

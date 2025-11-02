@@ -18,7 +18,7 @@ const OPTIONS: Option[] = [
 ];
 
 export default function RelationshipPage() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
@@ -53,7 +53,7 @@ export default function RelationshipPage() {
         </h1>
         {mounted && (
           <form id="relationship-form" onSubmit={onSubmit}>
-            <div className="grid grid-cols-2 gap-4 mt-5">
+            <div className="grid grid-cols-2 gap-4 mt-8">
               {OPTIONS.map((o) => {
                 const active = selected === o.key;
                 return (
@@ -66,10 +66,10 @@ export default function RelationshipPage() {
                       "rounded-[18px] border px-3 py-4 text-center min-h-[118px]",
                       "flex flex-col items-center justify-center transition-colors",
                       active
-                        ? theme === "light"
+                        ? resolvedTheme === "light"
                           ? "bg-primary-500/10 border-primary-500/40 text-primary-500"
                           : "bg-white/30 border-white text-white"
-                        : theme === "light"
+                        : resolvedTheme === "light"
                         ? "border-neutral-200"
                         : "border-white/30 text-white/80",
                     ].join(" ")}

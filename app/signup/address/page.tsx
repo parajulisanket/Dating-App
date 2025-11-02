@@ -69,7 +69,7 @@ export default function AddressPage() {
           currently?
         </h1>
 
-        <form id="address-form" onSubmit={onSubmit} className="mt-5 space-y-6">
+        <form id="address-form" onSubmit={onSubmit} className="mt-8 ">
           <Select onValueChange={setAddress}>
             <SelectTrigger className="w-full rounded-[16px] px-4 py-[14px] border border-neutral-300 text-[16px]">
               <SelectValue

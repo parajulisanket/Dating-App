@@ -30,7 +30,7 @@ export default function GenderPage() {
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </button>
-        <span className="w-8" /> {/* spacer */}
+        <span className="w-8" />
       </header>
 
       {/* CONTENT */}
@@ -39,7 +39,7 @@ export default function GenderPage() {
           What is your gender?
         </h1>
 
-        <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-5">
+        <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-8">
           {GENDERS.map((g) => {
             const active = selected === g;
             return (

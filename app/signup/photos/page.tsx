@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 
 export default function PhotosPage() {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -83,12 +83,12 @@ export default function PhotosPage() {
           Last step! add your best photos
         </h1>
 
-        <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="grid grid-cols-3 gap-4 mt-8">
           {photos.map((p, i) => (
             <div
               key={i}
               className={`relative aspect-[3/4] rounded-xl ${
-                theme === "light" ? "bg-primary-500/10" : "bg-white/10"
+                resolvedTheme === "light" ? "bg-primary-500/10" : "bg-white/10"
               } flex items-center justify-center overflow-hidden`}
             >
               {p ? (

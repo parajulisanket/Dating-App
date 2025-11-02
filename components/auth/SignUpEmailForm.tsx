@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronLeft, Check, Eye, EyeOff } from "lucide-react";
 import { FormEvent, useMemo, useState, useRef, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 export default function SignUpEmailForm({
   onValidSubmit,
@@ -26,6 +27,7 @@ export default function SignUpEmailForm({
     setMounted(true);
   }, []);
 
+  const { resolvedTheme } = useTheme();
   const emailOk = useMemo(
     () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
     [email]
@@ -68,7 +70,7 @@ export default function SignUpEmailForm({
         </header>
 
         {/* FORM AREA */}
-        <section className="overflow-y-auto px-4 mt-4">
+        <section className="overflow-y-auto px-4 mt-8">
           <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
             <div className="space-y-4">
               {/* EMAIL FIELD */}
@@ -117,25 +119,31 @@ export default function SignUpEmailForm({
             </div>
 
             {/* OPT-IN CHECKBOX */}
-            <label className="mt-6 inline-flex items-start gap-2 select-none">
+            <label className="mt-4 inline-flex items-start gap-2 select-none">
               <span className="relative">
                 <input
                   type="checkbox"
                   checked={optIn}
                   onChange={(e) => setOptIn(e.target.checked)}
-                  className="peer h-5 w-5 appearance-none rounded border border-primary-500 bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
+                  className="peer h-4 w-4 appearance-none rounded border border-primary-500 bg-white checked:bg-[#F92FA2] checked:border-[#F92FA2] transition-colors"
                 />
                 {optIn && (
                   <Check
                     size={16}
-                    className="absolute left-0.5 top-0.5 text-white pointer-events-none"
-                    strokeWidth={3}
+                    className="absolute left-0 top-0.5 text-white pointer-events-none"
+                    strokeWidth={2}
                   />
                 )}
               </span>
-              <span className="text-[14px] leading-5 text-neutral-600">
+              <p
+                className={`-mt-0.5 text-[13px] leading-6 ${
+                  resolvedTheme === "light"
+                    ? "text-neutral-600"
+                    : "text-neutral-500"
+                }`}
+              >
                 I want to receive updates, news, and offers from myapp.
-              </span>
+              </p>
             </label>
           </form>
         </section>

@@ -23,7 +23,7 @@ const ZODIACS = [
 
 export default function ZodiacPage() {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
   const [mounted, setMounted] = useState(false);
@@ -72,10 +72,10 @@ export default function ZodiacPage() {
           <form
             id="zodiac-form"
             onSubmit={onSubmit}
-            className="flex flex-col flex-1 space-y-4"
+            className="flex flex-col flex-1 "
           >
             {/* Grid of zodiac buttons */}
-            <div className="grid grid-cols-2 gap-3 mt-5">
+            <div className="grid grid-cols-2 gap-2 mt-8">
               {ZODIACS.map((z) => {
                 const active = selected === z.key;
                 return (
@@ -85,12 +85,12 @@ export default function ZodiacPage() {
                     onClick={() => setSelected(z.key)}
                     className={[
                       "h-10 w-full rounded-full border px-4",
-                      "flex items-center gap-2 justify-start text-[15px] transition-all",
+                      "flex items-center gap-2 justify-start text-[14px] transition-all",
                       active
-                        ? theme === "light"
+                        ? resolvedTheme === "light"
                           ? "bg-pink-100 border-pink-400 text-pink-600"
                           : "bg-white/20 border-white text-white"
-                        : theme === "light"
+                        : resolvedTheme === "light"
                         ? "border-neutral-300 text-neutral-1000"
                         : "border-white/30 text-white/80",
                     ].join(" ")}
@@ -104,12 +104,14 @@ export default function ZodiacPage() {
 
             {/* Info text */}
             <p
-              className={`mt-2 text-[15px] leading-6 ${
-                theme === "light" ? "text-neutral-700" : "text-neutral-400"
+              className={`mt-4 text-[16px]  ${
+                resolvedTheme === "light"
+                  ? "text-neutral-700"
+                  : "text-neutral-500"
               }`}
             >
               Your zodiac sign will be public.{" "}
-              <span className="font-bold">You can’t change it later.</span>
+              <span className="font-semibold">You can’t change it later.</span>
             </p>
           </form>
         )}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
+import { useTheme } from "next-themes";
 
 const GENDERS = ["Man", "Woman", "Other"] as const;
 type Gender = (typeof GENDERS)[number];
@@ -12,12 +13,16 @@ export default function GenderPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<Gender | null>(null);
   const isValid = !!selected;
-
+  const { resolvedTheme } = useTheme();
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
     router.push("/signup/relationship");
   }
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   return (
     <div className="min-h-svh w-full max-w-[425px] mx-auto grid grid-rows-[auto_1fr_auto] bg-background">
@@ -48,10 +53,15 @@ export default function GenderPage() {
                 type="button"
                 onClick={() => setSelected(g)}
                 className={[
-                  "w-full h-14 rounded-full border px-6 flex items-center justify-center text-[18px] font-semibold transition-all",
+                  "w-full h-14 rounded-full border px-6",
+                  "flex items-center justify-center text-[18px] font-semibold transition-colors",
                   active
-                    ? "bg-pink-100 border-pink-400 text-primary-500"
-                    : "border-neutral-300 text-neutral-1000",
+                    ? resolvedTheme === "light"
+                      ? "bg-pink-100 border-pink-400 text-pink-600"
+                      : "bg-white/30 border-white text-white"
+                    : resolvedTheme === "light"
+                    ? "border-neutral-300 text-neutral-1000"
+                    : "border-white/30 text-white/80",
                 ].join(" ")}
               >
                 {g}

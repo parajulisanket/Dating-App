@@ -28,6 +28,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
   const Chip = ({
     label,
     value,
+    
   }: {
     label: string;
     value: "man" | "woman" | "all";
@@ -212,13 +213,13 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
             console.log("apply (static):", { show, age, distance, hasBio });
             onApply();
           }}
-          className="w-full rounded-full bg-[#F92FA2] py-3 font-medium text-white"
+          className="w-full rounded-full bg-[#F92FA2] py-3 font-medium text-white cursor-pointer"
         >
           Apply Filters
         </button>
         <button
           onClick={reset}
-          className="w-full rounded-full bg-[#CA2CFF] py-3 font-medium text-white"
+          className="w-full rounded-full bg-[#CA2CFF] py-3 font-medium text-white cursor-pointer"
         >
           Clear Filters
         </button>

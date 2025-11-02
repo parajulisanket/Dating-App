@@ -40,7 +40,7 @@ export default function RootLayout({
             <div
               className="
               w-full max-w-[425px] 
-              bg-background text-neutral-1000 md:max-h-[897.222px]  rounded-4xl
+              bg-background text-neutral-1000 md:max-h-[897.222px]  md:rounded-4xl
               relative overflow-hidden  
             "
             >

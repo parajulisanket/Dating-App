@@ -23,7 +23,7 @@ const ZODIACS = [
 
 export default function ZodiacPage() {
   const router = useRouter();
-  const { resolvedTheme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   const [selected, setSelected] = useState<string | null>(null);
   const isValid = !!selected;
   const [mounted, setMounted] = useState(false);
@@ -101,7 +101,6 @@ export default function ZodiacPage() {
                 );
               })}
             </div>
-
             {/* Info text */}
             <p
               className={`mt-4 text-[16px]  ${

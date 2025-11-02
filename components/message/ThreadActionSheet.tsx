@@ -56,7 +56,7 @@ export default function ThreadActionSheet({
       />
 
       {/* Sheet Content */}
-      <div className="absolute bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
+      <div className="absolute max-md:fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
         <div className="rounded-t-[32px] bg-background p-0 pb-6 shadow-lg">
           <div className="sr-only">
             <h2>Thread actions</h2>

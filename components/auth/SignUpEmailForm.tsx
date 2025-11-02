@@ -5,17 +5,7 @@ import { ChevronLeft, Check, Eye, EyeOff } from "lucide-react";
 import { FormEvent, useMemo, useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 
-export default function SignUpEmailForm({
-  onValidSubmit,
-  busy = false,
-}: {
-  onValidSubmit: (args: {
-    email: string;
-    password: string;
-    optIn: boolean;
-  }) => void;
-  busy?: boolean;
-}) {
+export default function SignUpEmailForm() {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [optIn, setOptIn] = useState(false);
@@ -37,8 +27,6 @@ export default function SignUpEmailForm({
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!isValid || busy) return;
-    onValidSubmit({ email, password: pwd, optIn });
   };
 
   if (!mounted) return null;
@@ -152,20 +140,14 @@ export default function SignUpEmailForm({
         <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
           <button
             type="submit"
-            onClick={() =>
-              (
-                document.querySelector("form") as HTMLFormElement | null
-              )?.requestSubmit()
-            }
-            disabled={!isValid || busy}
+            onClick={onSubmit}
+            disabled={!isValid}
             className={
-              isValid && !busy
+              isValid
                 ? "btn btn-signup w-full"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100 w-full"
             }
-          >
-            {busy ? "Please wait..." : "Next"}
-          </button>
+          ></button>
         </footer>
       </div>
     </div>

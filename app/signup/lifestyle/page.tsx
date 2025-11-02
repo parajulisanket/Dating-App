@@ -116,7 +116,7 @@ export default function LifestylePage() {
         <button
           type="button"
           onClick={skip}
-          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
+          className="text-heading text-base font-semibold active:click-effect rounded-xl px-3 py-1 transition-colors"
         >
           Skip
         </button>

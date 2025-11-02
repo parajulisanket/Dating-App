@@ -522,3 +522,7 @@ body {
       padding-box,
     linear-gradient(101.58deg, #bc96fb 4.3%, #a26ff5 94.06%) padding-box;
 }
+
+.click-effect{
+  @apply active:bg-[#f92fa2]/10 cursor-pointer rounded-full
+}

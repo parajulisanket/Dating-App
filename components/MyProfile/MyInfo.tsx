@@ -165,7 +165,7 @@ const getLifestyleDetails = (categoryKey: string, optionKey: string) => {
 };
 
 export const MyInfo = () => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme();
   // demo data
   const profileData: ProfileData = {
     name: "Anup",
@@ -239,7 +239,11 @@ export const MyInfo = () => {
               className="cursor-pointer rounded-full object-cover h-[80px] w-[80px]"
             />
             <div className="flex flex-col h-[57px]">
-              <div className={`flex gap-2 items-center ${theme === 'light' ? 'text-[#f9209b] ' : 'text-white'} text-[24px] font-bold leading-[36px]`}>
+              <div
+                className={`flex gap-2 items-center ${
+                  resolvedTheme === "light" ? "text-[#f9209b] " : "text-white"
+                } text-[24px] font-bold leading-[36px]`}
+              >
                 <h1>
                   {profileData.name}, {profileData.age}
                 </h1>
@@ -253,29 +257,38 @@ export const MyInfo = () => {
                       className="h-6 w-6 "
                     />
                   </div>
-
                 )}
               </div>
-              <div className={`flex ${theme === 'light' ? 'text-[#fa51b1]' : 'text-neutral-400'} items-center gap-1`}>
+              <div
+                className={`flex ${
+                  resolvedTheme === "light"
+                    ? "text-[#fa51b1]"
+                    : "text-neutral-400"
+                } items-center gap-1`}
+              >
                 {/* <p>theme:{theme}</p> */}
-                {
-                  theme === 'light' ? <> <Image
-                    src="/icons/location.svg"
-                    alt="location"
-                    width={16}
-                    height={16}
-                    // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
-                    className={`h-4 w-4 `}
-                  /></> :
+                {resolvedTheme === "light" ? (
+                  <>
+                    {" "}
                     <Image
-                      src="/icons/locationDark.svg"
+                      src="/icons/location.svg"
                       alt="location"
                       width={16}
                       height={16}
                       // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
                       className={`h-4 w-4 `}
                     />
-                }
+                  </>
+                ) : (
+                  <Image
+                    src="/icons/locationDark.svg"
+                    alt="location"
+                    width={16}
+                    height={16}
+                    // className={`h-4 w-4 ${theme === 'dark' ? 'filter invert brightness-0' : ''}`}
+                    className={`h-4 w-4 `}
+                  />
+                )}
 
                 <p className="text-[14px]">
                   {profileData.location}, {profileData.distance}
@@ -293,7 +306,7 @@ export const MyInfo = () => {
           <div className="flex gap-2">
             <button
               onClick={() => console.log("Add Story clicked")}
-              className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95"
+              className="p-1 rounded-full cursor-pointer hover:scale-102 transition-transform duration-200 active:scale-95"
             >
               <Image
                 src="/icons/addStory.svg"
@@ -306,7 +319,7 @@ export const MyInfo = () => {
             <Link href="/edit-profile">
               <button
                 onClick={() => console.log("Edit clicked")}
-                className="p-1 rounded-full hover:scale-105 transition-transform duration-200 active:scale-95"
+                className="p-1 rounded-full  cursor-pointer hover:scale-102 transition-transform duration-200 active:scale-95"
               >
                 <Image
                   src="/icons/edit.svg"

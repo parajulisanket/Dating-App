@@ -21,7 +21,7 @@ export default function ThreadHeader({
   portalContainer?: HTMLElement | null;
 }) {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const displayName = name ?? decodeURIComponent(slug);
 
@@ -34,12 +34,14 @@ export default function ThreadHeader({
   }
 
   return (
-    <header className="border-b border-borderButton bg-background h-[90px] p-6">
+    <header className="border-b border-borderButton bg-background h-[90px] p-6 ">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-2 -ml-2">
           <img
             src={"/icons/CaretLeft.svg"}
-            className={theme === "light" ? "" : "filter invert brightness-0"}
+            className={
+              resolvedTheme === "light" ? "" : "filter invert brightness-0"
+            }
             alt="Back"
           />
         </button>
@@ -73,7 +75,7 @@ export default function ThreadHeader({
               src="/icons/phone.svg"
               alt=""
               className={
-                theme === "light" ? "" : "filter invert brightness-0"
+                resolvedTheme === "light" ? "" : "filter invert brightness-0"
               }
             />
           </button>
@@ -81,7 +83,7 @@ export default function ThreadHeader({
             <img
               src={"/icons/VideoCamera.svg"}
               className={
-                theme === "light" ? "" : "filter invert brightness-0"
+                resolvedTheme === "light" ? "" : "filter invert brightness-0"
               }
               alt=""
             />
@@ -94,7 +96,7 @@ export default function ThreadHeader({
             <img
               src={"/icons/DotsThree.svg"}
               className={
-                theme === "light" ? "" : "filter invert brightness-0"
+                resolvedTheme === "light" ? "" : "filter invert brightness-0"
               }
               alt=""
             />

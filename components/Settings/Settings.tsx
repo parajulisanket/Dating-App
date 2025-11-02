@@ -33,7 +33,7 @@ export const Settings = () => {
 
   const toggleTheme = () => {
     // Use resolvedTheme to get the actual current theme
-    const currentTheme = resolvedTheme || theme;
+    const currentTheme = resolvedTheme;
     setTheme(currentTheme === "dark" ? "light" : "dark");
   };
 
@@ -117,6 +117,7 @@ export const Settings = () => {
 
   const handleLogout = () => {
     console.log("Logging out...");
+    router.push("/");
     // TODO: Call logout API
     // Clear local storage/cookies
     // Redirect to login page
@@ -144,7 +145,11 @@ export const Settings = () => {
         {/* Header */}
         <div className="border-b border-borderButton sticky top-0 bg-background">
           <div className="bg-background px-4 py-4 flex items-center gap-3 text-heading ml-1 ">
-            <Link href="/profile" aria-label="Back" className="rounded-full">
+            <Link
+              href="/profile"
+              aria-label="Back"
+              className="rounded-full click-effect"
+            >
               <ChevronLeft className="" size={24} strokeWidth={1.5} />
             </Link>
 
@@ -202,15 +207,16 @@ export const Settings = () => {
                 <div
                   onClick={toggleTheme}
                   className={`h-6 w-[42px] rounded-full p-1 transition-all duration-300 cursor-pointer  border border-[#f92fa2] flex items-center
-    ${theme === "dark" ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
+    ${resolvedTheme === "dark" ? "bg-[#f92fa2]" : "bg-[#f92fa2]/10"}
   `}
                 >
                   <div
                     className={`w-4 h-4  rounded-full shadow-md transform transition-transform duration-300
-      ${theme === "dark"
-                        ? "translate-x-[18px] bg-white"
-                        : "translate-x-0 bg-[#f92fa2]"
-                      }
+      ${
+        resolvedTheme === "dark"
+          ? "translate-x-[18px] bg-white"
+          : "translate-x-0 bg-[#f92fa2]"
+      }
     `}
                   ></div>
                 </div>
@@ -239,7 +245,13 @@ export const Settings = () => {
                   <h3 className="text-[16px] font-bold  mb-1 leading-tight">
                     {item.title}
                   </h3>
-                  <p className={`text-[12px] ${theme === 'light' ? 'text-neutral-700' : 'text-neutral-400'} leading-[18px]`}>
+                  <p
+                    className={`text-[12px] ${
+                      resolvedTheme === "light"
+                        ? "text-neutral-700"
+                        : "text-neutral-400"
+                    } leading-[18px]`}
+                  >
                     {item.description}
                   </p>
                 </div>
@@ -252,7 +264,7 @@ export const Settings = () => {
             <div className="pt-8 md:pt-4 pb-6 flex justify-center ">
               <button
                 onClick={handleLogout}
-                className="btn-logout text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
+                className="btn-logout cursor-pointer text-white px-8 py-3 rounded-[200px] text-[16px] font-semibold flex items-center gap-2 hover:shadow-lg transition-shadow"
               >
                 <Image
                   src="/icons/logout.svg"

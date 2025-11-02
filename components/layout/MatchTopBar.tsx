@@ -22,17 +22,15 @@ export default function TopBar({
   searchHref,
   onSearchClick,
 }: TopBarProps) {
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
   // const theme = localStorage.getItem('app-theme')
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true)
-  })
-  if (!mounted) {
-    return (
-      <div className="h-[56px]" />
-    )
-  }
+    setMounted(true);
+  });
+  // if (!mounted) {
+  //   return <div className="h-[56px]" />;
+  // }
   return (
     <header
       className={cn(
@@ -44,15 +42,17 @@ export default function TopBar({
     >
       {/* Left: chevron + title */}
       <div className="flex items-center gap-3">
-        <Link href={backHref} aria-label="Back" className="rounded-full ">
+        {/* <Link href={backHref} aria-label="Back" className="rounded-full ">
           <ChevronLeft className="text-heading" size={35} strokeWidth={1.5} />
-        </Link>
+        </Link> */}
 
         <h1 className="title">{title}</h1>
       </div>
 
       {/* Right: Search */}
+
       {showSearch &&
+        mounted &&
         (onSearchClick ? (
           <button
             type="button"
@@ -60,10 +60,7 @@ export default function TopBar({
             onClick={onSearchClick}
             className=" text-heading "
           >
-            <Search
-              className={`w-[26px] h-[26px] `}
-              strokeWidth={2}
-            />
+            <Search className={`w-[26px] h-[26px] `} strokeWidth={2} />
           </button>
         ) : (
           <Link
@@ -72,8 +69,9 @@ export default function TopBar({
             className=" p-2 "
           >
             <Search
-              className={`w-[26px] h-[26px] ${theme === "dark" ? "text-white" : "text-primary-500"
-                }`}
+              className={`w-[26px] h-[26px] ${
+                resolvedTheme === "dark" ? "text-white" : "text-primary-500"
+              }`}
               strokeWidth={2}
             />
           </Link>

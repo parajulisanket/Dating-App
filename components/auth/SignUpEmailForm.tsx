@@ -4,7 +4,9 @@ import Link from "next/link";
 import { ChevronLeft, Check, Eye, EyeOff } from "lucide-react";
 import { FormEvent, useMemo, useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
-
+import apiPublic from "@/api";
+import { useRouter } from "next/navigation";
+import axios, { AxiosError } from "axios";
 export default function SignUpEmailForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +16,8 @@ export default function SignUpEmailForm() {
   const [mounted, setMounted] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -40,13 +44,32 @@ export default function SignUpEmailForm() {
     if (!password) {
       setPasswordError("Password is required.");
       valid = false;
+    } else if (password.length <= 8) {
+      setPasswordError("Password lenght should be >=8");
     }
     return valid;
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validateAndSetErrors()) return;
+    setLoading(true);
+    try {
+      const res = await apiPublic.post("/user/send_otp_in_email/", {
+        email,
+        password,
+      });
+      console.log(res);
+      if (res.status === 200) {
+        router.push(`/signup/verify?email=${encodeURIComponent(email)}`);
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!mounted) return null;
@@ -79,7 +102,7 @@ export default function SignUpEmailForm() {
 
         {/* FORM AREA */}
         <section className="overflow-y-auto px-4 mt-8">
-          <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
+          <form className="flex min-h-0 flex-col">
             <div className="space-y-4">
               {/* EMAIL FIELD */}
               <label className="block">
@@ -161,10 +184,10 @@ export default function SignUpEmailForm() {
           <button
             type="submit"
             onClick={onSubmit}
-            disabled={!isValid}
+            disabled={!isValid || loading}
             className={
-              isValid
-                ? "btn btn-signup w-full"
+              isValid || !loading
+                ? "btn btn-signup w-full cursor-pointer"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100 w-full"
             }
           >

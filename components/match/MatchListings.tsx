@@ -1,5 +1,5 @@
 "use client";
-
+import { Portal } from "@/components/ui/Portal";
 import Image from "next/image";
 import React from "react";
 import { MoreHorizontal } from "lucide-react";
@@ -87,7 +87,10 @@ export default function MatchListings() {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "auto"; // cleanup on unmount
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
   return (

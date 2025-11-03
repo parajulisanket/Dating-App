@@ -5,12 +5,14 @@ import { ChevronLeft } from "lucide-react";
 import { useMemo, useRef, useState, FormEvent, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
-
+import apiPublic from "@/api";
+import axios, { AxiosError } from "axios";
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setMounted(true);
   });
@@ -61,26 +63,24 @@ export default function VerifyPage() {
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log({ code });
     if (!valid) return;
-
-    if (!API) {
-      await new Promise((r) => setTimeout(r, 300));
-      router.push("/signup/name");
-      return;
+    try {
+      setLoading(true);
+      const res = await apiPublic.post("/user/verify_otp_of_email/", {
+        email: emailFromQuery,
+        otp: code,
+      });
+      if (res.status === 200) {
+        router.push("/signup/name");
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data);
+      }
+    } finally {
+      setLoading(false);
     }
-
-    const res = await fetch(`${API}/auth/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ code }),
-    });
-
-    if (!res.ok) {
-      alert("Invalid/expired code");
-      return;
-    }
-    router.push("/signup/name");
   };
 
   return (

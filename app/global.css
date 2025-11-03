@@ -526,3 +526,6 @@ body {
 .click-effect{
   @apply active:bg-[#f92fa2]/10 cursor-pointer rounded-full
 }
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}

@@ -133,12 +133,13 @@ export default function MatchListings() {
 
   return (
     <section
-      className="no-scrollbar max-md:h-100dvh  scroll-smooth py-4 max-h-[calc(100dvh-146px)] md:max-h-[776.54px]"
+      className="no-scrollbar max-md:h-100dvh  scroll-smooth py-4 max-h-[calc(100dvh-146px)] md:max-h-[726.54px]"
       style={{
-        // height: containerHeight,
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
-        overflowY: "auto",
+        overflowY: "scroll",
+        scrollbarWidth: "none", // For Firefox
+        msOverflowStyle: "none", // For IE and Edge
       }}
     >
       <div>

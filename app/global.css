@@ -360,7 +360,7 @@ body {
   }
 
   .footer-shell {
-    @apply fixed md:absolute bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur-sm px-3 pb-6 pt-2;
+    @apply fixed md:absolute bottom-0 z-100 flex items-center justify-between bg-white backdrop-blur-sm px-4 pb-6 pt-2;
   }
 
   .pill {
@@ -523,6 +523,9 @@ body {
     linear-gradient(101.58deg, #bc96fb 4.3%, #a26ff5 94.06%) padding-box;
 }
 
-.click-effect{
-  @apply active:bg-[#f92fa2]/10 cursor-pointer rounded-full
+.click-effect {
+  @apply active:bg-[#f92fa2]/10 cursor-pointer rounded-full;
+}
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }

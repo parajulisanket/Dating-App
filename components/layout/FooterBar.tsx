@@ -351,7 +351,7 @@ export default function FooterBar({
                       inactiveSrc="/icons/discover-inactive.svg"
                       alt="Discover"
                     />
-                    <span className="text-xs tracking-wide font-bold ml-2">
+                    <span className="text-xs tracking-wide font-bold ml-auto">
                       Discover
                     </span>
                   </motion.div>
@@ -402,7 +402,7 @@ export default function FooterBar({
                       inactiveSrc="/icons/match-inactive.svg"
                       alt="Match"
                     />
-                    <span className="text-xs tracking-wide font-bold ml-2">
+                    <span className="text-xs tracking-wide font-bold ml-auto">
                       Match
                     </span>
                     {likeCount > 0 && (
@@ -463,7 +463,7 @@ export default function FooterBar({
                       inactiveSrc="/icons/chat-inactive.svg"
                       alt="Chat"
                     />
-                    <span className="text-xs tracking-wide font-bold ml-2">
+                    <span className="text-xs tracking-wide font-bold ml-auto">
                       Message
                     </span>
                     {unreadCount > 0 && (
@@ -524,7 +524,7 @@ export default function FooterBar({
                       inactiveSrc="/icons/profile-inactive.svg"
                       alt="Profile"
                     />
-                    <span className="text-xs tracking-wide font-bold ml-2">
+                    <span className="text-xs tracking-wide font-bold ml-auto">
                       Profile
                     </span>
                   </motion.div>

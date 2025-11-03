@@ -72,10 +72,6 @@ const DATA: Match[] = [
   },
 ];
 
-// const HEADER_H = 48;
-// const FOOTER_H = 68;
-// const containerHeight = `calc(100dvh - ${HEADER_H + FOOTER_H}px)`;
-
 export default function MatchListings() {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Match | null>(null);
@@ -97,9 +93,8 @@ export default function MatchListings() {
   return (
     <>
       <div
-        className="no-scrollbar scroll-smooth pb-10 h-[calc(100svh-116px)] md:max-h-[776.54px]"
+        className="no-scrollbar scroll-smooth  pt-4 pb-14 h-[calc(100svh-116px)] md:max-h-[776.54px] "
         style={{
-          // height: containerHeight,
           WebkitOverflowScrolling: "touch",
           overscrollBehaviorY: "contain",
           overflowY: "auto",
@@ -167,14 +162,13 @@ export default function MatchListings() {
 
       {/* Bottom Sheet */}
       {open && selected && (
-        <div className="absolute inset-0 z-[1000]">
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/50" onClick={closeSheet} />
+        <div
+          className="absolute inset-0 z-[1000]  bg-black/50"
+          onClick={closeSheet}
+        >
           {/* Sheet panel */}
           <div className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-[425px]">
-            <div className="rounded-t-[32px] bg-background p-4 shadow-xl">
-              <div className=" flex items-center justify-center"></div>
-
+            <div className="rounded-t-3xl bg-background p-4 shadow-xl">
               {/* Pink profile card */}
               <div className="rounded-2xl border border-[#F92FA233] dark:bg-white/10 dark:border-white/10 bg-[#FEE9F5] p-3">
                 <div className="flex items-center gap-3">

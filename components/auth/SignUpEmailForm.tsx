@@ -7,26 +7,46 @@ import { useTheme } from "next-themes";
 
 export default function SignUpEmailForm() {
   const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [password, setPassword] = useState("");
   const [optIn, setOptIn] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const pwdRef = useRef<HTMLInputElement>(null);
   const [mounted, setMounted] = useState(false);
-
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const { resolvedTheme } = useTheme();
-  const emailOk = useMemo(
-    () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-    [email]
-  );
-  const pwdOk = pwd.length >= 6;
-  const isValid = emailOk && pwdOk;
+  const isValid = useMemo(() => {
+    if (!email) return false;
+    if (!/^\S+@\S+\.\S+$/.test(email)) return false;
+    if (!password || password.length < 8) return false;
+    return true;
+  }, [email, password]);
+
+  const validateAndSetErrors = () => {
+    let valid = true;
+    setEmailError("");
+    setPasswordError("");
+    if (!email) {
+      setEmailError("Email is required");
+      valid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Enter a valid email");
+      valid = false;
+    }
+    if (!password) {
+      setPasswordError("Password is required.");
+      valid = false;
+    }
+    return valid;
+  };
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!validateAndSetErrors()) return;
   };
 
   if (!mounted) return null;
@@ -87,10 +107,10 @@ export default function SignUpEmailForm() {
                   autoComplete="new-password"
                   placeholder="Create password"
                   className="input pr-12"
-                  value={pwd}
-                  onChange={(e) => setPwd(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={6}
+                  minLength={8}
                 />
                 <button
                   type="button"
@@ -147,7 +167,9 @@ export default function SignUpEmailForm() {
                 ? "btn btn-signup w-full"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100 w-full"
             }
-          ></button>
+          >
+            Next
+          </button>
         </footer>
       </div>
     </div>

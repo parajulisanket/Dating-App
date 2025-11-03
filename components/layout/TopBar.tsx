@@ -90,7 +90,7 @@ export default function TopBar({ className }: TopBarProps) {
       </header>
 
       {open && (
-        <div className="absolute inset-0 z-[200] bbb">
+        <div className="absolute inset-0 z-[200]">
           <div
             className={cn(
               "fixed inset-0 bg-black/40 transition-opacity duration-200",

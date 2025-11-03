@@ -1,5 +1,5 @@
 "use client";
-
+import { Portal } from "@/components/ui/Portal";
 import Image from "next/image";
 import React from "react";
 import { MoreHorizontal } from "lucide-react";
@@ -125,15 +125,28 @@ export default function MatchListings() {
 
   // Close on ESC
   React.useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeSheet();
+    if (open) {
+      // Disable background scroll
+      document.body.style.overflow = "hidden";
+    } else {
+      // Re-enable scroll
+      document.body.style.overflow = "auto";
+    }
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeSheet();
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "auto"; // cleanup on unmount
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
   return (
     <section
-      className="no-scrollbar max-md:h-100dvh  scroll-smooth py-4 max-h-[calc(100dvh-146px)] md:max-h-[726.54px]"
+      className="no-scrollbar max-md:h-100dvh  scroll-smooth py-4 max-h-[calc(100dvh-146px)] md:max-h-[840.22px] relative"
       style={{
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
@@ -143,7 +156,7 @@ export default function MatchListings() {
       }}
     >
       <div>
-        <section className="px-4">
+        <section className="px-4 pb-[77px]">
           <div className="grid grid-cols-2 gap-4">
             {DATA.map((m) => (
               <article
@@ -209,6 +222,7 @@ export default function MatchListings() {
       </div>
 
       {/* Bottom Sheet */}
+
       <AnimatePresence>
         {open && selected && (
           <>
@@ -221,7 +235,7 @@ export default function MatchListings() {
               transition={{ duration: 0.3 }}
               onClick={closeSheet}
             ></motion.div>
-            <div className="absolute inset-0 ">
+            <div className=" w-full fixed md:sticky  inset-x-0 bottom-0  z-200">
               <motion.div
                 className="absolute "
                 variants={fadeVariants}
@@ -233,7 +247,7 @@ export default function MatchListings() {
 
               {/* Sheet panel */}
               <motion.div
-                className="fixed md:absolute  inset-x-0 bottom-0 mx-auto w-full max-w-[425px] z-1000 "
+                className=" mx-auto w-full max-w-[425px] z-200 "
                 onClick={(e) => e.stopPropagation()}
                 variants={slideUpVariants}
                 initial="hidden"
@@ -241,11 +255,11 @@ export default function MatchListings() {
                 exit="exit"
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <div className="rounded-t-[32px] bg-background p-4 shadow-xl ">
+                <div className="rounded-t-[32px] bg-background p-4 shadow-xl z-200 ">
                   <div className="mb-3 flex items-center justify-center"></div>
 
                   {/* Pink profile card */}
-                  <div className="rounded-2xl border border-[#F92FA233] dark:bg-white/10 dark:border-white/10 bg-[#FEE9F5] p-3">
+                  <div className="rounded-2xl border border-[#F92FA233] dark:bg-white/10 dark:border-white/10 bg-[#FEE9F5] p-3 ">
                     <div className="flex items-center gap-3">
                       {/* avatar */}
                       <div className="h-10 w-10 overflow-hidden rounded-full shrink-0">

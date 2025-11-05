@@ -87,7 +87,7 @@ export default function VerifyPage() {
       verifyEmail(token);
       console.log("line executing");
       if (res.status === 200) {
-        router.push("/signup/name");
+        router.push("/setup");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

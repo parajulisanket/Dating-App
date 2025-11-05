@@ -1,9 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { FormEvent } from "react";
 import NextButton from "@/components/ui/NextButton";
 import {
   Select,
@@ -13,10 +10,17 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-export default function AddressPage() {
-  const router = useRouter();
-  const [address, setAddress] = useState("");
+interface AddressPageProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
 
+export default function AddressPage({
+  value,
+  onChange,
+  onNext,
+}: AddressPageProps) {
   const locations = [
     { key: "Kathmandu, Nepal", value: "Kathmandu, Nepal" },
     { key: "Pokhara, Nepal", value: "Pokhara, Nepal" },
@@ -25,12 +29,12 @@ export default function AddressPage() {
     { key: "Other", value: "Other" },
   ];
 
-  const isValid = address.trim().length > 0;
+  const isValid = value.trim().length > 0;
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    router.push("/signup/zodiac");
+    onNext();
   }
 
   function useDeviceLocation() {
@@ -38,7 +42,7 @@ export default function AddressPage() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
-        setAddress(
+        onChange(
           `Current location (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`
         );
       },
@@ -48,19 +52,7 @@ export default function AddressPage() {
   }
 
   return (
-    // Phone view container: header / content / footer
-    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
-      {/* HEADER: back chevron (top-left) */}
-      <header className="flex flex-col items-start px-4 pt-6">
-        <Link
-          href="/signup/dob"
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </Link>
-      </header>
-
+    <>
       {/* CONTENT: title + select */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
@@ -69,12 +61,12 @@ export default function AddressPage() {
           currently?
         </h1>
 
-        <form id="address-form" onSubmit={onSubmit} className="mt-8 ">
-          <Select onValueChange={setAddress}>
+        <form id="address-form" onSubmit={onSubmit} className="mt-8">
+          <Select value={value} onValueChange={onChange}>
             <SelectTrigger className="w-full rounded-[16px] px-4 py-[14px] border border-neutral-300 text-[16px]">
               <SelectValue
                 placeholder="Select your address"
-                className={address ? "text-neutral-900" : "text-neutral-500"}
+                className={value ? "text-neutral-900" : "text-neutral-500"}
               />
             </SelectTrigger>
             <SelectContent className="border border-neutral-200 rounded-2xl">
@@ -102,6 +94,6 @@ export default function AddressPage() {
           Next
         </NextButton>
       </footer>
-    </div>
+    </>
   );
 }

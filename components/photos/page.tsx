@@ -1,15 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { Plus, X, ChevronLeft } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useTheme } from "next-themes";
 
-export default function PhotosPage() {
-  const router = useRouter();
+interface PhotosPageProps {
+  value: any;
+  onChange: (value: any) => void;
+  onNext: () => void;
+}
+
+export default function PhotosPage({
+  value,
+  onChange,
+  onNext,
+}: PhotosPageProps) {
   const { resolvedTheme } = useTheme();
 
   const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
+  const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [mounted, setMounted] = useState(false);
 
@@ -26,6 +35,7 @@ export default function PhotosPage() {
 
   function onPick(i: number, file: File) {
     const url = URL.createObjectURL(file);
+
     setPhotos((prev) =>
       prev.map((p, idx) => {
         if (idx === i && p && p.startsWith("blob:")) {
@@ -34,6 +44,14 @@ export default function PhotosPage() {
         return idx === i ? url : p;
       })
     );
+
+    setFiles((prev) => {
+      const newFiles = [...prev];
+      newFiles[i] = file;
+      // Update parent with files array
+      onChange(newFiles.filter(Boolean));
+      return newFiles;
+    });
   }
 
   function onRemove(i: number) {
@@ -46,37 +64,24 @@ export default function PhotosPage() {
         return p;
       })
     );
+
+    setFiles((prev) => {
+      const newFiles = [...prev];
+      newFiles[i] = null;
+      // Update parent with files array
+      onChange(newFiles.filter(Boolean));
+      return newFiles;
+    });
   }
 
   function onDone() {
-    // TODO: send photos to backend
-    router.push("/home");
+    onNext();
   }
-
-  const skip = () => router.push("/home");
 
   if (!mounted) return null;
 
   return (
-    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
-      {/* HEADER */}
-      <header className="flex items-center justify-between px-4 pt-6 pb-2">
-        <button
-          onClick={() => router.push("/signup/lifestyle")}
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </button>
-        <button
-          type="button"
-          onClick={skip}
-          className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
-        >
-          Skip
-        </button>
-      </header>
-
+    <>
       {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
@@ -150,6 +155,6 @@ export default function PhotosPage() {
           Done
         </button>
       </footer>
-    </div>
+    </>
   );
 }

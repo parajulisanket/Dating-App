@@ -1,43 +1,42 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
 const GENDERS = ["Man", "Woman", "Other"] as const;
 type Gender = (typeof GENDERS)[number];
 
-export default function GenderPage() {
-  const router = useRouter();
-  const [selected, setSelected] = useState<Gender | null>(null);
-  const isValid = !!selected;
+interface GenderPageProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
+
+export default function GenderPage({
+  value,
+  onChange,
+  onNext,
+}: GenderPageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
-  });
+  }, []);
+
+  const isValid = !!value;
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    router.push("/signup/relationship");
+    onNext();
   }
 
-  return (
-    <div className="min-h-svh w-full max-w-[425px] mx-auto grid grid-rows-[auto_1fr_auto] bg-background">
-      {/* HEADER */}
-      <header className="flex flex-col items-start px-4 pt-6">
-        <button
-          onClick={() => router.push("/signup/zodiac")}
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </button>
-        <span className="w-8" />
-      </header>
+  if (!mounted) return null;
 
+  return (
+    <>
       {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
@@ -46,12 +45,12 @@ export default function GenderPage() {
 
         <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-8">
           {GENDERS.map((g) => {
-            const active = selected === g;
+            const active = value === g;
             return (
               <button
                 key={g}
                 type="button"
-                onClick={() => setSelected(g)}
+                onClick={() => onChange(g)}
                 className={[
                   "w-full h-14 rounded-full border px-6",
                   "flex items-center justify-center text-[18px] font-semibold transition-colors",
@@ -77,6 +76,6 @@ export default function GenderPage() {
           Next
         </NextButton>
       </footer>
-    </div>
+    </>
   );
 }

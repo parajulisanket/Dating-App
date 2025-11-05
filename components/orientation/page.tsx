@@ -1,8 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
@@ -15,47 +13,36 @@ const OPTIONS = [
 ] as const;
 type Orientation = (typeof OPTIONS)[number];
 
-export default function OrientationPage() {
+interface OrientationPageProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
+
+export default function OrientationPage({
+  value,
+  onChange,
+  onNext,
+}: OrientationPageProps) {
   const { resolvedTheme } = useTheme();
-  const router = useRouter();
-  const [selected, setSelected] = useState<Orientation | null>(null);
   const [showOnProfile, setShowOnProfile] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  const isValid = !!selected;
+  const isValid = !!value;
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    // TODO: save { selected, showOnProfile }
-    router.push("/signup/interested");
+    // TODO: You might want to pass showOnProfile back to parent if needed
+    // For now, just calling onNext
+    onNext();
   }
-
-  const skip = () => router.push("/signup/interested");
 
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   return (
-    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
-      {/* HEADER */}
-      <header className="flex items-center justify-between px-4 pt-6 pb-2">
-        <button
-          onClick={() => router.push("/signup/relationship")}
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </button>
-        <button
-          type="button"
-          onClick={skip}
-          className="text-heading text-base font-semibold active:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors"
-        >
-          Skip
-        </button>
-      </header>
-
+    <>
       {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
@@ -69,12 +56,12 @@ export default function OrientationPage() {
           className="space-y-4 mt-8"
         >
           {OPTIONS.map((opt) => {
-            const active = selected === opt;
+            const active = value === opt;
             return (
               <button
                 key={opt}
                 type="button"
-                onClick={() => setSelected(opt)}
+                onClick={() => onChange(opt)}
                 aria-pressed={active}
                 className={[
                   "w-full h-14 rounded-full border px-6",
@@ -133,6 +120,6 @@ export default function OrientationPage() {
           Next
         </NextButton>
       </footer>
-    </div>
+    </>
   );
 }

@@ -1,8 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useEffect, FormEvent } from "react";
-import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
@@ -17,35 +15,36 @@ const OPTIONS: Option[] = [
   { key: "unsure", emoji: "🤔", label: "Still Figuring Out" },
 ];
 
-export default function RelationshipPage() {
+interface RelationshipPageProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
+
+export default function RelationshipPage({
+  value,
+  onChange,
+  onNext,
+}: RelationshipPageProps) {
   const { resolvedTheme } = useTheme();
-  const router = useRouter();
-  const [selected, setSelected] = useState<string | null>(null);
-  const isValid = !!selected;
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
-  if (!mounted) return null;
+
+  const isValid = !!value;
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    router.push("/signup/orientation");
+    onNext();
   }
 
-  return (
-    <div className="min-h-svh w-full max-w-[425px] mx-auto grid grid-rows-[auto_1fr_auto] bg-background">
-      {/* HEADER */}
-      <header className="flex flex-col items-start px-4 pt-6">
-        <button
-          onClick={() => router.push("/signup/gender")}
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </button>
-      </header>
+  if (!mounted) return null;
 
+  return (
+    <>
       {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
@@ -55,13 +54,13 @@ export default function RelationshipPage() {
           <form id="relationship-form" onSubmit={onSubmit}>
             <div className="grid grid-cols-2 gap-4 mt-8">
               {OPTIONS.map((o) => {
-                const active = selected === o.key;
+                const active = value === o.key;
                 return (
                   <button
                     key={o.key}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => setSelected(o.key)}
+                    onClick={() => onChange(o.key)}
                     className={[
                       "rounded-[18px] border px-3 py-4 text-center min-h-[118px]",
                       "flex flex-col items-center justify-center transition-colors",
@@ -96,6 +95,6 @@ export default function RelationshipPage() {
           Next
         </NextButton>
       </footer>
-    </div>
+    </>
   );
 }

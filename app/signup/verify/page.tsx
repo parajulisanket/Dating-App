@@ -2,20 +2,29 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { useMemo, useRef, useState, FormEvent, useEffect } from "react";
+import {
+  useMemo,
+  useRef,
+  useState,
+  FormEvent,
+  useEffect,
+  useContext,
+} from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 import apiPublic from "@/api";
 import axios, { AxiosError } from "axios";
+import { useAuth } from "@/context/AuthContext";
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { verifyEmail } = useAuth();
   useEffect(() => {
     setMounted(true);
-  });
+  }, []);
   const router = useRouter();
   const params = useSearchParams();
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
@@ -71,6 +80,12 @@ export default function VerifyPage() {
         email: emailFromQuery,
         otp: code,
       });
+      console.log("verify-data", res);
+      const token = res?.data?.token;
+      console.log("token", token);
+
+      verifyEmail(token);
+      console.log("line executing");
       if (res.status === 200) {
         router.push("/signup/name");
       }

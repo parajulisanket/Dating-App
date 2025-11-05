@@ -1,20 +1,23 @@
 "use client";
 
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
-export default function DobPage() {
-  const router = useRouter();
-  const [dob, setDob] = useState("");
+interface DobPageProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
+
+export default function DobPage({ value, onChange, onNext }: DobPageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
-  });
+  }, []);
+
   function onDobChange(v: string) {
     const digits = v.replace(/\D/g, "").slice(0, 8);
     let out = digits;
@@ -22,12 +25,13 @@ export default function DobPage() {
       out = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
     else if (digits.length >= 3)
       out = `${digits.slice(0, 2)}/${digits.slice(2)}`;
-    setDob(out);
+
+    onChange(out); // Update parent state
   }
 
   const isValid = useMemo(() => {
-    if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dob)) return false;
-    const [dd, mm, yyyy] = dob.split("/").map(Number);
+    if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) return false;
+    const [dd, mm, yyyy] = value.split("/").map(Number);
     const d = new Date(yyyy, mm - 1, dd);
     if (
       d.getFullYear() !== yyyy ||
@@ -37,31 +41,19 @@ export default function DobPage() {
       return false;
     if (d > new Date()) return false;
     return true;
-  }, [dob]);
+  }, [value]);
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
-    router.push("/signup/address");
+    onNext(); // Call parent's goNext function
   }
 
   return (
-    <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
-      {/* HEADER */}
-
-      <header className="flex flex-col items-start px-4 pt-6">
-        <Link
-          href="/signup/name"
-          aria-label="Back"
-          className="text-heading px-2 -ml-2 rounded-full"
-        >
-          <ChevronLeft size={32} strokeWidth={1.5} />
-        </Link>
-      </header>
-
+    <>
       {/* MAIN CONTENT */}
       <main className="px-4">
-        <h1 className="title mt-4  leading-10 text-left">
+        <h1 className="title mt-4 leading-10 text-left">
           What is your date <br />
           of birth?
         </h1>
@@ -73,7 +65,7 @@ export default function DobPage() {
             placeholder="DD / MM / YYYY"
             maxLength={14}
             className="input h-12 rounded-2xl"
-            value={dob}
+            value={value}
             onChange={(e) => onDobChange(e.target.value)}
           />
         </form>
@@ -85,10 +77,9 @@ export default function DobPage() {
                 : "text-neutral-500"
             }`}
           >
-            Your age not birthdate will be public.{""}
+            Your age not birthdate will be public.{" "}
             <span className="font-semibold">
-              {" "}
-              You can’t change your birthday later.
+              You can't change your birthday later.
             </span>
           </p>
         )}
@@ -100,6 +91,6 @@ export default function DobPage() {
           Next
         </NextButton>
       </footer>
-    </div>
+    </>
   );
 }

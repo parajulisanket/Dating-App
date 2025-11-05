@@ -1,14 +1,18 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { FormEvent, useState, useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
+// import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
-const API = process.env.NEXT_PUBLIC_API_BASE;
+interface NameStepProps {
+  value: string;
+  onChange: (value: string) => void;
+  onNext: () => void;
+}
 
-export default function NamePage() {
+export default function NamePage({ value, onChange, onNext }: NameStepProps) {
   const [first, setFirst] = useState("");
   const valid = first.trim().length > 0;
 
@@ -16,29 +20,19 @@ export default function NamePage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
-  });
-  const submit = async (e: FormEvent) => {
+  }, []);
+  const isValid = value.trim().length > 0;
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!valid) return;
-
-    if (API) {
-      await fetch(`${API}/signup/session`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ firstName: first }),
-      });
-    } else {
-      await new Promise((r) => setTimeout(r, 200));
-    }
-
-    location.assign("/signup/dob");
+    if (!isValid) return;
+    onNext();
   };
 
   return (
     <div className="w-full max-w-[425px] min-h-svh grid grid-rows-[auto_1fr_auto] bg-background overflow-hidden">
       {/* HEADER: pink back chevron (top-left) */}
-      <header className="flex flex-col items-start px-4 pt-6">
+      {/* <header className="flex flex-col items-start px-4 pt-6">
         <Link
           href="/signup/verify"
           aria-label="Back"
@@ -46,19 +40,19 @@ export default function NamePage() {
         >
           <ChevronLeft size={32} strokeWidth={1.5} />
         </Link>
-      </header>
+      </header> */}
 
       {/* CONTENT: title, input, helper text */}
       <main className="px-4">
         <h1 className="title mt-4  leading-10 text-left">What is your name?</h1>
 
-        <form id="name-form" onSubmit={submit} className="mt-8 ">
+        <form id="name-form" onSubmit={handleSubmit} className="mt-8 ">
           <input
             type="text"
             placeholder="Enter your first name"
             className="input h-12 rounded-2xl"
-            value={first}
-            onChange={(e) => setFirst(e.target.value)}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
           />
 
           {mounted && (
@@ -79,7 +73,7 @@ export default function NamePage() {
 
       {/* FOOTER: pill button at bottom (inside view) */}
       <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
-        <NextButton className="w-full" disabled={!valid} form="name-form">
+        <NextButton className="w-full" disabled={!isValid} form="name-form">
           Next
         </NextButton>
       </footer>

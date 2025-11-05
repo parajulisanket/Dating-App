@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { DM_Sans } from "next/font/google";
 import "./global.css";
+import { AuthProvider } from "@/context/AuthContext";
 // import PageTransition from "@/components/PageTransition";
 
 const dmSans = DM_Sans({
@@ -29,29 +30,31 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased  no-scrollbar`}>
-        <ThemeProvider
-          attribute="class"
-          enableSystem={true}
-          defaultTheme="system"
-          storageKey="app-theme"
-          disableTransitionOnChange={false}
-        >
-          <div className="min-h-dvh w-full flex items-center justify-center  ">
-            <div
-              className="
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            enableSystem={true}
+            defaultTheme="system"
+            storageKey="app-theme"
+            disableTransitionOnChange={false}
+          >
+            <div className="min-h-dvh w-full flex items-center justify-center  ">
+              <div
+                className="
               w-full max-w-[425px] 
               bg-background text-neutral-1000 md:max-h-[897.222px]  md:rounded-4xl
               relative overflow-hidden  
             "
-            >
-              <div className="min-h-dvh overflow-y-auto ">
-                {/* <PageTransition> */}
-                {children}
-                {/* </PageTransition> */}
+              >
+                <div className="min-h-dvh overflow-y-auto ">
+                  {/* <PageTransition> */}
+                  {children}
+                  {/* </PageTransition> */}
+                </div>
               </div>
             </div>
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

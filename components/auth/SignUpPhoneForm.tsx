@@ -72,7 +72,11 @@ export default function SignUpPhoneForm({
 
         {/* FORM */}
         <section className="overflow-y-auto px-4 mt-8">
-          <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
+          <form
+            id="signupForm"
+            onSubmit={onSubmit}
+            className="flex min-h-0 flex-col"
+          >
             <div className="space-y-4">
               {/* Phone input */}
               <label className="block">
@@ -117,7 +121,7 @@ export default function SignUpPhoneForm({
             </div>
 
             {/* Spacer to push footer button to bottom */}
-            <div className="flex-1" />
+            <button type="submit" hidden />
           </form>
         </section>
 
@@ -133,7 +137,7 @@ export default function SignUpPhoneForm({
             disabled={!isValid || busy}
             className={
               isValid && !busy
-                ? "btn btn-signup w-full"
+                ? "btn btn-signup w-full cursor-pointer"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100 w-full"
             }
           >

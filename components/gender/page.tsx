@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, FormEvent } from "react";
+import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
@@ -20,20 +22,14 @@ export default function GenderPage({
 }: GenderPageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  const isValid = !!value;
-
+  });
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid) return;
     onNext();
   }
-
-  if (!mounted) return null;
 
   return (
     <>

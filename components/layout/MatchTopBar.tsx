@@ -36,7 +36,7 @@ export default function TopBar({
       className={cn(
         "sticky top-0 z-40",
         "flex items-center justify-between",
-        "p-4",
+        "p-4 border-b border-b-borderButton",
         className
       )}
     >

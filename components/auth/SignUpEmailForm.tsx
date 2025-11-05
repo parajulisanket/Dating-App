@@ -7,6 +7,9 @@ import { useTheme } from "next-themes";
 import apiPublic from "@/api";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
+import WarningTryAgainDialog from "@/components/dialogs/WarningTryAgainDialog";
+import InfoDialog from "@/components/dialogs/InfoDialog";
+
 export default function SignUpEmailForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +26,12 @@ export default function SignUpEmailForm() {
   }, []);
 
   const { resolvedTheme } = useTheme();
+
+  const [warnOpen, setWarnOpen] = useState(false);
+  const [warnDesc, setWarnDesc] = useState<React.ReactNode>(null);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [infoDesc, setInfoDesc] = useState<React.ReactNode>(null);
+
   const isValid = useMemo(() => {
     if (!email) return false;
     if (!/^\S+@\S+\.\S+$/.test(email)) return false;
@@ -36,16 +45,21 @@ export default function SignUpEmailForm() {
     setPasswordError("");
     if (!email) {
       setEmailError("Email is required");
+      setWarnDesc("Email is required.");
+      setWarnOpen(true);
       valid = false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
       setEmailError("Enter a valid email");
+      setWarnDesc("Enter a valid email address (e.g., name@example.com).");
+      setWarnOpen(true);
       valid = false;
     }
     if (!password) {
       setPasswordError("Password is required.");
       valid = false;
-    } else if (password.length <= 8) {
-      setPasswordError("Password lenght should be >=8");
+    } else if (password.length < 8) {
+      setPasswordError("Password length should be ≥ 8");
+      valid = false;
     }
     return valid;
   };
@@ -66,6 +80,35 @@ export default function SignUpEmailForm() {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data);
+
+        const status = error.response?.status;
+        const data = error.response?.data as any;
+        const serverMsg =
+          (typeof data === "string" ? data : data?.message || data?.detail) ??
+          "";
+
+        // Email already exists show Info
+        if (status === 409 || (status === 403 && /exist/i.test(serverMsg))) {
+          setEmailError("Email already exists.");
+          setInfoDesc("Email already exists.");
+          setInfoOpen(true);
+          return;
+        }
+
+        // Bad request
+        if (status === 400 && data?.field_errors?.email) {
+          const msg = String(data.field_errors.email);
+          setEmailError(msg);
+          setWarnDesc(msg);
+          setWarnOpen(true);
+          return;
+        }
+
+        // Fallback warning for other errors
+        setWarnDesc(
+          serverMsg || "We couldn’t complete your request. Please try again."
+        );
+        setWarnOpen(true);
       }
     } finally {
       setLoading(false);
@@ -76,6 +119,14 @@ export default function SignUpEmailForm() {
 
   return (
     <div className="flex min-h-svh items-center justify-center ">
+      <WarningTryAgainDialog open={warnOpen} onOpenChange={setWarnOpen}>
+        {warnDesc}
+      </WarningTryAgainDialog>
+
+      <InfoDialog open={infoOpen} onOpenChange={setInfoOpen}>
+        {infoDesc}
+      </InfoDialog>
+
       {/* MOBILE CONTAINER */}
       <div
         className="
@@ -102,7 +153,11 @@ export default function SignUpEmailForm() {
 
         {/* FORM AREA */}
         <section className="overflow-y-auto px-4 mt-8">
-          <form className="flex min-h-0 flex-col">
+          <form
+            id="signupForm"
+            onSubmit={onSubmit}
+            className="flex min-h-0 flex-col"
+          >
             <div className="space-y-4">
               {/* EMAIL FIELD */}
               <label className="block">
@@ -176,22 +231,24 @@ export default function SignUpEmailForm() {
                 I want to receive updates, news, and offers from myapp.
               </p>
             </label>
+
+            <button type="submit" hidden />
           </form>
         </section>
 
-        {/* FOOTER (inside phone layout) */}
+        {/* FOOTER */}
         <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
           <button
             type="submit"
-            onClick={onSubmit}
+            form="signupForm"
             disabled={!isValid || loading}
             className={
-              isValid || !loading
+              isValid && !loading
                 ? "btn btn-signup w-full cursor-pointer"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100 w-full"
             }
           >
-            Next
+            {loading ? "Sending..." : "Next"}
           </button>
         </footer>
       </div>

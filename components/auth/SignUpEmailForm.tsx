@@ -154,6 +154,7 @@ export default function SignUpEmailForm() {
         {/* FORM AREA */}
         <section className="overflow-y-auto px-4 mt-8">
           <form
+            noValidate
             id="signupForm"
             onSubmit={onSubmit}
             className="flex min-h-0 flex-col"
@@ -241,7 +242,7 @@ export default function SignUpEmailForm() {
           <button
             type="submit"
             form="signupForm"
-            disabled={!isValid || loading}
+            disabled={loading}
             className={
               isValid && !loading
                 ? "btn btn-signup w-full cursor-pointer"

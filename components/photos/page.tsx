@@ -1,76 +1,114 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Plus, X } from "lucide-react";
 import { useTheme } from "next-themes";
 
 interface PhotosPageProps {
-  value: any;
-  onChange: (value: any) => void;
+  value: File[];
+  onChange: (value: File[]) => void;
   onNext: () => void;
+  setSkipDisabled?: (disabled: boolean) => void;
 }
 
 export default function PhotosPage({
   value,
   onChange,
   onNext,
+  setSkipDisabled,
 }: PhotosPageProps) {
   const { resolvedTheme } = useTheme();
 
   const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
   const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const onChangeRef = useRef(onChange);
   const [mounted, setMounted] = useState(false);
+
+  // keep latest onChange without retriggering effect
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     setMounted(true);
-    // optional cleanup on unmount: revoke any blob URLs
     return () => {
-      photos.forEach((p) => {
-        if (p && p.startsWith("blob:")) URL.revokeObjectURL(p);
-      });
+      photos.forEach((p) => p?.startsWith("blob:") && URL.revokeObjectURL(p));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!mounted || !Array.isArray(value) || value.length === 0) return;
+
+    photos.forEach((p) => p?.startsWith("blob:") && URL.revokeObjectURL(p));
+
+    const nextFiles: (File | null)[] = Array(6).fill(null);
+    const nextUrls: (string | null)[] = Array(6).fill(null);
+    value.slice(0, 6).forEach((f, i) => {
+      nextFiles[i] = f;
+      nextUrls[i] = URL.createObjectURL(f);
+    });
+    setFiles(nextFiles);
+    setPhotos(nextUrls);
+  }, [value, mounted]);
+
+  const filesKey = useMemo(
+    () =>
+      JSON.stringify(
+        (files.filter(Boolean) as File[]).map(
+          (f) => `${f.name}:${f.size}:${f.lastModified}`
+        )
+      ),
+    [files]
+  );
+
+  useEffect(() => {
+    if (!mounted) return;
+    const payload = files.filter(Boolean) as File[];
+    onChangeRef.current(payload);
+  }, [filesKey, mounted]);
+
+  const selectedCount = useMemo(
+    () => (files.filter(Boolean) as File[]).length,
+    [filesKey]
+  );
+  useEffect(() => {
+    setSkipDisabled?.(selectedCount > 0);
+    return () => setSkipDisabled?.(false);
+  }, [selectedCount, setSkipDisabled]);
 
   function onPick(i: number, file: File) {
     const url = URL.createObjectURL(file);
 
     setPhotos((prev) =>
       prev.map((p, idx) => {
-        if (idx === i && p && p.startsWith("blob:")) {
-          URL.revokeObjectURL(p);
-        }
+        if (idx === i && p?.startsWith("blob:")) URL.revokeObjectURL(p);
         return idx === i ? url : p;
       })
     );
 
     setFiles((prev) => {
-      const newFiles = [...prev];
-      newFiles[i] = file;
-      // Update parent with files array
-      onChange(newFiles.filter(Boolean));
-      return newFiles;
+      const next = [...prev];
+      next[i] = file;
+
+      inputRefs.current[i] && (inputRefs.current[i]!.value = "");
+      return next;
     });
   }
 
   function onRemove(i: number) {
     setPhotos((prev) =>
       prev.map((p, idx) => {
-        if (idx === i) {
-          if (p && p.startsWith("blob:")) URL.revokeObjectURL(p);
-          return null;
-        }
-        return p;
+        if (idx === i && p?.startsWith("blob:")) URL.revokeObjectURL(p);
+        return idx === i ? null : p;
       })
     );
 
     setFiles((prev) => {
-      const newFiles = [...prev];
-      newFiles[i] = null;
-      // Update parent with files array
-      onChange(newFiles.filter(Boolean));
-      return newFiles;
+      const next = [...prev];
+      next[i] = null;
+      inputRefs.current[i] && (inputRefs.current[i]!.value = "");
+      return next;
     });
   }
 
@@ -82,7 +120,6 @@ export default function PhotosPage({
 
   return (
     <>
-      {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
           Last step! add your best photos
@@ -130,14 +167,15 @@ export default function PhotosPage({
               )}
 
               <input
-                ref={(el) => {
+                ref={(el: HTMLInputElement | null) => {
                   inputRefs.current[i] = el;
                 }}
                 type="file"
                 accept="image/*"
                 className="hidden"
                 onChange={(e) => {
-                  if (e.target.files?.[0]) onPick(i, e.target.files[0]);
+                  const f = e.target.files?.[0];
+                  if (f) onPick(i, f);
                 }}
               />
             </div>
@@ -145,7 +183,6 @@ export default function PhotosPage({
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
         <button
           type="button"

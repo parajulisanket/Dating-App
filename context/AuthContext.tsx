@@ -14,6 +14,7 @@ const SECRET_KEY = process.env.NEXT_PUBLIC_SECRET_KEY;
 
 interface AuthContextType {
   authTokens: { access: string } | null;
+  storeLoginToken: (access: string) => void;
   verifyEmail: (access: string) => void;
   logout: () => void;
   authReady: boolean;
@@ -30,12 +31,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const init = () => {
       if (encryptedAccess) {
         try {
-          const decryptedAccess = CryptoJS.AES.decrypt(
-            encryptedAccess,
-            SECRET_KEY!
-          ).toString(CryptoJS.enc.Utf8);
-
-          setAuthTokens({ access: decryptedAccess });
+          if (SECRET_KEY) {
+            const decryptedAccess = CryptoJS.AES.decrypt(
+              encryptedAccess,
+              SECRET_KEY
+            ).toString(CryptoJS.enc.Utf8);
+            setAuthTokens({ access: decryptedAccess });
+          } else {
+            console.warn("SECRET_KEY not found in environment variables.");
+          }
         } catch (error) {
           console.error("Access token decryption failed!", error);
         }
@@ -45,26 +49,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     init();
   }, []);
 
-  const verifyEmail = (access: string) => {
-    console.log("hello", access);
-
+  const storeLoginToken = (access: string) => {
     if (access) {
-      console.log("inside if");
-      console.log("SECRET_KEY", SECRET_KEY);
-
       const encryptedAccess = CryptoJS.AES.encrypt(
         access,
         SECRET_KEY!
       ).toString();
-
-      console.log("encryptedAccess", encryptedAccess);
-
-      console.log({ access });
-      Cookies.set("access_token", encryptedAccess, {
-        path: "/",
-      });
+      Cookies.set("access_token", encryptedAccess, { path: "/" });
       setAuthTokens({ access });
     }
+  };
+
+  const verifyEmail = (access: string) => {
+    storeLoginToken(access);
   };
 
   const logout = () => {
@@ -74,14 +71,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authTokens, verifyEmail, logout, authReady }}
+      value={{ authTokens, storeLoginToken, verifyEmail, logout, authReady }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Export the hook from the same file
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

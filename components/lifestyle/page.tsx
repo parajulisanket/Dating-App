@@ -3,9 +3,19 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useTheme } from "next-themes";
 
+type Lifestyle = {
+  drink_choice: string;
+  smoke_choice: string;
+  active_choice: string;
+  diet_choice: string;
+  travel_choice: string;
+  pet_choice: string;
+};
+
 type Choice = { key: string; label: string };
+
 type Question = {
-  key: string;
+  key: keyof Lifestyle;
   icon: string;
   title: string;
   options: Choice[];
@@ -13,7 +23,7 @@ type Question = {
 
 const QUESTIONS: Question[] = [
   {
-    key: "drink",
+    key: "drink_choice",
     icon: "🥂",
     title: "Do you drink?",
     options: [
@@ -24,7 +34,7 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    key: "smoke",
+    key: "smoke_choice",
     icon: "🚬",
     title: "Do you smoke?",
     options: [
@@ -35,7 +45,7 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    key: "active",
+    key: "active_choice",
     icon: "🏃‍♂️",
     title: "How active are you?",
     options: [
@@ -46,18 +56,28 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    key: "diet",
+    key: "diet_choice",
     icon: "🍔",
     title: "What's your diet like?",
     options: [
-      { key: "no_pref", label: "No preference" },
+      { key: "no_preference", label: "No preference" },
       { key: "veg", label: "Veg" },
-      { key: "nonveg", label: "Non-veg" },
+      { key: "non_veg", label: "Non-veg" },
       { key: "other", label: "Other" },
     ],
   },
   {
-    key: "travel",
+    key: "pet_choice",
+    icon: "🐶",
+    title: "Do you have or like pets?",
+    options: [
+      { key: "love_pets", label: "Love pets" },
+      { key: "okay_with_pets", label: "Okay with pets" },
+      { key: "prefer_no_pets", label: "Prefer no pets" },
+    ],
+  },
+  {
+    key: "travel_choice",
     icon: "✈️",
     title: "Do you like to travel?",
     options: [
@@ -67,60 +87,59 @@ const QUESTIONS: Question[] = [
       { key: "always_planning", label: "Always planning" },
     ],
   },
-  {
-    key: "pets",
-    icon: "🐶",
-    title: "Do you have or like pets?",
-    options: [
-      { key: "love_pets", label: "Love pets" },
-      { key: "okay_with_pets", label: "Okay with pets" },
-      { key: "prefer_no_pets", label: "Prefer no pets" },
-    ],
-  },
 ];
 
 interface LifestylePageProps {
   value: string;
   onChange: (value: string) => void;
   onNext: () => void;
+  setSkipDisabled?: (disabled: boolean) => void;
 }
 
 export default function LifestylePage({
   value,
   onChange,
   onNext,
+  setSkipDisabled,
 }: LifestylePageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
-  // Initialize answers from value prop
+  // Initialize from prop
   useEffect(() => {
     if (value && typeof value === "string") {
       try {
         const parsed = JSON.parse(value);
         setAnswers(parsed);
       } catch {
-        // If not JSON, ignore
+        // ignore invalid JSON
       }
     }
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const onPick = (qKey: string, optionKey: string) => {
-    const newAnswers = { ...answers, [qKey]: optionKey };
-    setAnswers(newAnswers);
-    // Update parent component with JSON string
-    onChange(JSON.stringify(newAnswers));
+  useEffect(() => {
+    const hasAny = Object.keys(answers).length > 0;
+    setSkipDisabled?.(hasAny);
+    return () => setSkipDisabled?.(false);
+  }, [answers, setSkipDisabled]);
+
+  const onPick = (qKey: keyof Lifestyle, optionKey: string) => {
+    const next = { ...answers };
+    if (next[qKey] === optionKey) delete next[qKey];
+    else next[qKey] = optionKey;
+
+    setAnswers(next);
+    onChange(JSON.stringify(next));
   };
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!allAnswered) return;
-    onNext();
+    if (allAnswered) onNext();
   };
 
   const allAnswered = QUESTIONS.every((q) => answers[q.key]);
@@ -144,7 +163,7 @@ export default function LifestylePage({
         </p>
       </div>
 
-      {/* Scrollable form only */}
+      {/* Scrollable form */}
       <div
         className="min-h-0 overflow-y-auto no-scrollbar mt-8"
         style={{ WebkitOverflowScrolling: "touch" }}
@@ -171,7 +190,14 @@ export default function LifestylePage({
                       key={opt.key}
                       type="button"
                       onClick={() => onPick(q.key, opt.key)}
-                      className="flex items-center gap-2 text-[15px] text-neutral"
+                      className={[
+                        "flex items-center gap-2 text-[15px]",
+                        active
+                          ? "text-[#F92FA2]"
+                          : resolvedTheme === "light"
+                          ? "text-neutral-800"
+                          : "text-neutral-200",
+                      ].join(" ")}
                       aria-pressed={active}
                     >
                       <span
@@ -196,8 +222,7 @@ export default function LifestylePage({
             </section>
           ))}
 
-          {/* Next at end of scroll area */}
-          <div
+          <footer
             className="pt-6 pb-8"
             style={{
               paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 20px)",
@@ -215,7 +240,7 @@ export default function LifestylePage({
             >
               Next
             </button>
-          </div>
+          </footer>
         </form>
       </div>
     </main>

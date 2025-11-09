@@ -1,68 +1,110 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, useRef, useMemo, FormEvent } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
+import axios from "axios";
 
-const HOBBIES = [
-  { key: "football", label: "Football", emoji: "⚽" },
-  { key: "singing", label: "Singing", emoji: "🎤" },
-  { key: "reading", label: "Reading", emoji: "📖" },
-  { key: "acting", label: "Acting", emoji: "🕺" },
-  { key: "swimming", label: "Swimming", emoji: "🏊" },
-  { key: "cricket", label: "Cricket", emoji: "🏏" },
-  { key: "dancing", label: "Dancing", emoji: "💃" },
-  { key: "exercising", label: "Exercising", emoji: "💪" },
-  { key: "art", label: "Art", emoji: "🎨" },
-  { key: "boxing", label: "Boxing", emoji: "🥊" },
-  { key: "hiking", label: "Hiking", emoji: "🥾" },
-  { key: "meditation", label: "Meditation", emoji: "🧘" },
-  { key: "paragliding", label: "Paragliding", emoji: "🪂" },
-  { key: "cycling", label: "Cycling", emoji: "🚴" },
-];
+interface Hobby {
+  id: number;
+  name: string;
+  emoji?: string;
+}
 
 interface HobbiesPageProps {
-  value: string;
-  onChange: (value: string) => void;
+  value: string[];
+  onChange: (value: string[]) => void;
   onNext: () => void;
+  setSkipDisabled?: (disabled: boolean) => void;
+}
+
+function arraysEqualStr(a: string[], b: string[]) {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+
+function arraysEqualNum(a: number[], b: number[]) {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
 }
 
 export default function HobbiesPage({
   value,
   onChange,
   onNext,
+  setSkipDisabled,
 }: HobbiesPageProps) {
   const { resolvedTheme } = useTheme();
-  const [selected, setSelected] = useState<string[]>([]);
+
+  const [allHobbies, setAllHobbies] = useState<Hobby[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Initialize selected hobbies from value prop
+  // Keep a stable ref to onChange
+  const onChangeRef = useRef(onChange);
   useEffect(() => {
-    if (value && typeof value === "string") {
-      const hobbies = value.split(",").filter(Boolean);
-      setSelected(hobbies);
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  // Fetch all hobbies once
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_BASE}user/hobbies/`)
+      .then((res) => setAllHobbies(res.data as Hobby[]))
+      .catch((err) => console.error("Failed to fetch hobbies", err));
+  }, []);
+
+  useEffect(() => setMounted(true), []);
+
+  // Sync selectedIds from incoming names
+  useEffect(() => {
+    if (!mounted) return;
+    if (!Array.isArray(value) || allHobbies.length === 0) return;
+
+    const idsFromNames = value
+      .map((nm) => allHobbies.find((h) => h.name === nm)?.id)
+      .filter((x): x is number => Number.isInteger(x));
+
+    setSelectedIds((prev) =>
+      arraysEqualNum(prev, idsFromNames) ? prev : idsFromNames
+    );
+  }, [value, allHobbies, mounted]);
+
+  // Mirror selectedIds -> names up to parent (without loops)
+  const selectedIdsJson = useMemo(
+    () => JSON.stringify(selectedIds),
+    [selectedIds]
+  );
+  useEffect(() => {
+    if (!mounted) return;
+
+    const names = selectedIds
+      .map((id) => allHobbies.find((h) => h.id === id)?.name)
+      .filter((s): s is string => Boolean(s));
+
+    if (!arraysEqualStr(names, value)) {
+      onChangeRef.current(names);
     }
-  }, []);
+  }, [selectedIdsJson, mounted, allHobbies, value]);
 
+  // NEW: Control Skip based on selection count
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    const hasAny = selectedIds.length > 0;
+    setSkipDisabled?.(hasAny);
+    return () => setSkipDisabled?.(false); // re-enable on unmount
+  }, [selectedIds, setSkipDisabled]);
 
-  const isValid = selected.length > 0;
+  const isValid = selectedIds.length > 0;
 
-  function toggleHobby(key: string) {
-    setSelected((prev) => {
-      let newSelected: string[];
-      if (prev.includes(key)) {
-        newSelected = prev.filter((k) => k !== key);
-      } else if (prev.length < 6) {
-        newSelected = [...prev, key];
-      } else {
-        return prev;
-      }
-      // Update parent component
-      onChange(newSelected.join(","));
-      return newSelected;
+  function toggleHobby(id: number) {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) return prev.filter((k) => k !== id); // unselect
+      if (prev.length >= 6) return prev; // cap at 6
+      return [...prev, id]; // select
     });
   }
 
@@ -76,7 +118,6 @@ export default function HobbiesPage({
 
   return (
     <>
-      {/* CONTENT */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
           What are your hobbies?
@@ -95,13 +136,13 @@ export default function HobbiesPage({
           onSubmit={onSubmit}
           className="mt-8 grid grid-cols-3 gap-2"
         >
-          {HOBBIES.map((h) => {
-            const active = selected.includes(h.key);
+          {allHobbies.map((h) => {
+            const active = selectedIds.includes(h.id);
             return (
               <button
-                key={h.key}
+                key={h.id}
                 type="button"
-                onClick={() => toggleHobby(h.key)}
+                onClick={() => toggleHobby(h.id)}
                 aria-pressed={active}
                 className={[
                   "h-10 rounded-full border flex items-center justify-center gap-2 text-sm tracking-wide transition-colors",
@@ -114,15 +155,14 @@ export default function HobbiesPage({
                     : "border-white/30 text-white",
                 ].join(" ")}
               >
-                <span>{h.emoji}</span>
-                <span>{h.label}</span>
+                <span>{h.emoji ?? ""}</span>
+                <span>{h.name}</span>
               </button>
             );
           })}
         </form>
       </main>
 
-      {/* FOOTER */}
       <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
         <NextButton disabled={!isValid} form="hobbies-form" className="w-full">
           Next

@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, FormEvent } from "react";
+import { ChevronLeft } from "lucide-react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
+import { label } from "framer-motion/client";
 
-const GENDERS = ["Man", "Woman", "Other"] as const;
+const GENDERS = [
+  { key: "male", label: "Man" },
+  { key: "female", label: "Woman" },
+  { key: "other", label: "Other" },
+];
 type Gender = (typeof GENDERS)[number];
 
 interface GenderPageProps {
@@ -45,12 +52,12 @@ export default function GenderPage({
 
         <form id="gender-form" onSubmit={onSubmit} className="space-y-4 mt-8">
           {GENDERS.map((g) => {
-            const active = value === g;
+            const active = value === g.key;
             return (
               <button
-                key={g}
+                key={g.key}
                 type="button"
-                onClick={() => onChange(g)}
+                onClick={() => onChange(g.key)}
                 className={[
                   "w-full h-14 rounded-full border px-6",
                   "flex items-center justify-center text-[18px] font-semibold transition-colors",
@@ -63,7 +70,7 @@ export default function GenderPage({
                     : "border-white/30 text-white/80",
                 ].join(" ")}
               >
-                {g}
+                {g.label}
               </button>
             );
           })}

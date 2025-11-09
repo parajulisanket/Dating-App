@@ -4,15 +4,26 @@ import { useState, useEffect, FormEvent } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 
-type Option = { key: string; emoji: string; label: string };
+type Option = { key: RelationshipKey; emoji: string; label: string };
+type RelationshipKey =
+  | "serious_relationship"
+  | "short_term_relationship"
+  | "friendship"
+  | "short_term_fun"
+  | "text"
+  | "still_figuring_out";
 
 const OPTIONS: Option[] = [
-  { key: "serious", emoji: "💞", label: "Serious\nRelationship" },
-  { key: "short_term_rel", emoji: "🫶", label: "Short-Term\nRelationship" },
+  { key: "serious_relationship", emoji: "💞", label: "Serious\nRelationship" },
+  {
+    key: "short_term_relationship",
+    emoji: "🫶",
+    label: "Short-Term\nRelationship",
+  },
   { key: "friendship", emoji: "💬", label: "Friendship" },
   { key: "short_term_fun", emoji: "🎉", label: "Short-Term Fun" },
   { key: "text", emoji: "😍", label: "Text" },
-  { key: "unsure", emoji: "🤔", label: "Still Figuring Out" },
+  { key: "still_figuring_out", emoji: "🤔", label: "Still Figuring Out" },
 ];
 
 interface RelationshipPageProps {

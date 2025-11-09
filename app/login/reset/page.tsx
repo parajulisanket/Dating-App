@@ -5,11 +5,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useMemo, FormEvent } from "react";
 import { Check, Eye, EyeOff, ChevronLeft } from "lucide-react";
 import { useTheme } from "next-themes";
+import axios, { AxiosError } from "axios";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token");
+
+  // read email from query passed from verify page
+  const email = (params.get("email") ?? "").trim();
 
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
@@ -19,23 +23,43 @@ export default function ResetPasswordPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
   const { resolvedTheme } = useTheme();
 
   const valid = useMemo(
-    () => pwd.length >= 6 && pwd === confirmPwd,
+    () => pwd.length >= 8 && pwd === confirmPwd,
     [pwd, confirmPwd]
   );
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!valid) return;
+    if (!valid || submitting) return;
 
-    await new Promise((r) => setTimeout(r, 300)); // mock
-    alert(`Password reset with token: ${token}`);
-    router.push("/login/email");
+    try {
+      setSubmitting(true);
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE}/user/forgot-password-confirm/`,
+        {
+          email,
+          new_password: pwd,
+          confirm_password: confirmPwd,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      router.push("/login/email");
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.detail ||
+        "Unable to reset password. Please try again.";
+      alert(msg);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -73,6 +97,7 @@ export default function ResetPasswordPage() {
                   className="input"
                   value={pwd}
                   onChange={(e) => setPwd(e.target.value)}
+                  disabled={submitting}
                 />
                 <button
                   type="button"
@@ -93,6 +118,7 @@ export default function ResetPasswordPage() {
                   className="input"
                   value={confirmPwd}
                   onChange={(e) => setConfirmPwd(e.target.value)}
+                  disabled={submitting}
                 />
                 <button
                   type="button"
@@ -143,14 +169,14 @@ export default function ResetPasswordPage() {
                 document.querySelector("#reset-form") as HTMLFormElement | null
               )?.requestSubmit()
             }
-            disabled={!valid}
+            disabled={!valid && !submitting}
             className={
               valid
                 ? "btn btn-signup"
                 : "btn bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
             }
           >
-            Reset Password
+            {submitting ? "Resetting..." : "Reset Password"}
           </button>
         </footer>
       </div>

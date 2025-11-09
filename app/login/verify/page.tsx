@@ -5,21 +5,29 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useTheme } from "next-themes";
+import axios, { AxiosError } from "axios";
+import WarningTryAgainDialog from "@/components/dialogs/WarningTryAgainDialog";
+import InfoDialog from "@/components/dialogs/InfoDialog";
 
-const RESEND_SECONDS = 60;
+const RESEND_SECONDS = 120;
 
 export default function VerifyEmailPage() {
   const router = useRouter();
   const params = useSearchParams();
-  const email = params.get("email") ?? "youremail@gmail.com";
+  const email = (params.get("email") ?? "").trim();
 
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const { resolvedTheme } = useTheme();
+
+  const [warnOpen, setWarnOpen] = useState(false);
+  const [warnDesc, setWarnDesc] = useState<React.ReactNode>(null);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [infoDesc, setInfoDesc] = useState<React.ReactNode>(null);
+
+  const [verifying, setVerifying] = useState(false);
+  const [resending, setResending] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   // 6-digit code boxes
   const [d, setD] = useState<string[]>(["", "", "", "", "", ""]);
@@ -28,6 +36,11 @@ export default function VerifyEmailPage() {
   );
   const code = useMemo(() => d.join(""), [d]);
   const valid = code.length === 6;
+
+  // focus first input on mount
+  useEffect(() => {
+    if (mounted) refs.current[0]?.focus();
+  }, [mounted]);
 
   // resend countdown
   const [sec, setSec] = useState(RESEND_SECONDS);
@@ -41,7 +54,7 @@ export default function VerifyEmailPage() {
     setD((prev) => prev.map((x, idx) => (idx === i ? v : x)));
 
   function onChange(i: number, v: string) {
-    const c = v.replace(/\D/g, "").slice(0, 1); // numbers only
+    const c = v.replace(/\D/g, "").slice(0, 1);
     setAt(i, c);
     if (c && i < 5) refs.current[i + 1]?.focus();
   }
@@ -66,19 +79,109 @@ export default function VerifyEmailPage() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!valid) return;
-    await new Promise((r) => setTimeout(r, 300)); // mock verify
-    router.push("/login/reset");
+    if (!valid || verifying) return;
+
+    if (!email) {
+      setInfoDesc("Missing email. Please go back and enter your email again.");
+      setInfoOpen(true);
+      return;
+    }
+
+    setWarnOpen(false);
+    setInfoOpen(false);
+    setVerifying(true);
+
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE}/user/forgot-password-verify/`,
+        { email, otp: code },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      router.push(
+        `/login/reset?email=${encodeURIComponent(email)}&otp=${code}`
+      );
+    } catch (err) {
+      const ax = err as AxiosError<any>;
+      const status = ax.response?.status;
+      const data = ax.response?.data;
+      const serverMsg =
+        data?.message ||
+        data?.detail ||
+        (typeof data === "string" ? data : "") ||
+        "";
+
+      if (status === 400 || status === 422) {
+        setInfoDesc(serverMsg || "Invalid or expired code. Please try again.");
+        setInfoOpen(true);
+      } else if (status === 404) {
+        setInfoDesc(serverMsg || "We couldn’t find that email.");
+        setInfoOpen(true);
+      } else if (status && status >= 500) {
+        setWarnDesc("Server error. Please try again in a moment.");
+        setWarnOpen(true);
+      } else {
+        setWarnDesc(serverMsg || "Something went wrong. Please try again.");
+        setWarnOpen(true);
+      }
+    } finally {
+      setVerifying(false);
+    }
   }
 
   async function resend() {
-    if (sec > 0) return;
-    await new Promise((r) => setTimeout(r, 300)); // mock resend
-    setSec(RESEND_SECONDS);
+    if (sec > 0 || resending) return;
+    if (!email) {
+      setInfoDesc("Missing email. Please go back and enter your email again.");
+      setInfoOpen(true);
+      return;
+    }
+
+    setWarnOpen(false);
+    setInfoOpen(false);
+    setResending(true);
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE}/user/forgot-password/`,
+        { email },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setSec(RESEND_SECONDS);
+    } catch (err) {
+      const ax = err as AxiosError<any>;
+      const status = ax.response?.status;
+      const data = ax.response?.data;
+      const serverMsg =
+        data?.message ||
+        data?.detail ||
+        (typeof data === "string" ? data : "") ||
+        "";
+
+      if (status === 429) {
+        setWarnDesc("Too many requests. Please wait a minute before retrying.");
+        setWarnOpen(true);
+      } else if (status && status >= 500) {
+        setWarnDesc("Server error. Please try again in a moment.");
+        setWarnOpen(true);
+      } else {
+        setWarnDesc(serverMsg || "Couldn’t resend the code. Try again.");
+        setWarnOpen(true);
+      }
+    } finally {
+      setResending(false);
+    }
   }
 
   return (
     <div className="flex min-h-svh items-center justify-center ">
+      {/* Dialogs */}
+      <WarningTryAgainDialog open={warnOpen} onOpenChange={setWarnOpen}>
+        {warnDesc}
+      </WarningTryAgainDialog>
+      <InfoDialog open={infoOpen} onOpenChange={setInfoOpen}>
+        {infoDesc}
+      </InfoDialog>
+
       <div
         className="
           w-full max-w-[425px] min-h-svh
@@ -107,15 +210,19 @@ export default function VerifyEmailPage() {
                 : "text-neutral-500"
             }`}
           >
-            Enter verification code we sent to{" "}
-            <span className="text-neutral-700 font-semibold">{email}</span>.
+            Enter the verification code we sent to{" "}
+            <span className="text-neutral-700 font-semibold">
+              {email || "your email"}
+            </span>
+            .
           </p>
 
           <form
             id="verify-form"
             onSubmit={onSubmit}
             onPaste={onPaste}
-            className="mt-8 "
+            className="mt-8"
+            noValidate
           >
             <div className="grid grid-cols-6 gap-2 max-w-[360px]">
               {d.map((v, i) => (
@@ -130,11 +237,12 @@ export default function VerifyEmailPage() {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   maxLength={1}
+                  disabled={verifying}
                   className="
-                  h-12 w-12 text-center text-lg
-                  rounded-2xl border border-neutral-300 bg-background
-                  focus:outline-none focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
-                "
+                    h-12 w-12 text-center text-lg
+                    rounded-2xl border border-neutral-300 bg-background
+                    focus:outline-none focus:border-[#F92FA2] focus:bg-[#F92FA2]/10
+                  "
                 />
               ))}
             </div>
@@ -150,26 +258,32 @@ export default function VerifyEmailPage() {
                 document.querySelector("#verify-form") as HTMLFormElement | null
               )?.requestSubmit()
             }
-            disabled={!valid}
+            disabled={!valid || verifying}
             className={
-              valid
-                ? "btn btn-signup w-full"
-                : "btn w-full bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
+              !valid || verifying
+                ? "btn w-full bg-neutral-300 text-neutral-500 cursor-not-allowed shadow-none opacity-100"
+                : "btn btn-signup w-full"
             }
           >
-            Verify
+            {verifying ? "Verifying..." : "Verify"}
           </button>
 
           <button
             type="button"
             onClick={resend}
-            disabled={sec > 0}
+            disabled={sec > 0 || resending}
             className={[
               "w-full text-center text-sm font-bold",
-              sec > 0 ? "text-[#f92fa2] cursor-not-allowed" : "text-[#F92FA2]",
+              sec > 0 || resending
+                ? "text-[#f92fa2] cursor-not-allowed"
+                : "text-[#F92FA2]",
             ].join(" ")}
           >
-            {sec > 0 ? `Resend Code (${sec} Sec)` : "Resend Code"}
+            {sec > 0
+              ? `Resend Code (${sec} Sec)`
+              : resending
+              ? "Resending..."
+              : "Resend Code"}
           </button>
         </footer>
       </div>

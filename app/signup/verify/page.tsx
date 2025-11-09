@@ -72,6 +72,7 @@ export default function VerifyPage() {
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!valid || loading) return;
     console.log({ code });
     if (!valid) return;
     try {
@@ -87,7 +88,7 @@ export default function VerifyPage() {
       verifyEmail(token);
       console.log("line executing");
       if (res.status === 200) {
-        router.push("/signup/name");
+        router.push("/setup");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -157,7 +158,12 @@ export default function VerifyPage() {
 
         {/* FOOTER: button inside phone, pinned at bottom */}
         <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
-          <NextButton disabled={!valid} form="verify-form" className="w-full">
+          <NextButton
+            type="submit"
+            disabled={!valid || loading}
+            form="verify-form"
+            className="w-full"
+          >
             Verify
           </NextButton>
         </footer>

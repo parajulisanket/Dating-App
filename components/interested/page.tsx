@@ -3,20 +3,27 @@
 import { useState, FormEvent, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
+import { label } from "framer-motion/client";
 
-const OPTIONS = ["Man", "Woman", "All"] as const;
-type Interested = (typeof OPTIONS)[number];
+const INTERESTED = [
+  { key: "man", label: "Man" },
+  { key: "woman", label: "Woman" },
+  { key: "all", label: "Other" },
+];
+type InterestedKey = (typeof INTERESTED)[number]["key"];
 
 interface InterestedPageProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: InterestedKey) => void;
   onNext: () => void;
+  setSkipDisabled?: (disabled: boolean) => void;
 }
 
 export default function InterestedPage({
   value,
   onChange,
   onNext,
+  setSkipDisabled,
 }: InterestedPageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -25,6 +32,11 @@ export default function InterestedPage({
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    setSkipDisabled?.(!!value);
+    return () => setSkipDisabled?.(false);
+  }, [value, setSkipDisabled]);
+
   const isValid = !!value;
 
   function onSubmit(e: FormEvent) {
@@ -32,8 +44,17 @@ export default function InterestedPage({
     if (!isValid) return;
     onNext();
   }
-
   if (!mounted) return null;
+
+  function handleSelect(key: string) {
+    if (value === key) {
+      onChange("");
+      setSkipDisabled?.(false);
+    } else {
+      onChange(key);
+      setSkipDisabled?.(true);
+    }
+  }
 
   return (
     <>
@@ -48,13 +69,13 @@ export default function InterestedPage({
           onSubmit={onSubmit}
           className="space-y-4 mt-8"
         >
-          {OPTIONS.map((opt) => {
-            const active = value === opt;
+          {INTERESTED.map((opt) => {
+            const active = value === opt.key;
             return (
               <button
-                key={opt}
+                key={opt.key}
                 type="button"
-                onClick={() => onChange(opt)}
+                onClick={() => handleSelect(opt.key)}
                 aria-pressed={active}
                 className={[
                   "w-full h-14 rounded-full border px-6",
@@ -68,7 +89,7 @@ export default function InterestedPage({
                     : "border-white/30 text-white/80",
                 ].join(" ")}
               >
-                {opt}
+                {opt.label}
               </button>
             );
           })}

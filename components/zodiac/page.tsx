@@ -23,12 +23,14 @@ interface ZodiacPageProps {
   value: string;
   onChange: (value: string) => void;
   onNext: () => void;
+  setSkipDisabled?: (disabled: boolean) => void;
 }
 
 export default function ZodiacPage({
   value,
   onChange,
   onNext,
+  setSkipDisabled,
 }: ZodiacPageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -36,6 +38,11 @@ export default function ZodiacPage({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setSkipDisabled?.(!!value);
+    return () => setSkipDisabled?.(false);
+  }, [value, setSkipDisabled]);
 
   const isValid = !!value;
 
@@ -46,6 +53,15 @@ export default function ZodiacPage({
   }
 
   if (!mounted) return null;
+  function handleSelect(key: string) {
+    if (value === key) {
+      onChange("");
+      setSkipDisabled?.(false);
+    } else {
+      onChange(key);
+      setSkipDisabled?.(true);
+    }
+  }
 
   return (
     <>
@@ -68,11 +84,11 @@ export default function ZodiacPage({
                   <button
                     key={z.key}
                     type="button"
-                    onClick={() => onChange(z.key)}
+                    onClick={() => handleSelect(z.key)}
                     className={[
                       "h-10 w-full rounded-full border px-4",
                       "flex items-center gap-2 justify-start text-[14px] transition-all",
-                      active
+                      value === z.key
                         ? resolvedTheme === "light"
                           ? "bg-pink-100 border-pink-400 text-pink-600"
                           : "bg-white/20 border-white text-white"

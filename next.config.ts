@@ -1,31 +1,70 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const api = process.env.NEXT_PUBLIC_API_BASE || "";
 
-let host = "";
-try {
-  host = new URL(api).hostname;
-} catch {}
+// Build remotePatterns from NEXT_PUBLIC_API_BASE if provided
+function buildRemoteFromEnv() {
+  try {
+    const u = new URL(api);
+    return [
+      {
+        protocol: u.protocol.replace(":", "") as "http" | "https",
+        hostname: u.hostname,
+        port: u.port || undefined,
+        pathname: "/**",
+      },
+    ];
+  } catch {
+    return [];
+  }
+}
 
 const nextConfig: NextConfig = {
-  eslint: {
-    // ignore ESLint warnings during builds (for production stability)
-    ignoreDuringBuilds: true,
-  },
+  allowedDevOrigins: [
+    "localhost",
+    "192.168.1.4",
+    "192.168.1.17",
+    // You can also use wildcards, e.g. "*.local.mydomain.dev"
+  ],
+
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+
   images: {
-    // allow images from your backend (and any port)
     remotePatterns: [
+      ...buildRemoteFromEnv(),
       {
         protocol: "http",
-        hostname: "192.168.1.6",
+        hostname: "192.168.1.21",
+        port: "8080",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
         port: "8000",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "8000",
+        pathname: "/**",
+      }, // fixed
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "3000",
+        pathname: "/**",
+      }, // fixed
     ],
-  },
-  typescript: {
-    // prevents build from failing on type errors
-    ignoreBuildErrors: true,
   },
 };
 

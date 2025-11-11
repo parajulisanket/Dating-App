@@ -52,7 +52,7 @@ const QUESTIONS: Question[] = [
       { key: "not_really", label: "Not really" },
       { key: "sometimes", label: "Sometimes" },
       { key: "regularly", label: "Regularly" },
-      { key: "fitness_life", label: "Fitness is life" },
+      { key: "fitness_is_life", label: "Fitness is life" },
     ],
   },
   {

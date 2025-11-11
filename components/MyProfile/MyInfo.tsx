@@ -24,6 +24,17 @@ interface LifestyleData {
   travel?: string;
   pets?: string;
 }
+interface SocialLink {
+  platform:
+    | "facebook"
+    | "instagram"
+    | "twitter"
+    | "linkedin"
+    | "snapchat"
+    | "tiktok"
+    | "other";
+  username: string; // full link
+}
 interface ProfileData {
   name: string;
   age: number;
@@ -36,6 +47,7 @@ interface ProfileData {
   lookingFor: LookingFor;
   hobbies: string[];
   lifestyle: LifestyleData;
+  socialAccounts: SocialLink[];
 }
 interface ImageData {
   id: number;
@@ -43,6 +55,7 @@ interface ImageData {
   alt: string;
 }
 
+/* utilities */
 function ageFromDob(dob?: string | null): number {
   if (!dob) return 0;
   const d = new Date(dob);
@@ -58,11 +71,7 @@ const titleCase = (s?: string) =>
     .toString()
     .replace(/[_-]+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
-
-// robust find helpers
-function isObj(x: any) {
-  return x && typeof x === "object";
-}
+const isObj = (x: any) => x && typeof x === "object";
 function deepFindFirst(obj: any, keyRx: RegExp): any {
   const seen = new Set<any>(),
     stack = [obj];
@@ -98,8 +107,6 @@ function toStr(x: any) {
   if (typeof x === "number" || typeof x === "boolean") return String(x);
   return "";
 }
-
-// Make relative URLs absolute for Next/Image
 function absolutize(url?: string): string | null {
   const u = (url || "").trim();
   if (!u) return null;
@@ -111,12 +118,42 @@ function absolutize(url?: string): string | null {
   if (!base) return null;
   return `${base}/${u.replace(/^\/+/, "")}`;
 }
-
 function safeSrc(maybe: string | null | undefined, fallback = "") {
-  return absolutize(maybe || undefined) || fallback;
+  const result = absolutize(maybe || undefined);
+  return result || fallback;
 }
 
-//  component
+/* Icons + platform from LINK */
+type Platform =
+  | "facebook"
+  | "instagram"
+  | "twitter"
+  | "linkedin"
+  | "snapchat"
+  | "tiktok"
+  | "other";
+
+const ICONS: Record<Platform, string> = {
+  facebook: "/icons/facebookBlue.svg",
+  instagram: "/icons/instagramblue.svg",
+  twitter: "/icons/twitter.svg",
+  linkedin: "/icons/linkedin.svg",
+  snapchat: "/icons/snapchat.svg",
+  tiktok: "/icons/tiktok.svg",
+  other: "/icons/link.svg",
+};
+function platformFromLink(link: string): Platform {
+  const s = (link || "").toLowerCase();
+  if (s.includes("instagram.com")) return "instagram";
+  if (s.includes("facebook.com")) return "facebook";
+  if (s.includes("x.com") || s.includes("twitter.com")) return "twitter";
+  if (s.includes("linkedin.com")) return "linkedin";
+  if (s.includes("snapchat.com")) return "snapchat";
+  if (s.includes("tiktok.com")) return "tiktok";
+  return "other";
+}
+
+/*  component */
 export const MyInfo = () => {
   const { resolvedTheme } = useTheme();
   const router = useRouter();
@@ -134,12 +171,13 @@ export const MyInfo = () => {
       location: "",
       distance: "",
       bio: "",
-      profileImage: "",
+      profileImage: "/nobita.png",
       isVerified: false,
       aboutMe: [],
       lookingFor: {},
       hobbies: [],
       lifestyle: {},
+      socialAccounts: [],
     }),
     []
   );
@@ -151,10 +189,8 @@ export const MyInfo = () => {
     profile: ProfileData;
     imgs: ImageData[];
   } {
-    // Some APIs wrap the object under {profile} or {data}
     const json = root?.profile ?? root?.data ?? root ?? {};
 
-    // core fields
     const fullName = toStr(
       deepFindFirst(json, /(full[_-]?name|name|first[_-]?name)/i)
     );
@@ -172,7 +208,6 @@ export const MyInfo = () => {
     );
     const age = ageFromDob(toStr(dobRaw));
 
-    // relationship + interested_in
     const relationship = toStr(
       deepFindFirst(json, /(relationship(_status)?|looking[_-]?for)/i)
     );
@@ -180,7 +215,6 @@ export const MyInfo = () => {
       deepFindFirst(json, /(interested[_-]?in|gender[_-]?preference)/i)
     );
 
-    // hobbies (string[] or {name}[])
     let hobbies: string[] = [];
     const hobbiesNode = deepFindFirst(json, /(hobby|hobbies|interests)/i);
     if (Array.isArray(hobbiesNode)) {
@@ -191,7 +225,6 @@ export const MyInfo = () => {
         .filter(Boolean);
     }
 
-    // lifestyle (nested or flat)
     const lifeNode = deepFindFirst(json, /lifestyle/i) || {};
     const lifestyle: LifestyleData = {
       drink: toStr(
@@ -215,15 +248,13 @@ export const MyInfo = () => {
       ),
     };
 
-    // profile photo
     const primaryPhoto = toStr(
       deepFindFirst(
         json,
-        /(profile[_-]?image|profile[_-]?photo|avatar(_url)?)/i
+        /(profile[_-]?image|profile[_-]?photo|avatar(_url)?|profile[_-]?pic)/i
       )
     );
 
-    // gallery images (scan for common arrays that contain {url|image|photo|file|src})
     const imageArrays = deepFindAll(json, /(images?|photos?|gallery)/i).filter(
       Array.isArray
     );
@@ -243,23 +274,31 @@ export const MyInfo = () => {
       });
     });
 
-    // About me chips
-    const aboutMe: AboutMeItem[] = [];
-    const gender = toStr(deepFindFirst(json, /(gender|sex)/i));
-    const zodiac = toStr(deepFindFirst(json, /(zodiac)/i));
-    const sexualOrientation = toStr(
-      deepFindFirst(json, /(sexual[_-]?orientation|orientation)/i)
-    );
-    const education = toStr(
-      deepFindFirst(json, /(education|study|university|college)/i)
-    );
-    const height = toStr(deepFindFirst(json, /(height)/i));
+    // socialAccounts: you store full links; icon chosen by domain
+    const socialAccounts: SocialLink[] = [];
+    const socialNode = deepFindFirst(json, /(social[_-]?links?|socials)/i);
 
-    if (gender) aboutMe.push({ value: titleCase(gender) });
-    if (zodiac) aboutMe.push({ value: titleCase(zodiac) });
-    if (sexualOrientation) aboutMe.push({ value: sexualOrientation });
-    if (education) aboutMe.push({ value: education });
-    if (height) aboutMe.push({ value: height });
+    if (Array.isArray(socialNode)) {
+      socialNode.forEach((s: any) => {
+        const link = toStr(s?.link_url ?? s?.url ?? s?.username ?? s?.handle);
+        if (link) {
+          socialAccounts.push({
+            platform: platformFromLink(link),
+            username: link,
+          });
+        }
+      });
+    } else if (isObj(socialNode)) {
+      for (const [, v] of Object.entries(socialNode)) {
+        const link = toStr(v);
+        if (link) {
+          socialAccounts.push({
+            platform: platformFromLink(link),
+            username: link,
+          });
+        }
+      }
+    }
 
     const profile: ProfileData = {
       name: fullName,
@@ -267,21 +306,17 @@ export const MyInfo = () => {
       location,
       distance: "",
       bio,
-      profileImage: safeSrc(primaryPhoto),
+      profileImage: safeSrc(primaryPhoto, "/nobita.png"),
       isVerified: isVerifiedBool,
-      aboutMe,
+      aboutMe: [],
       lookingFor: {
         relationshipType: relationship || undefined,
         genderPreference: interestedIn || undefined,
       },
       hobbies,
       lifestyle,
+      socialAccounts,
     };
-
-    // If there is no primary photo, use first gallery image
-    if (!primaryPhoto && gallery.length) {
-      profile.profileImage = gallery[0].src;
-    }
 
     return { profile, imgs: gallery };
   }
@@ -308,7 +343,6 @@ export const MyInfo = () => {
       try {
         const raw = await fetchWith("Bearer");
         if (cancelled) return;
-        console.log("[MyInfo] profile-detail payload:", raw);
         const { profile, imgs } = mapApiToProfile(raw);
         setProfileData((p) => ({ ...p, ...profile }));
         if (imgs.length) setImages(imgs);
@@ -317,7 +351,6 @@ export const MyInfo = () => {
           try {
             const raw2 = await fetchWith("JWT");
             if (cancelled) return;
-            console.log("[MyInfo] profile-detail payload (JWT):", raw2);
             const { profile, imgs } = mapApiToProfile(raw2);
             setProfileData((p) => ({ ...p, ...profile }));
             if (imgs.length) setImages(imgs);
@@ -339,9 +372,35 @@ export const MyInfo = () => {
     };
   }, [authReady, authTokens, logout, router]);
 
+  // listen for profile updates from EditProfile (pfp)
+  useEffect(() => {
+    function onProfileUpdated(e: any) {
+      try {
+        const url = e?.detail?.profileImage;
+        if (!url) return;
+        const abs = absolutize(url) || url;
+        setProfileData((p) => ({ ...p, profileImage: abs }));
+        setImages((prev) => {
+          if (prev.find((x) => x.src === abs)) return prev;
+          return [{ id: Date.now(), src: abs, alt: "profile" }, ...prev];
+        });
+      } catch {}
+    }
+
+    window.addEventListener(
+      "profile:updated",
+      onProfileUpdated as EventListener
+    );
+    return () =>
+      window.removeEventListener(
+        "profile:updated",
+        onProfileUpdated as EventListener
+      );
+  }, []);
+
   return (
     <div
-      className="no-scrollbar scroll-smooth h-[calc(100svh-116px)] md:max-h-[776.54px]"
+      className="no-scrollbar scroll-smooth h-[calc(100svh-116px)] md:max-h-[776.54px] pb-5"
       style={{
         WebkitOverflowScrolling: "touch",
         overscrollBehaviorY: "contain",
@@ -366,7 +425,7 @@ export const MyInfo = () => {
           {/* Header row */}
           <div className="flex h-[80px] gap-4">
             <Image
-              src={safeSrc(profileData.profileImage)}
+              src={safeSrc(profileData.profileImage, "/nobita.png")}
               alt="Profile"
               width={80}
               height={80}
@@ -470,7 +529,7 @@ export const MyInfo = () => {
             ).map((img) => (
               <SwiperSlide
                 key={img.id}
-                className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="!w-[172px] !h-[229px] bg-white rounded-2xl overflow-hidden "
               >
                 <div className="relative h-full w-full">
                   <Image
@@ -582,28 +641,38 @@ export const MyInfo = () => {
           </div>
         )}
 
-        {/* Social (static for now) */}
-        <div className="px-4 pb-4">
-          <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
-            My Social Accounts
-          </h1>
-          <div className="flex gap-2">
-            <Image
-              src="/facebook.svg"
-              alt="facebook"
-              width={36}
-              height={36}
-              className="select-none"
-            />
-            <Image
-              src="/instagram.svg"
-              alt="instagram"
-              width={32}
-              height={32}
-              className="select-none"
-            />
+        {/* Social Accounts */}
+        {profileData.socialAccounts.length > 0 && (
+          <div className="px-4 pb-5">
+            <h1 className="text-[16px] leading-[20px] pb-2 font-bold">
+              My Social Accounts
+            </h1>
+            <div className="flex gap-2">
+              {profileData.socialAccounts.map((account, index) => {
+                const href = account.username; // full URL saved
+                const p = platformFromLink(href);
+                return (
+                  <a
+                    key={index}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="select-none"
+                    title={`View ${p} profile`}
+                  >
+                    <Image
+                      src={ICONS[p]}
+                      alt={p}
+                      width={36}
+                      height={36}
+                      className="select-none"
+                    />
+                  </a>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

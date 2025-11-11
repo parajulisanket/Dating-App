@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef, useMemo, FormEvent } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
-import axios from "axios";
+import apiPublic from "@/api";
+import { useAuth } from "@/context/AuthContext";
 
 interface Hobby {
   id: number;
@@ -39,6 +40,7 @@ export default function HobbiesPage({
   setSkipDisabled,
 }: HobbiesPageProps) {
   const { resolvedTheme } = useTheme();
+  const { authTokens } = useAuth();
 
   const [allHobbies, setAllHobbies] = useState<Hobby[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -50,13 +52,39 @@ export default function HobbiesPage({
     onChangeRef.current = onChange;
   }, [onChange]);
 
-  // Fetch all hobbies once
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_BASE}user/hobbies/`)
-      .then((res) => setAllHobbies(res.data as Hobby[]))
-      .catch((err) => console.error("Failed to fetch hobbies", err));
-  }, []);
+    let cancelled = false;
+
+    async function fetchWith(prefix: "Bearer" | "JWT") {
+      if (!authTokens?.access) throw new Error("No auth token");
+      const res = await apiPublic.get("/user/hobbies/", {
+        headers: { Authorization: `${prefix} ${authTokens.access}` },
+      });
+      return res.data as Hobby[];
+    }
+
+    (async () => {
+      try {
+        const data = await fetchWith("Bearer");
+        if (!cancelled) setAllHobbies(data);
+      } catch (err: any) {
+        if (err?.response?.status === 401) {
+          try {
+            const data = await fetchWith("JWT");
+            if (!cancelled) setAllHobbies(data);
+          } catch (e2) {
+            console.error("Failed to fetch hobbies (JWT):", e2);
+          }
+        } else {
+          console.error("Failed to fetch hobbies (Bearer):", err);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authTokens?.access]);
 
   useEffect(() => setMounted(true), []);
 
@@ -91,11 +119,11 @@ export default function HobbiesPage({
     }
   }, [selectedIdsJson, mounted, allHobbies, value]);
 
-  // NEW: Control Skip based on selection count
+  // Control Skip based on selection count
   useEffect(() => {
     const hasAny = selectedIds.length > 0;
     setSkipDisabled?.(hasAny);
-    return () => setSkipDisabled?.(false); // re-enable on unmount
+    return () => setSkipDisabled?.(false);
   }, [selectedIds, setSkipDisabled]);
 
   const isValid = selectedIds.length > 0;

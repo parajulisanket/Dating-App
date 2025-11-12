@@ -339,7 +339,8 @@ import apiPublic from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 
-/** Read has_profile from JWT (same tolerant logic as login is not required here) */
+import SuccessDialog from "@/components/dialogs/SuccessDialog";
+
 function readHasProfileFromJwt(token?: string | null): boolean | null {
   if (!token) return null;
   try {
@@ -388,6 +389,9 @@ interface ProfileFormData {
   lifestyle: string; // JSON string
   images: File[];
   show_orientation: boolean;
+
+  latitude?: number;
+  longitude?: number;
 }
 
 export default function SetupPage() {
@@ -396,9 +400,13 @@ export default function SetupPage() {
 
   const [gateReady, setGateReady] = useState(false);
   const [step, setStep] = useState(0);
+
   const [submitting, setSubmitting] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [uploadPct, setUploadPct] = useState<number>(0);
   const [skipDisabled, setSkipDisabled] = useState(false);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const [formData, setFormData] = useState<ProfileFormData>({
     name: "",
@@ -413,6 +421,8 @@ export default function SetupPage() {
     lifestyle: "",
     images: [],
     show_orientation: false,
+    latitude: undefined,
+    longitude: undefined,
   });
 
   // Route guard for setup
@@ -444,15 +454,23 @@ export default function SetupPage() {
   );
 
   const goNext = () => {
+    if (completed || submitting) return;
     if (step === steps.length - 1) {
-      submitSetup();
+      submitSetup(); // final "Done"
     } else {
       setStep((s) => Math.min(s + 1, steps.length - 1));
     }
   };
 
-  const goBack = () => setStep((s) => Math.max(0, s - 1));
-  const skipStep = () => setStep((s) => Math.min(s + 1, steps.length - 1));
+  const goBack = () => {
+    if (completed || submitting) return;
+    setStep((s) => Math.max(0, s - 1));
+  };
+
+  const skipStep = () => {
+    if (completed || submitting) return;
+    setStep((s) => Math.min(s + 1, steps.length - 1));
+  };
 
   useEffect(() => {
     setSkipDisabled(false);
@@ -470,7 +488,7 @@ export default function SetupPage() {
   }, [formData]);
 
   const submitSetup = async () => {
-    if (submitting) return;
+    if (submitting || completed) return;
     try {
       setSubmitting(true);
       setUploadPct(0);
@@ -494,10 +512,20 @@ export default function SetupPage() {
       );
       fd.append("interested_in", formData.interested_in);
 
+      // latitude and longitude
+      if (typeof formData.latitude === "number") {
+        fd.append("latitude", String(formData.latitude));
+      }
+      if (typeof formData.longitude === "number") {
+        fd.append("longitude", String(formData.longitude));
+      }
+
+      // hobbies
       (formData.hobbies ?? []).forEach((name, idx) => {
         if (name) fd.append(`hobbies[${idx}]`, name);
       });
 
+      // lifestyle
       try {
         const ls = JSON.parse(formData.lifestyle || "{}") as LifestyleJSON;
         const setIf = (k: keyof LifestyleJSON) => {
@@ -514,6 +542,7 @@ export default function SetupPage() {
         console.warn("Invalid lifestyle JSON; skipping lifestyle fields");
       }
 
+      // photo
       (formData.images ?? []).forEach((file, idx) => {
         if (file instanceof File) {
           fd.append(`images_data[${idx}][photo]`, file);
@@ -533,15 +562,13 @@ export default function SetupPage() {
       });
 
       if (res.status >= 200 && res.status < 300) {
-        // IMPORTANT: if backend sends a fresh token (now with has_profile=true),
-        // store it so all future checks & logins work as expected.
         const newToken: string | undefined =
           res.data?.access || res.data?.token;
         if (newToken) {
           storeLoginToken(newToken);
         }
-        // Go home now that setup is complete
-        router.replace("/home");
+        setCompleted(true);
+        setDialogOpen(true);
       } else {
         console.error("Unexpected response:", res.status, res.data);
       }
@@ -584,6 +611,12 @@ export default function SetupPage() {
       props: {
         value: formData.location,
         onChange: (v: string) => updateField("location", v),
+
+        // capture coords from AddressPage (don’t remove)
+        onCoords: (lat: number, lon: number) => {
+          updateField("latitude", lat);
+          updateField("longitude", lon);
+        },
       },
     },
     {
@@ -665,13 +698,24 @@ export default function SetupPage() {
   const CurrentStep = steps[step].component;
   const canSkip = steps[step].canSkip;
 
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open && completed) {
+      router.replace("/home");
+    }
+  };
+
+  const handleDialogContinue = () => {
+    router.replace("/home");
+  };
+
   return (
     <div className="w-full max-w-[425px] h-screen max-h-dvh md:max-h-[897.22px] grid grid-rows-[auto_1fr] bg-background overflow-hidden">
       {/* HEADER */}
       <header className="flex items-center justify-between px-4 pt-6 pb-2">
         <button
           onClick={goBack}
-          disabled={step === 0 || submitting}
+          disabled={step === 0 || submitting || completed}
           aria-label="Back"
           className="text-heading px-2 -ml-2 rounded-full "
         >
@@ -682,7 +726,7 @@ export default function SetupPage() {
           <button
             type="button"
             onClick={skipStep}
-            disabled={submitting || skipDisabled}
+            disabled={submitting || skipDisabled || completed}
             className="text-heading text-base font-semibold hover:bg-[#f92fa2]/10 rounded-xl px-3 py-1 transition-colors disabled:opacity-50"
           >
             Skip
@@ -694,9 +738,19 @@ export default function SetupPage() {
       <CurrentStep
         {...(steps[step].props as any)}
         onNext={goNext}
-        submitting={submitting}
+        submitting={submitting || completed}
         uploadPct={uploadPct}
       />
+
+      <SuccessDialog
+        open={dialogOpen}
+        onOpenChange={handleDialogOpenChange}
+        onContinue={handleDialogContinue}
+        autoCloseMs={5000}
+        headerImage="/icons/check-circle-fill.svg"
+      >
+        All Set! You're ready to explore.
+      </SuccessDialog>
     </div>
   );
 }

@@ -385,7 +385,7 @@ export default function LoginEmailPage() {
         "";
 
       if (status === 401 || /password/i.test(msg) || /credential/i.test(msg)) {
-        setWarnDesc("Wrong password. Please try again.");
+        setWarnDesc("Incorrect email or password.");
         setWarnOpen(true);
         return;
       }
@@ -401,7 +401,7 @@ export default function LoginEmailPage() {
         return;
       }
 
-      setInfoDesc(msg || "Unable to Login");
+      setInfoDesc(msg || "Service Temporarily Unavailable.");
       setInfoOpen(true);
     } finally {
       setLoading(false);

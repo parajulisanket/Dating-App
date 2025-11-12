@@ -1,59 +1,60 @@
 "use client";
 
-import { FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import NextButton from "@/components/ui/NextButton";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import { getCoords, reverseGeocodePretty } from "@/utils/geo";
 
 interface AddressPageProps {
   value: string;
   onChange: (value: string) => void;
   onNext: () => void;
+  onCoords?: (lat: number, lon: number) => void;
 }
 
 export default function AddressPage({
   value,
   onChange,
   onNext,
+  onCoords,
 }: AddressPageProps) {
-  const locations = [
-    { key: "Kathmandu, Nepal", value: "Kathmandu, Nepal" },
-    { key: "Pokhara, Nepal", value: "Pokhara, Nepal" },
-    { key: "Biratnagar, Nepal", value: "Biratnagar, Nepal" },
-    { key: "Dallas, USA", value: "Dallas, USA" },
-    { key: "Other", value: "Other" },
-  ];
-
-  const isValid = value.trim().length > 0;
+  const [hint, setHint] = useState<string>("");
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!isValid) return;
+    if (!value.trim()) return;
     onNext();
   }
 
-  function useDeviceLocation() {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        onChange(
-          `Current location (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`
-        );
-      },
-      () => {},
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
+  async function handleUseMyLocation() {
+    setHint("");
+    try {
+      const { lat, lng } = await getCoords();
+      onCoords?.(lat, lng);
+
+      // show coords immediately for feedback
+      onChange(`(${lat.toFixed(4)}, ${lng.toFixed(4)})`);
+
+      // then replace with "Place, City, Country"
+      const pretty = await reverseGeocodePretty(lat, lng);
+      onChange(pretty);
+    } catch (e: any) {
+      const msg =
+        e?.message === "PermissionDenied"
+          ? "Permission denied — allow location for this site."
+          : e?.message === "PositionUnavailable"
+          ? "Position unavailable — try again near a window."
+          : e?.message === "Timeout"
+          ? "Timed out — tap again or move outside."
+          : e?.message === "GeolocationNotAvailable"
+          ? "Geolocation not available (use HTTPS or localhost in dev)."
+          : "Could not get your location.";
+      setHint(msg);
+      console.warn("[geo]", e);
+    }
   }
 
   return (
     <>
-      {/* CONTENT: title + select */}
       <main className="px-4">
         <h1 className="title mt-4 leading-10 text-left">
           Where do you live
@@ -62,35 +63,31 @@ export default function AddressPage({
         </h1>
 
         <form id="address-form" onSubmit={onSubmit} className="mt-8">
-          <Select value={value} onValueChange={onChange}>
-            <SelectTrigger className="w-full rounded-[16px] px-4 py-[14px] border border-neutral-300 text-[16px]">
-              <SelectValue
-                placeholder="Select your address"
-                className={value ? "text-neutral-900" : "text-neutral-500"}
-              />
-            </SelectTrigger>
-            <SelectContent className="border border-neutral-200 rounded-2xl">
-              {locations.map((location) => (
-                <SelectItem key={location.key} value={location.value}>
-                  {location.value}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Your address"
+            className="w-full rounded-[16px] px-4 py-[14px] border border-neutral-300 text-[16px]"
+          />
         </form>
+
+        {hint && <p className="mt-2 text-sm text-red-600">{hint}</p>}
       </main>
 
-      {/* FOOTER: helper link + Next button (inside view) */}
-      <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
+      <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2 z-50">
         <button
           type="button"
-          onClick={useDeviceLocation}
+          onClick={handleUseMyLocation}
           className="mb-4 block mx-auto text-heading text-base font-medium"
         >
           Turn on your device location instead.
         </button>
 
-        <NextButton disabled={!isValid} form="address-form" className="w-full">
+        <NextButton
+          disabled={!value.trim()}
+          form="address-form"
+          className="w-full"
+        >
           Next
         </NextButton>
       </footer>

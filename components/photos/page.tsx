@@ -18,6 +18,7 @@ export default function PhotosPage({
   setSkipDisabled,
 }: PhotosPageProps) {
   const { resolvedTheme } = useTheme();
+  const [doneDisable, setDoneDisable] = useState(false);
 
   const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
   const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
@@ -113,6 +114,11 @@ export default function PhotosPage({
   }
 
   function onDone() {
+    if (doneDisable) return;
+    setDoneDisable(true);
+    setTimeout(() => {
+      onNext();
+    }, 0);
     onNext();
   }
 
@@ -186,8 +192,11 @@ export default function PhotosPage({
       <footer className="absolute bottom-0 px-4 w-full pb-10 space-y-2">
         <button
           type="button"
+          disabled={doneDisable}
           onClick={onDone}
-          className="btn btn-signup w-full"
+          className={`btn btn-signup w-full.${
+            doneDisable ? "opacity-50  cursor-not-allowed" : ""
+          } `}
         >
           Done
         </button>

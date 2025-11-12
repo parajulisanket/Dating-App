@@ -58,7 +58,7 @@ export default function WarningTryAgainDialog({
 
         {/* Middle*/}
         {children ? (
-          <div className="px-5 py-4 text-center text-[14px] text-neutral-700 dark:text-neutral-200">
+          <div className="px-5 py-3 text-center text-[16px] text-neutral-700 ">
             {children}
           </div>
         ) : null}
@@ -67,7 +67,7 @@ export default function WarningTryAgainDialog({
 
         <div className="grid grid-cols-2">
           <button
-            className="rounded-bl-[28px] py-3 text-xl font-bold text-primary-500 hover:bg-pink-50 active:bg-pink-100 dark:hover:bg-pink-900/20"
+            className="rounded-bl-[28px] py-3 text-xl font-bold text-primary-500 "
             onClick={() => {
               onTryAgain?.();
               onOpenChange(false);
@@ -76,7 +76,7 @@ export default function WarningTryAgainDialog({
             Try Again
           </button>
           <button
-            className="rounded-br-[28px] border-l border-neutral-200 py-3 text-xl font-bold text-neutral-500 hover:bg-neutral-50 active:bg-neutral-100 dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-white/5"
+            className="rounded-br-[28px] border-l border-neutral-200 py-3 text-xl font-bold text-neutral-700  dark:border-neutral-800 dark:text-neutral-50 "
             onClick={close}
           >
             Close

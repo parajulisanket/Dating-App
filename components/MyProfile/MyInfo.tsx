@@ -300,6 +300,32 @@ export const MyInfo = () => {
       }
     }
 
+    // ---- About Me: only gender, zodiac, sexual orientation (respect show_orientation) ----
+    const genderVal = toStr(deepFindFirst(json, /\bgender\b/i));
+    const zodiacVal =
+      toStr(deepFindFirst(json, /(zodiac(_sign)?|zodiacsign)/i)) ||
+      toStr(deepFindFirst(json, /(sun[_-]?sign)/i));
+    const sexualOrientationVal = toStr(
+      deepFindFirst(json, /(sexual[_-]?orientation|orientation)/i)
+    );
+    const showOrientationRaw = toStr(
+      deepFindFirst(json, /(show[_-]?orientation)/i)
+    );
+    const showOrientation =
+      showOrientationRaw === ""
+        ? true
+        : !/^(false|0)$/i.test(showOrientationRaw);
+
+    const aboutBasics: AboutMeItem[] = [
+      genderVal ? titleCase(genderVal) : "",
+      zodiacVal ? titleCase(zodiacVal) : "",
+      showOrientation && sexualOrientationVal
+        ? titleCase(sexualOrientationVal)
+        : "",
+    ]
+      .filter(Boolean)
+      .map((v) => ({ value: v as string }));
+
     const profile: ProfileData = {
       name: fullName,
       age,
@@ -308,7 +334,7 @@ export const MyInfo = () => {
       bio,
       profileImage: safeSrc(primaryPhoto, "/nobita.png"),
       isVerified: isVerifiedBool,
-      aboutMe: [],
+      aboutMe: aboutBasics, // ← only these three chips
       lookingFor: {
         relationshipType: relationship || undefined,
         genderPreference: interestedIn || undefined,
@@ -481,7 +507,13 @@ export const MyInfo = () => {
           </div>
 
           {profileData.bio && (
-            <div className="font-medium text-[12px] text-[#777777] py-2">
+            <div
+              className={`font-medium text-[12px] py-2 ${
+                mounted && resolvedTheme === "light"
+                  ? "text-neutral-700"
+                  : "text-neutral-400"
+              }`}
+            >
               <p>{profileData.bio}</p>
             </div>
           )}

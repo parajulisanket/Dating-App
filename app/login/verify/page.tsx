@@ -42,13 +42,13 @@ export default function VerifyEmailPage() {
     if (mounted) refs.current[0]?.focus();
   }, [mounted]);
 
-  // resend countdown
-  const [sec, setSec] = useState(RESEND_SECONDS);
+  // OTP entry countdown (always visible)
+  const [otpSec, setOtpSec] = useState(RESEND_SECONDS);
   useEffect(() => {
-    if (sec <= 0) return;
-    const t = setInterval(() => setSec((s) => s - 1), 1000);
+    if (otpSec <= 0) return;
+    const t = setInterval(() => setOtpSec((s) => s - 1), 1000);
     return () => clearInterval(t);
-  }, [sec]);
+  }, [otpSec]);
 
   const setAt = (i: number, v: string) =>
     setD((prev) => prev.map((x, idx) => (idx === i ? v : x)));
@@ -129,8 +129,9 @@ export default function VerifyEmailPage() {
     }
   }
 
+  // RESEND: no cooldown — only disabled while the request is in-flight
   async function resend() {
-    if (sec > 0 || resending) return;
+    if (resending) return;
     if (!email) {
       setInfoDesc("Missing email. Please go back and enter your email again.");
       setInfoOpen(true);
@@ -146,7 +147,10 @@ export default function VerifyEmailPage() {
         { email },
         { headers: { "Content-Type": "application/json" } }
       );
-      setSec(RESEND_SECONDS);
+      // Reset the OTP validity timer and input boxes each resend
+      setOtpSec(RESEND_SECONDS);
+      setD(["", "", "", "", "", ""]);
+      refs.current[0]?.focus();
     } catch (err) {
       const ax = err as AxiosError<any>;
       const status = ax.response?.status;
@@ -158,7 +162,7 @@ export default function VerifyEmailPage() {
         "";
 
       if (status === 429) {
-        setWarnDesc("Too many requests. Please wait a minute before retrying.");
+        setWarnDesc("Too many requests. Please wait a moment before retrying.");
         setWarnOpen(true);
       } else if (status && status >= 500) {
         setWarnDesc("Server error. Please try again in a moment.");
@@ -171,6 +175,10 @@ export default function VerifyEmailPage() {
       setResending(false);
     }
   }
+
+  // mm:ss display for OTP validity
+  const mm = String(Math.floor(otpSec / 60)).padStart(2, "0");
+  const ss = String(otpSec % 60).padStart(2, "0");
 
   return (
     <div className="flex min-h-svh items-center justify-center ">
@@ -246,6 +254,11 @@ export default function VerifyEmailPage() {
                 />
               ))}
             </div>
+
+            {/* Always-visible OTP countdown */}
+            <div className="mt-3 text-sm font-semibold text-[#F92FA2]">
+              Code expires in {mm}:{ss}
+            </div>
           </form>
         </main>
 
@@ -268,22 +281,16 @@ export default function VerifyEmailPage() {
             {verifying ? "Verifying..." : "Verify"}
           </button>
 
+          {/* Resend button — ALWAYS enabled except during request */}
           <button
             type="button"
             onClick={resend}
-            disabled={sec > 0 || resending}
-            className={[
-              "w-full text-center text-sm font-bold",
-              sec > 0 || resending
-                ? "text-[#f92fa2] cursor-not-allowed"
-                : "text-[#F92FA2]",
-            ].join(" ")}
+            disabled={resending}
+            className={`w-full text-center text-sm font-bold ${
+              resending ? "text-[#f92fa2] cursor-not-allowed" : "text-[#F92FA2]"
+            }`}
           >
-            {sec > 0
-              ? `Resend Code (${sec} Sec)`
-              : resending
-              ? "Resending..."
-              : "Resend Code"}
+            {resending ? "Resending..." : "Resend Code"}
           </button>
         </footer>
       </div>

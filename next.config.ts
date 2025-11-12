@@ -1,4 +1,3 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const api = process.env.NEXT_PUBLIC_API_BASE || "";
@@ -24,7 +23,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "localhost",
     "192.168.1.4",
-    "192.168.1.17",
+    "192.168.1.18",
     // You can also use wildcards, e.g. "*.local.mydomain.dev"
   ],
 
@@ -36,7 +35,7 @@ const nextConfig: NextConfig = {
       ...buildRemoteFromEnv(),
       {
         protocol: "http",
-        hostname: "192.168.1.21",
+        hostname: "192.168.1.11",
         port: "8080",
         pathname: "/**",
       },

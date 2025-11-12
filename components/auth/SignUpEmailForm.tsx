@@ -89,8 +89,8 @@ export default function SignUpEmailForm() {
 
         // Email already exists show Info
         if (status === 409 || (status === 403 && /exist/i.test(serverMsg))) {
-          setEmailError("Email already exists.");
-          setInfoDesc("Email already exists.");
+          setEmailError("This email is already registered. Please log in.");
+          setInfoDesc("This email is already registered. Please log in.");
           setInfoOpen(true);
           return;
         }

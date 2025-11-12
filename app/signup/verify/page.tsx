@@ -2,19 +2,14 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import {
-  useMemo,
-  useRef,
-  useState,
-  FormEvent,
-  useEffect,
-  useContext,
-} from "react";
+import { useMemo, useRef, useState, FormEvent, useEffect } from "react";
 import NextButton from "@/components/ui/NextButton";
 import { useTheme } from "next-themes";
 import apiPublic from "@/api";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import SuccessDialog from "@/components/dialogs/SuccessDialog";
+
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
 export default function VerifyPage() {
@@ -22,9 +17,33 @@ export default function VerifyPage() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { verifyEmail } = useAuth();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  const [resending, setResending] = useState(false);
+  const [sec, setSec] = useState(0);
+
+  // NEW: OTP entry countdown (always visible)
+  const [otpSec, setOtpSec] = useState(120);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // resend cooldown ticker
+  useEffect(() => {
+    if (sec <= 0) return;
+    const t = window.setInterval(() => setSec((s) => s - 1), 1000);
+    return () => window.clearInterval(t);
+  }, [sec]);
+
+  useEffect(() => {
+    if (otpSec <= 0) return;
+    const t = window.setInterval(() => setOtpSec((s) => s - 1), 1000);
+    return () => window.clearInterval(t);
+  }, [otpSec]);
+
   const router = useRouter();
   const params = useSearchParams();
   const emailFromQuery = params.get("email") ?? "youremail@gmail.com";
@@ -73,31 +92,68 @@ export default function VerifyPage() {
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!valid || loading) return;
-    console.log({ code });
-    if (!valid) return;
+
     try {
       setLoading(true);
       const res = await apiPublic.post("/user/verify_otp_of_email/", {
         email: emailFromQuery,
         otp: code,
       });
-      console.log("verify-data", res);
-      const token = res?.data?.token;
-      console.log("token", token);
 
-      verifyEmail(token);
-      console.log("line executing");
+      const token = res?.data?.token;
+      if (token) verifyEmail(token);
+
       if (res.status === 200) {
-        router.push("/setup");
+        setVerified(true);
+        setDialogOpen(true);
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data);
+      } else {
+        console.error(error);
       }
     } finally {
       setLoading(false);
     }
   };
+
+  const resend = async () => {
+    if (resending || sec > 0) return;
+    try {
+      setResending(true);
+      await apiPublic.post("/user/resend_otp/", {
+        email: emailFromQuery,
+      });
+      setSec(60);
+      setOtpSec(120);
+      setD(["", "", "", "", "", ""]);
+      refs.current[0]?.focus();
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Resend error:", error.response?.data);
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setResending(false);
+    }
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open && verified) {
+      router.push("/setup");
+    }
+  };
+
+  const handleDialogContinue = () => {
+    router.push("/setup");
+  };
+
+  // helper to show mm:ss for OTP countdown
+  const mm = String(Math.floor(otpSec / 60)).padStart(2, "0");
+  const ss = String(otpSec % 60).padStart(2, "0");
 
   return (
     <div className="min-h-svh flex items-center justify-center bg-background">
@@ -153,6 +209,11 @@ export default function VerifyPage() {
                 />
               ))}
             </div>
+
+            {/* NEW: Always-visible OTP countdown */}
+            <div className="mt-4 text-sm  font-semibold text-[#F92FA2]">
+              Code expires in {mm}:{ss}
+            </div>
           </form>
         </main>
 
@@ -164,10 +225,34 @@ export default function VerifyPage() {
             form="verify-form"
             className="w-full"
           >
-            Verify
+            {loading ? "Verifying..." : "Verify"}
           </NextButton>
+
+          <button
+            type="button"
+            onClick={resend}
+            disabled={resending || sec > 0}
+            className={`w-full text-center text-sm font-bold ${
+              resending || sec > 0
+                ? "text-[#f92fa2] cursor-not-allowed"
+                : "text-[#F92FA2]"
+            }`}
+          >
+            {resending ? "Resending..." : "Resend Code"}
+          </button>
         </footer>
       </div>
+
+      {/* SUCCESS POPUP */}
+      <SuccessDialog
+        open={dialogOpen}
+        onOpenChange={handleDialogOpenChange}
+        onContinue={handleDialogContinue}
+        autoCloseMs={5000}
+        headerImage="/icons/check-circle-fill.svg"
+      >
+        You're Verified. One step left: set up your profile
+      </SuccessDialog>
     </div>
   );
 }

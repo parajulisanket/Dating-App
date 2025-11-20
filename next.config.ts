@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const api = process.env.NEXT_PUBLIC_API_BASE || "";
 
-// Build remotePatterns from NEXT_PUBLIC_API_BASE if provided
 function buildRemoteFromEnv() {
   try {
     const u = new URL(api);
@@ -22,8 +21,9 @@ function buildRemoteFromEnv() {
 const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "localhost",
-    "192.168.1.8",
-    "192.168.1.8",
+    // "192.168.1.8",
+    // "192.168.1.8",
+    "https://datingapi-dev.kantipurinfotech.com/",
     // You can also use wildcards, e.g. "*.local.mydomain.dev"
   ],
 

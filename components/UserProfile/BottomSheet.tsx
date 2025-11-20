@@ -8,7 +8,6 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
 interface BottomSheetMenuProps {
-  // isOpen: boolean;
   onClose: () => void;
   userName: string;
   userAge: number;
@@ -25,7 +24,6 @@ export const slideUpVariants = {
 
 export const BottomSheetMenu = ({
   id,
-  // isOpen,
   onClose,
   userName,
   userAge,
@@ -84,7 +82,7 @@ export const BottomSheetMenu = ({
         {/* User Info Header */}
         <div className=" rounded-3xl bg-primary-100 border border-primary-200 p-4  mx-4 mt-4 flex items-center gap-3 ">
           <Image
-            src="/profile1.jpg"
+            src={userImage || "/profile1.jpg"}
             alt={userName}
             width={52}
             height={52}

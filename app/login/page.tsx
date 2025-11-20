@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import PhoneViewport from "@/components/layout/PhoneViewport";
 
 export const metadata = { title: "Log In" };
 

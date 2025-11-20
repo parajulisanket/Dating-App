@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 import icons from "@/assets/icons/icons";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+
 // Types for backend integration
 interface UserProfile {
   name: string;
-  age: number;
+  age: number | null; // Age can be null if not available
   profileImage: string;
   isVerified: boolean;
 }
@@ -22,13 +24,54 @@ interface SettingsMenuItem {
   route: string;
 }
 
+// Default/Loading state for the profile
+const defaultUserProfile: UserProfile = {
+  name: "User",
+  age: null,
+  profileImage: "/images/fallback-avatar.png",
+  isVerified: false,
+};
+
 export const Settings = () => {
   const router = useRouter();
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { logout } = useAuth();
   const [mounted, setMounted] = useState(false);
+
+  // NEW: State for the actual user profile data
+  const [userProfile, setUserProfile] =
+    useState<UserProfile>(defaultUserProfile);
 
   useEffect(() => {
     setMounted(true);
+
+    if (typeof window === "undefined") return;
+
+    const userInfoString = window.localStorage.getItem("userInfo");
+
+    if (userInfoString) {
+      try {
+        const storedProfile = JSON.parse(userInfoString);
+
+        // Populate the UserProfile state from localStorage
+        const profileData: UserProfile = {
+          name: storedProfile.full_name || "User",
+          // The age property in your stored data is 'age' as a string/number
+          age: storedProfile.age ? parseInt(storedProfile.age, 10) : null,
+          profileImage:
+            storedProfile.profile_pic || "/images/fallback-avatar.png",
+          // You might have a specific verification status from your API,
+          // but for now, we'll keep it simple or default it.
+          isVerified: storedProfile.is_verified || false,
+        };
+
+        setUserProfile(profileData);
+      } catch (e) {
+        console.error("Error parsing user info from localStorage:", e);
+        // If parsing fails, fall back to the default profile
+        setUserProfile(defaultUserProfile);
+      }
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -51,13 +94,7 @@ export const Settings = () => {
     );
   }
 
-  // Demo data - will be replaced with API data
-  const userProfile: UserProfile = {
-    name: "Anup",
-    age: 23,
-    profileImage: "/nobita.png",
-    isVerified: true,
-  };
+  // --- Start of unchanged data/logic ---
 
   const menuItems: SettingsMenuItem[] = [
     {
@@ -116,16 +153,36 @@ export const Settings = () => {
   };
 
   const handleLogout = () => {
-    console.log("Logging out...");
-    router.push("/");
-    // TODO: Call logout API
-    // Clear local storage/cookies
-    // Redirect to login page
-  };
+    // Clear auth state + access_token cookie
+    logout();
 
-  const handleBackClick = () => {
-    console.log("Going back");
-    // router.back();
+    if (typeof window === "undefined") {
+      router.replace("/login/email");
+      return;
+    }
+
+    const remember = window.localStorage.getItem("remember_me");
+    const email = window.localStorage.getItem("saved_email");
+
+    console.log("remember on logout:", remember, "email:", email);
+
+    // 1. CHECK FOR WELCOME-BACK REDIRECTION
+    if (remember === "1" && email) {
+      // If 'remember me' is active, navigate to the welcome-back screen.
+      // We must PRESERVE localStorage items here.
+      router.replace("/welcome-back");
+      return;
+    }
+
+    // 2. CLEAR ALL DATA AND REDIRECT TO FULL LOGIN
+    // This code runs if 'remember' is NOT set.
+    window.localStorage.removeItem("userInfo");
+    window.localStorage.removeItem("saved_user_name");
+    window.localStorage.removeItem("saved_user_image");
+    window.localStorage.removeItem("remember_me");
+    window.localStorage.removeItem("saved_email");
+
+    router.replace("/login/email");
   };
 
   const containerHeight = `calc(100dvh)`;
@@ -161,6 +218,7 @@ export const Settings = () => {
           {/* User Profile Card */}
           <div className="px-4 pb-4">
             <div className="bg-primary-100 rounded-2xl p-4 flex items-center gap-3 border-[1px] border-roundSection">
+              {/* User Image */}
               <Image
                 src={userProfile.profileImage}
                 alt={userProfile.name}
@@ -169,8 +227,10 @@ export const Settings = () => {
                 className="rounded-full object-cover w-[52px] h-[52px]"
               />
               <div className="flex gap-2 items-center text-heading text-[24px] font-bold leading-[36px]">
+                {/* User Name and Age */}
                 <h1>
-                  {userProfile.name}, {userProfile.age}
+                  {userProfile.name}
+                  {userProfile.age !== null ? `, ${userProfile.age}` : ""}
                 </h1>
                 {userProfile.isVerified && (
                   <Image
@@ -185,7 +245,7 @@ export const Settings = () => {
             </div>
           </div>
 
-          {/* Settings Menu Items */}
+          {/* Settings Menu Items (Unchanged) */}
           <div className="px-4 mb-1">
             <div className="size-[52px]  w-full  flex items-center  px-4 rounded-[16px]  bg-neutral-1000/5 ">
               <div className="flex justify-between items-center w-full cursor-pointer">
@@ -201,9 +261,6 @@ export const Settings = () => {
                     Dark Mode
                   </h3>
                 </div>
-                {/* <div className="h-6 w-[42px] border border-primary-500 bg-primary-500/10 rounded-full p-1">
-                                <div className="w-4 h-4 bg-primary-500 rounded-full"></div>
-                            </div> */}
                 <div
                   onClick={toggleTheme}
                   className={`h-6 w-[42px] rounded-full p-1 transition-all duration-300 cursor-pointer  border border-[#f92fa2] flex items-center

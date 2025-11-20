@@ -88,13 +88,35 @@ const toStr = (x: any) =>
 function absolutize(url?: string): string | null {
   const u = (url || "").trim();
   if (!u) return null;
-  try {
-    new URL(u);
+
+  // Already absolute or in-memory
+  if (
+    u.startsWith("http://") ||
+    u.startsWith("https://") ||
+    u.startsWith("blob:") ||
+    u.startsWith("data:")
+  ) {
     return u;
-  } catch {}
+  }
+
   const base = process.env.NEXT_PUBLIC_API_BASE?.replace(/\/+$/, "") || "";
-  if (!base) return null;
-  return `${base}/${u.replace(/^\/+/, "")}`;
+
+  // Backend media/static paths like /media/... or /static/...
+  if (u.startsWith("/media/") || u.startsWith("/static/")) {
+    return base ? `${base}${u}` : u;
+  }
+
+  // Frontend static assets in /public (e.g., /nobita.png)
+  if (u.startsWith("/")) {
+    return u;
+  }
+
+  // Relative backend paths like user_pp/...
+  if (base) {
+    return `${base}/${u.replace(/^\/+/, "")}`;
+  }
+
+  return u;
 }
 const safeSrc = (u?: string | null) => absolutize(u || undefined);
 
@@ -231,7 +253,7 @@ export const EditProfile = () => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   const [formData, setFormData] = useState<ProfileFormData>({
-    profilePicture: { url: "/nobita.png" },
+    profilePicture: { url: "" },
     images: [null, null, null, null, null, null],
     bio: "",
     interestedIn: "",
@@ -261,13 +283,28 @@ export const EditProfile = () => {
       try {
         const raw = await getWith("Bearer");
         if (cancelled) return;
-        setFormData(mapFromApi(raw).form);
+        const mapped = mapFromApi(raw).form;
+        setFormData(mapped);
+
+        if (typeof window !== "undefined" && mapped.profilePicture.url) {
+          const abs =
+            safeSrc(mapped.profilePicture.url) ?? mapped.profilePicture.url;
+          window.localStorage.setItem("saved_user_image", abs);
+        }
       } catch (e: any) {
         if (e?.response?.status === 401) {
           try {
             const raw2 = await getWith("JWT");
             if (cancelled) return;
-            setFormData(mapFromApi(raw2).form);
+            const mapped2 = mapFromApi(raw2).form;
+            setFormData(mapped2);
+
+            if (typeof window !== "undefined" && mapped2.profilePicture.url) {
+              const abs =
+                safeSrc(mapped2.profilePicture.url) ??
+                mapped2.profilePicture.url;
+              window.localStorage.setItem("saved_user_image", abs);
+            }
           } catch {
             setErrorMsg("Failed to load profile. Please log in again.");
           }
@@ -327,8 +364,11 @@ export const EditProfile = () => {
         data?.profile_pic ||
         data?.image ||
         null;
-      const finalUrl = safeSrc(maybeUrl) || previewUrl;
-      setFormData((p) => ({ ...p, profilePicture: { url: finalUrl! } }));
+
+      const serverUrl = safeSrc(maybeUrl);
+      const finalUrl = serverUrl || previewUrl;
+
+      setFormData((p) => ({ ...p, profilePicture: { url: finalUrl } }));
     } catch (err) {
       console.error("Profile picture update failed:", err);
     } finally {
@@ -486,7 +526,11 @@ export const EditProfile = () => {
     );
   }
 
-  const avatarSrc = safeSrc(formData.profilePicture.url);
+  const rawAvatar = formData.profilePicture.url;
+  const avatarSrc =
+    rawAvatar && rawAvatar.startsWith("blob:")
+      ? rawAvatar
+      : safeSrc(rawAvatar) ?? "/nobita.png";
 
   return (
     <div
@@ -614,8 +658,8 @@ export const EditProfile = () => {
               <h2 className="edit-title">My Bio</h2>
             </div>
             <Link href="/edit-profile/bio">
-              <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none">
-                {formData.bio || ""}
+              <div className="w-full border border-neutral-400 rounded-lg p-3 text-[14px] focus:outline-none text-neutral-500">
+                {formData.bio || "Write your bio here..."}
               </div>
             </Link>
           </div>

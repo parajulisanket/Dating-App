@@ -20,7 +20,9 @@ interface AuthContextType {
   authReady: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authTokens, setAuthTokens] = useState<{ access: string } | null>(null);
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setAuthTokens(null);
-    Cookies.remove("access_token");
+    Cookies.remove("access_token", { path: "/" });
   };
 
   return (

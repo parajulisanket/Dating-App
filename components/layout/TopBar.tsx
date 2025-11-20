@@ -59,7 +59,7 @@ export default function TopBar({ className }: TopBarProps) {
                 />
               ) : (
                 <img
-                  src="/icons/bellDark.svg"
+                  src="/icons/BellDark.svg"
                   alt=""
                   className="w-[26px] h-[26px]"
                 />

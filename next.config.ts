@@ -9,7 +9,6 @@ function buildRemoteFromEnv() {
       {
         protocol: u.protocol.replace(":", "") as "http" | "https",
         hostname: u.hostname,
-        port: u.port || undefined,
         pathname: "/**",
       },
     ];
@@ -19,13 +18,6 @@ function buildRemoteFromEnv() {
 }
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [
-    "localhost",
-    // "192.168.1.8",
-    // "192.168.1.8",
-    "https://datingapi-dev.kantipurinfotech.com/",
-  ],
-
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
@@ -35,30 +27,6 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "datingapi-dev.kantipurinfotech.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8000",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "8000",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "3000",
         pathname: "/**",
       },
     ],

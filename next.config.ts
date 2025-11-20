@@ -24,7 +24,6 @@ const nextConfig: NextConfig = {
     // "192.168.1.8",
     // "192.168.1.8",
     "https://datingapi-dev.kantipurinfotech.com/",
-    // You can also use wildcards, e.g. "*.local.mydomain.dev"
   ],
 
   eslint: { ignoreDuringBuilds: true },
@@ -34,9 +33,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       ...buildRemoteFromEnv(),
       {
-        protocol: "http",
-        hostname: "192.168.1.6",
-        port: "8080",
+        protocol: "https",
+        hostname: "datingapi-dev.kantipurinfotech.com",
         pathname: "/**",
       },
       {
@@ -56,13 +54,13 @@ const nextConfig: NextConfig = {
         hostname: "127.0.0.1",
         port: "8000",
         pathname: "/**",
-      }, // fixed
+      },
       {
         protocol: "http",
         hostname: "127.0.0.1",
         port: "3000",
         pathname: "/**",
-      }, // fixed
+      },
     ],
   },
 };

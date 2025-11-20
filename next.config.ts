@@ -1,32 +1,36 @@
 import type { NextConfig } from "next";
 
-const api = process.env.NEXT_PUBLIC_API_BASE || "";
-
-function buildRemoteFromEnv() {
-  try {
-    const u = new URL(api);
-    return [
-      {
-        protocol: u.protocol.replace(":", "") as "http" | "https",
-        hostname: u.hostname,
-        pathname: "/**",
-      },
-    ];
-  } catch {
-    return [];
-  }
-}
-
 const nextConfig: NextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
   images: {
     remotePatterns: [
-      ...buildRemoteFromEnv(),
+      // Production — both http + https
+      {
+        protocol: "http",
+        hostname: "datingapi-dev.kantipurinfotech.com",
+        pathname: "/**",
+      },
       {
         protocol: "https",
         hostname: "datingapi-dev.kantipurinfotech.com",
+        pathname: "/**",
+      },
+
+      // Localhost backend
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/**",
+      },
+
+      // Local network backend
+      {
+        protocol: "http",
+        hostname: "192.168.1.8",
+        port: "8080",
         pathname: "/**",
       },
     ],

@@ -4,17 +4,28 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { Range, getTrackBackground } from "react-range";
+import useAxiosAuth from "@/app/hook/useAxiosAuth";
 
 const AGE_MIN = 18;
 const AGE_MAX = 60;
-const MIN_GAP = 1; // years between thumbs
+const MIN_GAP = 1;
 
-export function FilterSheet({ onApply }: { onApply: () => void }) {
+type FilterSheetProps = {
+  onApply: () => void;
+};
+
+export function FilterSheet({ onApply }: FilterSheetProps) {
   const { theme } = useTheme();
-  const [show, setShow] = React.useState<"man" | "woman" | "all" | null>(null);
+  const api = useAxiosAuth();
+  const [show, setShow] = React.useState<"male" | "female" | "all" | null>(
+    null
+  );
   const [age, setAge] = React.useState<[number, number]>([23, 36]);
   const [distance, setDistance] = React.useState(7);
   const [hasBio, setHasBio] = React.useState(true);
+
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const toggleFloatingBadges = () => setHasBio((p) => !p);
 
@@ -23,17 +34,18 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
     setAge([23, 36]);
     setDistance(7);
     setHasBio(true);
+    setError(null);
   };
 
   const Chip = ({
     label,
     value,
-    
   }: {
     label: string;
-    value: "man" | "woman" | "all";
+    value: "male" | "female" | "all";
   }) => (
     <button
+      type="button"
       onClick={() => setShow(value)}
       className={cn(
         "rounded-full border px-4 py-1.5 text-sm font-medium transition",
@@ -43,12 +55,50 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
             : "bg-[#FFFFFF4D] border-white"
           : theme === "light"
           ? "border-neutral-200 text-neutral-1000"
-          : "border-neutral-300"
+          : "border-neutral-300 text-white"
       )}
     >
       {label}
     </button>
   );
+
+  async function handleApply() {
+    if (loading) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // build query params for backend
+      const params: Record<string, any> = {
+        distance_lte: distance,
+        age_lte: age[1],
+      };
+
+      // gender only if not "all"
+      if (show && show !== "all") {
+        params.gender = show;
+      }
+
+      //  send as QUERY PARAMS
+      const res = await api.get("/user/timeline/", { params });
+
+      console.log("Filtered timeline response:", res.data);
+
+      onApply();
+    } catch (err: any) {
+      console.error("Filter apply error:", err?.response?.data || err);
+      const data = err?.response?.data;
+      const msg =
+        data?.message ||
+        data?.detail ||
+        (typeof data === "string" ? data : "") ||
+        "Failed to apply filters.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -56,8 +106,8 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
       <div>
         <p className="mb-2 font-bold">Show me</p>
         <div className="flex gap-2">
-          <Chip label="Man" value="man" />
-          <Chip label="Woman" value="woman" />
+          <Chip label="Man" value="male" />
+          <Chip label="Woman" value="female" />
           <Chip label="All" value="all" />
         </div>
       </div>
@@ -84,7 +134,6 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
             onChange={(values) => {
               let [lo, hi] = values as [number, number];
 
-              // Enforce a minimum gap
               if (hi - lo < MIN_GAP) {
                 const movedLo = Math.abs(lo - age[0]) < Math.abs(hi - age[1]);
                 if (movedLo) {
@@ -94,7 +143,6 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
                 }
               }
 
-              // Clamp to bounds
               lo = Math.max(AGE_MIN, Math.min(lo, AGE_MAX - MIN_GAP));
               hi = Math.min(AGE_MAX, Math.max(hi, AGE_MIN + MIN_GAP));
 
@@ -114,7 +162,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
                       values: age,
                       colors: [
                         theme === "light" ? "#F92FA24D" : "#F92FA24D",
-                        "#F92FA2", // active segment
+                        "#F92FA2",
                         theme === "light" ? "#F92FA24D" : "#F92FA24D",
                       ],
                       min: AGE_MIN,
@@ -187,7 +235,7 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
         `}</style>
       </div>
 
-      {/* Has bio toggle */}
+      {/* Has bio toggle (in case backend uses it later) */}
       <label className="flex items-center justify-between">
         <span className="font-bold">Should have a bio</span>
         <div
@@ -206,18 +254,21 @@ export function FilterSheet({ onApply }: { onApply: () => void }) {
         </div>
       </label>
 
+      {/* Error message */}
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
       {/* Actions */}
       <div className="space-y-3">
         <button
-          onClick={() => {
-            console.log("apply (static):", { show, age, distance, hasBio });
-            onApply();
-          }}
-          className="w-full rounded-full bg-[#F92FA2] py-3 font-medium text-white cursor-pointer"
+          type="button"
+          onClick={handleApply}
+          disabled={loading}
+          className="w-full rounded-full bg-[#F92FA2] py-3 font-medium text-white cursor-pointer disabled:bg-[#f5a9d1] disabled:cursor-not-allowed"
         >
-          Apply Filters
+          {loading ? "Applying..." : "Apply Filters"}
         </button>
         <button
+          type="button"
           onClick={reset}
           className="w-full rounded-full bg-[#CA2CFF] py-3 font-medium text-white cursor-pointer"
         >

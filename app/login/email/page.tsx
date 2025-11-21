@@ -9,7 +9,6 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import WarningTryAgainDialog from "@/components/dialogs/WarningTryAgainDialog";
 import InfoDialog from "@/components/dialogs/InfoDialog";
-import Cookies from "js-cookie";
 
 function coerceBool(v: any): boolean | null {
   if (typeof v === "boolean") return v;

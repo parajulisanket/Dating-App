@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const images = ["hero.png", "hero.png", "hero.png"];
+const images = ["/hero.png", "/hero.png", "/hero.png"];
 
 export default function LandingPage() {
   const [current, setCurrent] = useState(0);

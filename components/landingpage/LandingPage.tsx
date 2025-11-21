@@ -46,7 +46,7 @@ export default function LandingPage() {
                   priority={i === 0}
                   className="object-contain pointer-events-none select-none"
                   draggable={false}
-                />
+                />   
               </div>
             ))}
           </div>

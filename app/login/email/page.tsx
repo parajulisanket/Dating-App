@@ -98,7 +98,7 @@ export default function LoginEmailPage() {
       const rememberFlag = window.localStorage.getItem("remember_me");
       if (rememberFlag === "1") {
         setRemember(true);
-        // we no longer prefill email
+        // we no longer prefill email here
       } else {
         setRemember(false);
       }
@@ -136,13 +136,38 @@ export default function LoginEmailPage() {
         { email: trimmedEmail, password: trimmedPwd },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log("Login response:", res.data);
+      // console.log("Login response:", res.data);
 
-      //  FIX: Stringify the object before storing it in localStorage
-      if (res.data?.profile_info) {
-        localStorage.setItem("userInfo", JSON.stringify(res.data.profile_info));
-        // NOTE: If you wanted this as a Cookie, you would use:
-        // Cookies.set('userInfo', JSON.stringify(res.data.profile_info), { expires: 7 });
+      // -------- ALWAYS save user profile details (whether remember-me or not) --------
+      const profile = res.data?.profile_info ?? res.data?.user ?? null;
+
+      if (profile && typeof profile === "object") {
+        // Full profile object
+        window.localStorage.setItem("userInfo", JSON.stringify(profile));
+        // If you ever want cookie instead:
+        // Cookies.set("userInfo", JSON.stringify(profile), { expires: 7 });
+
+        const username: string = profile.full_name || profile.name || "";
+        const profilePic: string =
+          profile.profile_pic ||
+          (Array.isArray(profile.images_list) && profile.images_list.length > 0
+            ? profile.images_list[0].photo
+            : "") ||
+          "";
+        const ageValue =
+          profile.age !== undefined && profile.age !== null
+            ? Number(profile.age)
+            : null;
+
+        if (username) {
+          window.localStorage.setItem("saved_user_name", String(username));
+        }
+        if (profilePic) {
+          window.localStorage.setItem("saved_user_image", String(profilePic));
+        }
+        if (ageValue !== null && !Number.isNaN(ageValue)) {
+          window.localStorage.setItem("saved_user_age", String(ageValue));
+        }
       }
 
       const token: string | undefined = res.data?.access || res.data?.token;
@@ -150,64 +175,15 @@ export default function LoginEmailPage() {
 
       // Save token as usual (cookies/context inside AuthContext)
       storeLoginToken(token);
-      // localStorage.setItem("email", token);
 
+      // -------- REMEMBER ME: only flag + email --------
       if (remember) {
-        // basic flags
         window.localStorage.setItem("remember_me", "1");
         window.localStorage.setItem("saved_email", trimmedEmail);
-
-        try {
-          //  Match your backend payload exactly
-          // res.data can be:
-          //   1) a single user object
-          //   2) or (defensively) an array of such objects – we pick the first
-          let p: any = res.data;
-
-          if (Array.isArray(p)) {
-            p = p[0]; // if backend ever returns a list, use the first one
-          } else if (p && p.user) {
-            // if backend wraps it as { user: { ... } }
-            p = p.user;
-          }
-
-          const username: string = p?.full_name || "";
-          const profilePic: string =
-            p?.profile_pic ||
-            (Array.isArray(p?.images_list) && p.images_list.length > 0
-              ? p.images_list[0].photo
-              : "") ||
-            "";
-
-          let ageValue: number | null = null;
-          if (p?.age !== undefined && p?.age !== null) {
-            ageValue = Number(p.age);
-          }
-
-          if (username) {
-            window.localStorage.setItem("saved_user_name", String(username));
-          }
-          if (profilePic) {
-            window.localStorage.setItem("saved_user_image", String(profilePic));
-          }
-          if (ageValue !== null && !Number.isNaN(ageValue)) {
-            window.localStorage.setItem("saved_user_age", String(ageValue));
-          }
-        } catch (profileParseErr) {
-          console.error(
-            "Failed to extract user info from login response for remember-me:",
-            profileParseErr
-          );
-        }
       } else {
-        // user did NOT click remember-me → clear all remember keys
         window.localStorage.removeItem("remember_me");
         window.localStorage.removeItem("saved_email");
-        window.localStorage.removeItem("saved_user_name");
-        window.localStorage.removeItem("saved_user_image");
-        window.localStorage.removeItem("saved_user_age");
-        // Also clear userInfo if not remembering
-        window.localStorage.removeItem("userInfo");
+        // Note: we DO NOT clear userInfo or user_name/image/age here anymore
       }
 
       const fromBody = readHasProfileFromBody(res.data);

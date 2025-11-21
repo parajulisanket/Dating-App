@@ -181,6 +181,7 @@ export const Settings = () => {
     window.localStorage.removeItem("saved_user_image");
     window.localStorage.removeItem("remember_me");
     window.localStorage.removeItem("saved_email");
+    window.localStorage.removeItem("saved_user_age");
 
     router.replace("/login/email");
   };

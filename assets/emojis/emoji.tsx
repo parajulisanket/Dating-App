@@ -12,6 +12,7 @@ import paragliding from './paragliding.svg'
 import reading from './reading.svg'
 import singing from './singing.svg'
 import swimming from './swimming.svg'
+import hero from './hero.png'
 
 const emoji = {
     acting,
@@ -28,5 +29,6 @@ const emoji = {
     reading,
     singing,
     swimming,
+    hero,
 }
 export default emoji;

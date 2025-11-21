@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import emoji from "@/assets/emojis/emoji";
 
 const images = ["/hero.png", "/hero.png", "/hero.png"];
 
@@ -39,13 +40,12 @@ export default function LandingPage() {
                 key={`${src}-${i}`}
                 className="relative h-full w-full flex-shrink-0 flex items-center justify-center"
               >
-                <Image
-                  src={src}
+                <Image //  CHANGE <img> TO <Image />
+                  src={emoji.hero} // This now correctly receives the StaticImageData object
                   alt=""
-                  fill
-                  // width={300}
-                  // height={300}
-                  priority={i === 0}
+                  width={300}
+                  height={300}
+                  // priority={i === 0}
                   className="object-contain pointer-events-none select-none"
                   draggable={false}
                 />
